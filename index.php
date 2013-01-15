@@ -76,9 +76,7 @@ function chat_js($room) {
 <script type="text/javascript">
 /* <![CDATA[ */
 jQuery(function() {
-    CHAT.scrollDown('$room');
-    jQuery('#chat_room_$room form').submit(function() {return CHAT.submit('$url', '$room')});
-    setInterval(function() {CHAT.poll('$url', '$room')}, {$plugin_cf['chat']['interval_poll']});
+    new Chat('$room', "$url", {$plugin_cf['chat']['interval_poll']});
 })
 /* ]]> */
 </script>
