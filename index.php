@@ -266,7 +266,7 @@ function Chat($room)
 {
     global $e, $plugin_tx;
 
-    if (!preg_match('/^[a-z0-9_-]*$/u', $room)) {
+    if (!preg_match('/^[a-z0-9-]*$/u', $room)) {
 	$e .= '<li><strong>' . $plugin_tx['chat']['error_room_name'] . '</strong></li>';
 	return false;
     }

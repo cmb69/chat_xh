@@ -3,7 +3,6 @@ TODO
     better usage documentation (inspired by snafu)
     lowercase room name dokumentieren (suggested by snafu)
     interval_purge=0 ?
-    Date/Time (suggested by snafu)
     purge_time as optional param (suggested by snafu)
 
 Version 1beta2 - released TODO

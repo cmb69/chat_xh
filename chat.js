@@ -59,6 +59,7 @@ Chat.prototype.scrollDown = function() {
  */
 Chat.prototype.poll = function() {
     var that = this;
+    // TODO: test on IE7 and Opera
     var mustScroll = this.messages.scrollTop
         >= this.messages.scrollHeight - this.messages.clientHeight
     var request = new XMLHttpRequest();
