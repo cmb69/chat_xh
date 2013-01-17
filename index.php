@@ -110,7 +110,7 @@ function chat_message($line) {
 
     $pcf = $plugin_cf['chat'];
     $ptx = $plugin_tx['chat'];
-    list($user, $msg) = explode("\t", rtrim($line));
+    list($user, $msg) = explode("\t", rtrim($line)); // TODO: handle for empty line
     if (!$user) {
 	$user = $ptx['user_unknown'];
 	$self = '';

@@ -25,12 +25,15 @@ Chat.prototype.scrollDown = function() {
 
 Chat.prototype.poll = function() {
     var that = this;
+    var mustScroll = this.messages.scrollTop >= this.messages.scrollHeight - this.messages.clientHeight
     var request = new XMLHttpRequest();
     request.open('GET', this.url + "read");
     request.onreadystatechange = function() {
         if (request.readyState == 4 && request.status == 200) {
             that.messages.innerHTML = request.responseText;
-            that.scrollDown();
+            if (mustScroll) {
+                that.scrollDown();
+            }
         }
     }
     request.send(null);
