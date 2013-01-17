@@ -67,8 +67,6 @@ function chat_system_check() { // RELEASE-TODO
 	    .'&nbsp;&nbsp;'.$ptx['syscheck_encoding'].tag('br')."\n";
     $htm .= (!get_magic_quotes_runtime() ? $ok : $fail)
 	    .'&nbsp;&nbsp;'.$ptx['syscheck_magic_quotes'].tag('br')."\n";
-    $htm .= (file_exists($pth['folder']['plugins'].'jquery/jquery.inc.php') ? $ok : $fail)
-	    .'&nbsp;&nbsp;'.$ptx['syscheck_jquery'].tag('br').tag('br')."\n";
     foreach (array('config/', 'css/', 'languages/') as $folder) {
 	$folders[] = $pth['folder']['plugins'].'chat/'.$folder;
     }

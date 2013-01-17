@@ -16,7 +16,6 @@ $plugin_tx['chat']['syscheck_phpversion']="PHP version ≥ %s";
 $plugin_tx['chat']['syscheck_extension']="Extension '%s' loaded";
 $plugin_tx['chat']['syscheck_encoding']="Encoding 'UTF-8' configured";
 $plugin_tx['chat']['syscheck_magic_quotes']="Magic quotes runtime off";
-$plugin_tx['chat']['syscheck_jquery']="<a href=\"http://www.cmsimple-xh.com/wiki/doku.php/plugins:jquery4cmsimple\">jQuery4CMSimple plugin</a> installed";
 $plugin_tx['chat']['syscheck_writable']="Folder '%s' writable";
 
 $plugin_tx['chat']['cf_utf-8-marker']="Internal usage. <strong>Do not change!</strong>";

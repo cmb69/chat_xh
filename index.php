@@ -61,27 +61,25 @@ function chat_current_user() {
  * @param string $room  The name of the chat room.
  * @return void
  */
-function chat_js($room) {
+function chat_js($room) { // TODO: use $bjs if available
     global $pth, $hjs, $sn, $su, $plugin_cf;
     static $again = FALSE;
 
+    $o = '';
     if (!$again) {
-	include_once $pth['folder']['plugins'].'jquery/jquery.inc.php';
-	include_jQuery();
-	$hjs .= '<script type="text/javascript" src="'.$pth['folder']['plugins'].'chat/chat.js"></script>'."\n";
+	$o .= '<script type="text/javascript" src="'.$pth['folder']['plugins'].'chat/chat.js"></script>'."\n";
 	$again = TRUE;
     }
     $url = $sn.'?'.$su;
-    $hjs .= <<<SCRIPT
+    $o .= <<<SCRIPT
 <script type="text/javascript">
 /* <![CDATA[ */
-jQuery(function() {
-    new Chat('$room', "$url", {$plugin_cf['chat']['interval_poll']});
-})
+new Chat('$room', "$url", {$plugin_cf['chat']['interval_poll']});
 /* ]]> */
 </script>
 
 SCRIPT;
+    return $o;
 }
 
 
@@ -197,11 +195,11 @@ function chat($room) {
 	return FALSE;
     }
     $_SESSION['chat_rooms'][$room] = TRUE;
-    chat_js($room);
+    $o = chat_js($room);
     if (isset($_GET['chat_room']) && $_GET['chat_room'] == $room) {
 	chat_append_message($room);
     }
-    return chat_view($room);
+    return chat_view($room) . $o;
 }
 
 
