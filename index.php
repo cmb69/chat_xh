@@ -27,6 +27,14 @@ define('CHAT_VERSION', '1beta2');
 
 
 /**
+ * Start session.
+ */
+if (session_id() == '') {
+    session_start();
+}
+
+
+/**
  * Returns the data folder.
  *
  * @global array  The paths of system files and folders.
@@ -69,9 +77,6 @@ function Chat_dataFolder()
  */
 function Chat_currentUser()
 {
-    if (session_id() == '') {
-	session_start();
-    }
     return isset($_SESSION['username'])
 	? $_SESSION['username'] // Register and Memberpages >= 3
 	: (isset($_SESSION['Name'])
@@ -254,6 +259,11 @@ function Chat($room)
 	$e .= '<li><strong>' . $plugin_tx['chat']['error_room_name'] . '</strong></li>';
 	return false;
     }
+    if (session_id() == '') {
+        session_start();
+    }
+    // necessary to prevent unauthorized access to protected chat rooms
+    $_SESSION['chat_rooms'][$room] = true;
     if (isset($_GET['chat_room']) && $_GET['chat_room'] == $room) {
 	Chat_appendMessage($room);
     }
@@ -264,17 +274,19 @@ function Chat($room)
 /**
  * Respond to Ajax requests.
  */
-// TODO sanitize input
-if (isset($_GET['chat_ajax'])
-    && preg_match('/^[a-z0-9_-]*$/u', $_GET['chat_room']))
-{
-    switch ($_GET['chat_ajax']) {
-    case 'write':
-	Chat_appendMessage($_GET['chat_room']);
-	// FALLTHROUGH
-    case 'read':
-	echo Chat_messagesView($_GET['chat_room']);
-	exit;
+if (isset($_GET['chat_ajax'])) {
+    if (session_id() == '') {
+        session_start();
+    }
+    if (!empty($_SESSION['chat_rooms'][$_GET['chat_room']])) {
+	switch ($_GET['chat_ajax']) {
+	case 'write':
+	    Chat_appendMessage($_GET['chat_room']);
+	    // FALLTHROUGH
+	case 'read':
+	    echo Chat_messagesView($_GET['chat_room']);
+	    exit;
+	}
     }
 }
 
