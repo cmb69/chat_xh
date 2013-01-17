@@ -25,8 +25,10 @@ function Chat(room, base, interval) {
     this.messages = this.container.getElementsByTagName("div")[0];
     this.form = this.container.getElementsByTagName("form")[0];
     this.scrollDown();
-    this.form.onsubmit = function() {return that.submit()};
-    setInterval(function() {that.poll()}, interval);
+    if (typeof window.XMLHttpRequest == 'function') {
+        this.form.onsubmit = function() {return that.submit()};
+        setInterval(function() {that.poll()}, interval);
+    }
 }
 
 

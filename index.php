@@ -278,6 +278,8 @@ if (isset($_GET['chat_ajax'])) {
     if (session_id() == '') {
         session_start();
     }
+    // Check if user has accessed the page with chat room before.
+    // TODO: better: ask Register/Memberpages if user is authorized to access this page.
     if (!empty($_SESSION['chat_rooms'][$_GET['chat_room']])) {
 	switch ($_GET['chat_ajax']) {
 	case 'write':
