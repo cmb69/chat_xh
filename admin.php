@@ -47,7 +47,7 @@ function Chat_systemCheck()
 { // RELEASE-TODO
     global $pth, $tx, $plugin_tx;
 
-    $phpVersion = '4.0.7';
+    $phpVersion = '4.3.0';
     $ptx = $plugin_tx['chat'];
     $imgdir = $pth['folder']['plugins'] . 'chat/images/';
     $ok = tag('img src="' . $imgdir . 'ok.png" alt="ok"');
@@ -56,15 +56,15 @@ function Chat_systemCheck()
     $o = '<h4>' . $ptx['syscheck_title'] . '</h4>'
 	. (version_compare(PHP_VERSION, $phpVersion) >= 0 ? $ok : $fail)
 	. '&nbsp;&nbsp;' . sprintf($ptx['syscheck_phpversion'], $phpVersion)
-	. tag('br') . tag('br');
+	. tag('br');
     foreach (array('date', 'pcre', 'session') as $ext) {
 	$o .= (extension_loaded($ext) ? $ok : $fail)
 	    . '&nbsp;&nbsp;' . sprintf($ptx['syscheck_extension'], $ext) . tag('br');
     }
-    $o .= tag('br') . (strtoupper($tx['meta']['codepage']) == 'UTF-8' ? $ok : $warn)
-	. '&nbsp;&nbsp;' . $ptx['syscheck_encoding'] . tag('br');
     $o .= (!get_magic_quotes_runtime() ? $ok : $fail)
 	. '&nbsp;&nbsp;' . $ptx['syscheck_magic_quotes'] . tag('br');
+    $o .= tag('br') . (strtoupper($tx['meta']['codepage']) == 'UTF-8' ? $ok : $warn)
+	. '&nbsp;&nbsp;' . $ptx['syscheck_encoding'] . tag('br');
     foreach (array('config/', 'css/', 'languages/') as $folder) {
 	$folders[] = $pth['folder']['plugins'] . 'chat/' . $folder;
     }
