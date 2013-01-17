@@ -142,7 +142,7 @@ function Chat_JS($room)
  * @return void
  */
 function Chat_appendMessage($room)
-{ // TODO: handle Ajax submission!
+{ // TODO: handle Ajax submission errors!
     if (empty($_POST['chat_message'])) {
 	return;
     }
@@ -164,15 +164,16 @@ function Chat_appendMessage($room)
  * Returns a message prepared as bag for the view.
  *
  * @global array  The localization of the plugins.
- * @param  string $line
+ * @param  int $time  The timestamp of the message.
+ * @param  string $user  The user name.
+ * @param  string $msg  The message text.
  * @return array
  */
-function Chat_message($line)
+function Chat_message($time, $user, $msg)
 {
     global $plugin_tx;
 
     $ptx = $plugin_tx['chat'];
-    list($time, $user, $msg) = explode("\t", rtrim($line), 3);
     if (!$user) {
 	$user = $ptx['user_unknown'];
 	$class = '';
@@ -222,12 +223,23 @@ function Chat_messagesView($room)
 {
     global $plugin_cf;
 
+    $pcf = $plugin_cf['chat'];
     $fn = Chat_dataFile($room);
+    $currentTime = time();
     $messages = array();
-    if (($lines = file($fn)) !== false) {
+    if (file_exists($fn)
+	&& ($lines = file($fn)) !== false)
+    {
 	foreach ($lines as $line) {
 	    if (!empty($line)) {
-		$messages[] = Chat_message($line);
+		list($time, $user, $msg) = explode("\t", rtrim($line), 3);
+		// The following if clause allows to hide messages,
+		// that are older than interval_purge.
+		//if (!$pcf['interval_purge']
+		//    || $currentTime <= $time + $pcf['interval_purge'])
+		//{
+		    $messages[] = Chat_message($time, $user, $msg);
+		//}
 	    }
 	}
     }
@@ -294,7 +306,8 @@ function Chat($room)
     global $e, $plugin_tx;
 
     if (!preg_match('/^[a-z0-9-]*$/u', $room)) {
-	$e .= '<li><strong>' . $plugin_tx['chat']['error_room_name'] . '</strong></li>';
+	$e .= '<li><strong>' . $plugin_tx['chat']['error_room_name']
+	    . '</strong></li>';
 	return false;
     }
     if (session_id() == '') {
