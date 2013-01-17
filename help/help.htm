@@ -83,18 +83,12 @@ call:</p>
 <pre>&lt;?php echo chat('%CHAT_ROOM%');?&gt;</pre>
 <p>%CHAT_ROOM% is the name of the chat. It can be choosen arbitrarily, but may
 contain only lowercase alphanumeric characters (a-z and 0-9) and hyphens. Some
-examples of actual plugin calls:</p>
+examples:</p>
 <pre>{{{PLUGIN:chat('chat');}}}
 {{{PLUGIN:chat('chat17');}}}
 {{{PLUGIN:chat('women-only');}}}</pre>
 <p>You can embed as many chat rooms on any single page as you like&mdash;they're
 working independent of each other as long as they have different names.</p>
-<p>To enable user management and to avoid spam, it's recommended to embed chat
-rooms only on pages, that are protected by <a
-href="http://frankziesing.de/cmsimple/en/?Welcome:Memberpages">Memberpages_XH</a>
-or <a href="http://3-magi.net/?CMSimple_XH/Register_XH">Register_XH</a>. In this
-case the name of the currently logged in user is stored and displayed along with
-the message.</p>
 <p>After a configurable time of inactivity (i.e. no new messages are posted),
 the chat history will be purged automatically.</p>
 <p>If you want to edit the chat data files, you can do so via FTP, or you can
@@ -108,6 +102,9 @@ href="http://3-magi.net/?CMSimple_XH/Ajaxfilemanager_XH">Ajaxfilemanager_XH</a>.
 the browser doesn't support the required JavaScript (e.g. IE 6 and older), the
 automatic retrieval of new messages doesn't work. Instead the visitor has to
 refresh his browser to see them.</p>
+<p>Displaying the currently logged in users is not yet implemented. For a
+workaround regarding Memberpages_XH see the <a
+href="http://cmsimpleforum.com/viewtopic.php?f=12&t=5358#p33148">CMSimple_XH-Forum</a>.</p>
 <div class="toplink"><a href="#">back to top</a></div>
 
 <h2><a name="license">License</a></h2>
@@ -127,10 +124,10 @@ Rei</a>. Many thanks for publishing this icon under GPL.</p>
 href="http://www.aha-soft.com/">Aha-Soft</a>. Many thanks for making these icons
 freely available.</p>
 <p>Many thanks to the community at the <a
-href="http://www.cmsimpleforum.com">CMSimple forum</a> for tips, suggestions and
+href="http://www.cmsimpleforum.com">CMSimple_XH forum</a> for tips, suggestions and
 testing. Particularly I want to thank snafu for giving the first feedback.</p>
 <p>And last but not least many thanks to <a href="http://www.harteg.dk/">Peter
-Harteg</a>, the father of CMSimple, and to all developers of <a
+Harteg</a>, the "father" of CMSimple, and to all developers of <a
 href="http://www.cmsimple-xh.org/">CMSimple_XH</a> without whom this amazing CMS
 wouldn't exist.</p>
 <div class="toplink"><a href="#">back to top</a></div>
