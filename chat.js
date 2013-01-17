@@ -22,7 +22,7 @@ function Chat(room, base, interval) {
     this.room = room;
     this.url = base + "&chat_room=" + this.room + "&chat_ajax=";
     this.container = document.getElementById("chat_room_" + room);
-    this.messages = this.container.firstChild; // TODO: is that safe
+    this.messages = this.container.getElementsByTagName("div")[0];
     this.form = this.container.getElementsByTagName("form")[0];
     this.scrollDown();
     this.form.onsubmit = function() {return that.submit()};

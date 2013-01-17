@@ -139,12 +139,12 @@ function Chat_appendMessage($room)
 
 
 /**
- * Returns a data line (i.e. record) as (X)HTML.
+ * Returns a message prepared as bag for the view.
  *
  * @global array  The configuration of the plugins.
  * @global array  The localization of the plugins.
  * @param  string $line
- * @return string
+ * @return array
  */
 function Chat_message($line)
 {
@@ -155,28 +155,46 @@ function Chat_message($line)
     list($user, $msg) = explode("\t", rtrim($line), 2);
     if (!$user) {
 	$user = $ptx['user_unknown'];
-	$self = '';
+	$class = '';
     } elseif ($user == Chat_currentUser()) {
 	$user = $ptx['user_self'];
-	$self = ' chat_self';
+	$class = 'chat_self';
     } else {
-	$self = '';
+	$class = '';
     }
-    return '<div class="chat_message' . $self . '">'
-	. '<span class="chat_user">' . sprintf($pcf['format_user'], $user) . '</span>'
-	. '<span class="chat_message">' . htmlspecialchars($msg, ENT_COMPAT, 'UTF-8') . '</span>'
-	. '</div>';
+    return array('class' => $class,
+		 'user' => sprintf($pcf['format_user'], $user),
+		 'text' => htmlspecialchars($msg, ENT_COMPAT, 'UTF-8'));
 }
 
 
 /**
- * Returns the history of the chat room as (X)HTML.
+ * Returns the view of an instantiated template.
+ *
+ * @global array  The paths of system files and folders.
+ * @param string $template  The name of the template.
+ * @param array $bag  The data for the view.
+ * @return string
+ */
+function Chat_view($template, $bag)
+{
+    global $pth;
+
+    extract($bag);
+    ob_start();
+    include $pth['folder']['plugins'] . 'chat/views/' . $template . '.htm';
+    return ob_get_clean();
+}
+
+
+/**
+ * Returns the view of the history of a chat room.
  *
  * @global array  The configuration of the plugins.
  * @param  string $room  The name of the chat room.
- * @return string
+ * @return string  The (X)HTML.
  */
-function Chat_messages($room)
+function Chat_messagesView($room)
 {
     global $plugin_cf;
 
@@ -186,41 +204,41 @@ function Chat_messages($room)
     {
 	unlink($fn);
     }
-    $o = '';
+    $messages = array();
     if (($lines = file($fn)) !== false) {
 	foreach ($lines as $line) {
 	    if (!empty($line)) {
-		$o .= Chat_message($line);
+		$messages[] = Chat_message($line);
 	    }
 	}
     }
-    return $o;
+    $bag = array('messages' => $messages);
+    return Chat_view('messages', $bag);
 }
 
 
 /**
- * Returns the complete (X)HTML view of the chat room.
+ * Returns the complete view of the chat room.
  *
  * @global string  The name of the site.
  * @global string  The query string of the current page.
  * @global array  The localization of the plugins
  * @param  string $room  The name of the chat room.
- * @return string
+ * @return string  The (X)HTML.
  */
-function Chat_view($room)
+function Chat_mainView($room)
 {
     global $sn, $su, $plugin_tx;
 
     $url = "$sn?$su&amp;chat_room=$room";
-    $o = '<div id="chat_room_' . $room . '" class="chat_room">'
-	. '<div class="chat_messages">' . Chat_messages($room) . '</div>'
-	. '<form action="' . $url . '" method="POST">'
-	. tag('input type="text" name="chat_message"')
+    $inputs = tag('input type="text" name="chat_message"')
 	. tag('input type="submit" class="submit" value="'
-	      . $plugin_tx['chat']['label_send'] . '"')
-	. '</form>'
-	. '</div>';
-    return $o;
+	      . $plugin_tx['chat']['label_send'] . '"');
+    $bag = array('room' => $room,
+		 'inputs' => $inputs,
+		 'url' => $url,
+		 'messages' => Chat_messagesView($room));
+    return Chat_view('chat', $bag);
 }
 
 
@@ -245,13 +263,14 @@ function Chat($room)
     if (isset($_GET['chat_room']) && $_GET['chat_room'] == $room) {
 	Chat_appendMessage($room);
     }
-    return Chat_view($room) . Chat_JS($room);
+    return Chat_mainView($room) . Chat_JS($room);
 }
 
 
 /**
  * Respond to Ajax requests.
  */
+// TODO sanitize input
 if (isset($_GET['chat_ajax'])
     && !empty($_SESSION['chat_rooms'][$_GET['chat_room']]))
 {
@@ -260,7 +279,7 @@ if (isset($_GET['chat_ajax'])
 	Chat_appendMessage($_GET['chat_room']);
 	// FALLTHROUGH
     case 'read':
-	echo Chat_messages($_GET['chat_room']);
+	echo Chat_messagesView($_GET['chat_room']);
 	exit;
     }
 }
