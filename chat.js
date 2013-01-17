@@ -25,7 +25,7 @@ function Chat(room, base, interval) {
     this.messages = document.getElementById("chat_room_" + room + "_messages");
     this.form = document.getElementById("chat_room_" + room + "_form");
     this.scrollDown();
-    if (typeof window.XMLHttpRequest == 'function') {
+    if (typeof window.XMLHttpRequest != 'undefined') {
         this.form.onsubmit = function() {return that.submit()};
         setInterval(function() {that.poll()}, interval);
     }
