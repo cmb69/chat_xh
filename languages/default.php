@@ -1,7 +1,5 @@
 <?php
 
-$plugin_tx['chat']['utf-8-marker']="äöüß";
-
 $plugin_tx['chat']['user_self']="I";
 $plugin_tx['chat']['user_unknown']="Somebody";
 
@@ -18,7 +16,6 @@ $plugin_tx['chat']['syscheck_encoding']="Encoding 'UTF-8' configured";
 $plugin_tx['chat']['syscheck_magic_quotes']="Magic quotes runtime off";
 $plugin_tx['chat']['syscheck_writable']="Folder '%s' writable";
 
-$plugin_tx['chat']['cf_utf-8-marker']="Internal usage. <strong>Do not change!</strong>";
 $plugin_tx['chat']['cf_folder_data']="Path to a folder relative to the CMSimple root directory, where to store the plugin's data. E.g. <em>userfiles/chat/</em>. Leave empty to store into the plugin's data/ folder.";
 $plugin_tx['chat']['cf_format_user']="The format of the username in the message. The %s is the placeholder for the actual username.";
 $plugin_tx['chat']['cf_interval_poll']="The time in milliseconds between the next poll for new messages.";

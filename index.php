@@ -6,8 +6,6 @@
  * Copyright (c) 2012 Christoph M. Becker (see license.txt)
  */
 
-// utf-8-marker: äöüß
-
 
 if (!isset($_SESSION)) {session_start();}
 
