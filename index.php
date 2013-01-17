@@ -122,8 +122,9 @@ function Chat_JS($room)
 	$again = true;
     }
     $url = $sn.'?'.$su;
+    $interval = max(1000 * intval($plugin_cf['chat']['interval_poll']), 1);
     $o .= '<script type="text/javascript">'
-	. "new Chat('$room', '$url', {$plugin_cf['chat']['interval_poll']});"
+	. "new Chat('$room', '$url', $interval);"
 	. "</script>\n";
     if (isset($bjs)) {
 	$bjs .= $o;
