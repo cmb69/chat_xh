@@ -24,7 +24,7 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
  *
  * @return string  The (X)HTML.
  */
-function Chat_about()
+function Chat_aboutView()
 {
     global $pth;
 
@@ -84,7 +84,7 @@ if (isset($chat) && $chat == 'true') {
     $o .= print_plugin_admin('off');
     switch($admin) {
     case '':
-	$o .= Chat_about() . tag('hr') . Chat_systemCheck();
+	$o .= Chat_aboutView() . tag('hr') . Chat_systemCheck();
 	break;
     default:
 	$o .= plugin_admin_common($action, $admin, $plugin);
