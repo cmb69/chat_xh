@@ -133,7 +133,8 @@ function Chat_appendMessage($room)
     if (empty($_POST['chat_message'])) {
 	return;
     }
-    $line = Chat_currentUser() . "\t" . stsl($_POST['chat_message']) . "\n";
+    $rec = array(time(), Chat_currentUser(), stsl($_POST['chat_message']));
+    $line = implode("\t", $rec) . "\n";
     $fn = Chat_dataFolder() . $room . '.dat';
     if (($fp = fopen($fn, 'a')) === false
 	|| fwrite($fp, $line) === false)
@@ -149,18 +150,16 @@ function Chat_appendMessage($room)
 /**
  * Returns a message prepared as bag for the view.
  *
- * @global array  The configuration of the plugins.
  * @global array  The localization of the plugins.
  * @param  string $line
  * @return array
  */
 function Chat_message($line)
 {
-    global $plugin_cf, $plugin_tx;
+    global $plugin_tx;
 
-    $pcf = $plugin_cf['chat'];
     $ptx = $plugin_tx['chat'];
-    list($user, $msg) = explode("\t", rtrim($line), 2);
+    list($time, $user, $msg) = explode("\t", rtrim($line), 3);
     if (!$user) {
 	$user = $ptx['user_unknown'];
 	$class = '';
@@ -170,8 +169,12 @@ function Chat_message($line)
     } else {
 	$class = '';
     }
+    $trans = array('{USER}' => $user,
+		'{DATE}' => date($ptx['format_date'], $time),
+		'{TIME}' => date($ptx['format_time'], $time));
+    $user = strtr($ptx['format_user'], $trans);
     return array('class' => $class,
-		 'user' => sprintf($pcf['format_user'], $user),
+		 'user' => $user,
 		 'text' => htmlspecialchars($msg, ENT_COMPAT, 'UTF-8'));
 }
 
