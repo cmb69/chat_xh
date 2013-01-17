@@ -35,7 +35,7 @@ if (session_id() == '') {
 
 
 /**
- * Returns the data folder.
+ * Returns the path of the data folder.
  *
  * @global array  The paths of system files and folders.
  * @global array  The configuration of the plugins.
@@ -67,6 +67,18 @@ function Chat_dataFolder()
 	}
     }
     return $fn;
+}
+
+
+/**
+ * Returns the path of a chat room data file.
+ *
+ * @param $room  The name of the chat room.
+ * @return string
+ */
+function Chat_dataFile($room)
+{
+    return Chat_dataFolder() . $room . '.dat';
 }
 
 
@@ -135,7 +147,7 @@ function Chat_appendMessage($room)
     }
     $rec = array(time(), Chat_currentUser(), stsl($_POST['chat_message']));
     $line = implode("\t", $rec) . "\n";
-    $fn = Chat_dataFolder() . $room . '.dat';
+    $fn = Chat_dataFile($room);
     if (($fp = fopen($fn, 'a')) === false
 	|| fwrite($fp, $line) === false)
     {
@@ -209,13 +221,7 @@ function Chat_messagesView($room)
 {
     global $plugin_cf;
 
-    $fn = Chat_dataFolder() . $room . '.dat';
-    if (file_exists($fn)
-	&& !$plugin_cf['chat']['interval_purge']
-	&& time() > filemtime($fn) + $plugin_cf['chat']['interval_purge'])
-    {
-	unlink($fn);
-    }
+    $fn = Chat_dataFile($room);
     $messages = array();
     if (($lines = file($fn)) !== false) {
 	foreach ($lines as $line) {
@@ -255,6 +261,25 @@ function Chat_mainView($room)
 
 
 /**
+ * Purges a chat room file after inactive interval has elapsed.
+ *
+ * @param  string $room  The name of the chat room.
+ * @return void
+ */
+function Chat_purge($room)
+{
+    global $plugin_cf;
+
+    $fn = Chat_dataFile($room);
+    if (file_exists($fn)
+	&& $plugin_cf['chat']['interval_purge']
+	&& time() > filemtime($fn) + $plugin_cf['chat']['interval_purge'])
+    {
+	unlink($fn);
+    }
+}
+
+/**
  * Handles the chat room and returns its (X)HTML view.
  *
  * @access public
@@ -276,6 +301,7 @@ function Chat($room)
     }
     // necessary to prevent unauthorized access to protected chat rooms
     $_SESSION['chat_rooms'][$room] = true;
+    Chat_purge($room);
     if (isset($_GET['chat_room']) && $_GET['chat_room'] == $room) {
 	Chat_appendMessage($room);
     }
@@ -293,6 +319,7 @@ if (isset($_GET['chat_ajax'])) {
     // Check if user has accessed the page with chat room before.
     // TODO: better: ask Register/Memberpages if user is authorized to access this page.
     if (!empty($_SESSION['chat_rooms'][$_GET['chat_room']])) {
+	Chat_purge($_GET['chat_room']);
 	switch ($_GET['chat_ajax']) {
 	case 'write':
 	    Chat_appendMessage($_GET['chat_room']);
