@@ -118,7 +118,7 @@ function Chat_JS($room)
     $o = '';
     if (!$again) {
 	$o .= '<script type="text/javascript" src="' . $pth['folder']['plugins']
-	    . 'chat/chat.js"></script>' . "\n";
+	    . 'chat/chat.min.js"></script>' . "\n";
 	$again = true;
     }
     $url = $sn.'?'.$su;

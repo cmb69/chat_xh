@@ -6,7 +6,7 @@ cmb     changed intervall_poll to be measured in seconds instead of milliseconds
 cmb     improved user manual
 cmb     added German localization and user manual
 cmb     added Czech and Slovak localization (contributed by oldnema resp. Tata)
-cmb     improved styling
+cmb     modernized styling
 cmb     removed jQuery dependency
 cmb     refactored several parts of the code
 
