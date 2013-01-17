@@ -1,31 +1,64 @@
-function Chat(room, url, interval) {
+/**
+ * JavaScript of Chat_XH.
+ *
+ * @package	Chat
+ * @copyright	Copyright (c) 2012-2013 Christoph M. Becker <http://3-magi.net/>
+ * @license	http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
+ * @version     $Id$
+ * @link	http://3-magi.net/?CMSimple_XH/Chat_XH
+ */
+
+
+/**
+ * A chat room.
+ *
+ * @constructor
+ * @param {String} room  The name of the chat room.
+ * @param {String} base  The base URL for Ajax requests.
+ * @param {Number} interval  The polling interval in sec.
+ */
+function Chat(room, base, interval) {
+    var that = this;
     this.room = room;
-    this.url = url + "&chat_room=" + this.room + "&chat_ajax=";
+    this.url = base + "&chat_room=" + this.room + "&chat_ajax=";
     this.container = document.getElementById("chat_room_" + room);
     this.messages = this.container.firstChild; // TODO: is that safe
     this.form = this.container.getElementsByTagName("form")[0];
     this.scrollDown();
-    var that = this;
-    this.form.onsubmit = function() {
-        return that.submit()
-    };
-    setInterval(function() {
-        that.poll()
-    }, interval);
+    this.form.onsubmit = function() {return that.submit()};
+    setInterval(function() {that.poll()}, interval);
 }
 
 
+/**
+ * Clears the text input field.
+ *
+ * @returns {undefined}
+ */
 Chat.prototype.clearInput = function() {
     this.form.elements["chat_message"].value = "";
 }
 
+
+/**
+ * Scrolls down to the bottom of the chat.
+ *
+ * @returns {undefined}
+ */
 Chat.prototype.scrollDown = function() {
     this.messages.scrollTop = this.messages.scrollHeight;
 }
 
+
+/**
+ * Polls the chat.
+ *
+ * @returns {undefined}
+ */
 Chat.prototype.poll = function() {
     var that = this;
-    var mustScroll = this.messages.scrollTop >= this.messages.scrollHeight - this.messages.clientHeight
+    var mustScroll = this.messages.scrollTop
+        >= this.messages.scrollHeight - this.messages.clientHeight
     var request = new XMLHttpRequest();
     request.open('GET', this.url + "read");
     request.onreadystatechange = function() {
@@ -40,11 +73,17 @@ Chat.prototype.poll = function() {
 }
 
 
+/**
+ * Submits a chat line.
+ *
+ * @returns {undefined}
+ */
 Chat.prototype.submit = function() {
     var that = this;
     var request = new XMLHttpRequest();
     request.open('POST', this.url + "write");
-    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    request.setRequestHeader("Content-Type",
+                             "application/x-www-form-urlencoded");
     request.onreadystatechange = function() {
         if (request.readyState == 4 && request.status == 200) {
             that.messages.innerHTML = request.responseText;
@@ -56,47 +95,3 @@ Chat.prototype.submit = function() {
     request.send("chat_message=" + window.encodeURIComponent(msg));
     return false;
 }
-
-//(function($) {
-//
-//    CHAT = {
-//        container: function(room) {
-//            return $('#chat_room_' + room);
-//        },
-//
-//        clearInput: function(room) {
-//            CHAT.container(room).find('input[type=text]')[0].value = '';
-//        },
-//
-//        scrollDown: function(room) {
-//            var cm = CHAT.container(room).children('div.chat_messages');
-//            cm.scrollTop(cm[0].scrollHeight);
-//        },
-//
-//
-//        poll: function(url, room) {
-//            $.ajax({
-//                url: url + '&chat_room=' + room + '&chat_ajax=read',
-//                success: function(data) {
-//                    CHAT.container(room).children('div.chat_messages').html(data);
-//                    CHAT.scrollDown(room);
-//                }
-//            })
-//        },
-//
-//        submit: function(url, room) {
-//            $.ajax({
-//                url: url + '&chat_room=' + room + '&chat_ajax=write',
-//                type: 'POST',
-//                data: CHAT.container(room).children('form').serialize(),
-//                success: function(data) {
-//                    CHAT.container(room).children('div.chat_messages').html(data);
-//                    CHAT.scrollDown(room);
-//                    CHAT.clearInput(room);
-//                }
-//            })
-//            return false;
-//        }
-//    }
-//
-//})(jQuery)
