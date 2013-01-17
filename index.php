@@ -87,30 +87,38 @@ function Chat_currentUser()
 
 /**
  * Returns the necessary scripts to handle a chat room.
+ * If $bjs is available, the scripts are appended to it,
+ * and an empty string is returned.
  *
  * @global array  The paths of system files and folders.
  * @global string  The name of the site.
  * @global string  The query string of the current page.
+ * @global string  The scripts that should be written before the closing body tag.
  * @global array  The configuration of the plugins.
  * @param  string $room  The name of the chat room.
  * @return string
  */
 function Chat_JS($room)
-{ // TODO: use $bjs if available
-    global $pth, $sn, $su, $plugin_cf;
+{
+    global $pth, $sn, $su, $bjs, $plugin_cf;
     static $again = false;
 
     $o = '';
     if (!$again) {
 	$o .= '<script type="text/javascript" src="' . $pth['folder']['plugins']
-	    . 'chat/chat.js"></script>';
+	    . 'chat/chat.js"></script>' . "\n";
 	$again = true;
     }
     $url = $sn.'?'.$su;
     $o .= '<script type="text/javascript">'
 	. "new Chat('$room', '$url', {$plugin_cf['chat']['interval_poll']});"
-	. '</script>';
-    return $o;
+	. "</script>\n";
+    if (isset($bjs)) {
+	$bjs .= $o;
+	return '';
+    } else {
+	return $o;
+    }
 }
 
 
