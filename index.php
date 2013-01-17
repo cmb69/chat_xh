@@ -211,6 +211,7 @@ function Chat_messagesView($room)
 
     $fn = Chat_dataFolder() . $room . '.dat';
     if (file_exists($fn)
+	&& !$plugin_cf['chat']['interval_purge']
 	&& time() > filemtime($fn) + $plugin_cf['chat']['interval_purge'])
     {
 	unlink($fn);
