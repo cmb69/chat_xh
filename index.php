@@ -23,296 +23,21 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
 }
 
 /**
+ * The chat class.
+ */
+require_once $pth['folder']['plugin_classes'] . 'Chat.php';
+
+/**
  * The version of the plugin.
  */
 define('CHAT_VERSION', '@CHAT_VERSION@');
 
-/*
- * Start session.
- */
-if (session_id() == '') {
-    session_start();
-}
-
 /**
- * Returns the path of the data folder.
+ * The chat object.
  *
- * @return string
- *
- * @global array The paths of system files and folders.
- * @global array The configuration of the plugins.
+ * @var Chat
  */
-function Chat_dataFolder()
-{
-    global $pth, $plugin_cf;
-
-    $pcf = $plugin_cf['chat'];
-
-    if ($pcf['folder_data'] == '') {
-        $fn = $pth['folder']['plugins'] . 'chat/data/';
-    } else {
-        $fn = $pth['folder']['base'] . $pcf['folder_data'];
-    }
-    if (substr($fn, -1) != '/') {
-        $fn .= '/';
-    }
-    if (file_exists($fn)) {
-        if (!is_dir($fn)) {
-            e('cntopen', 'folder', $fn);
-        }
-    } else {
-        // $recursive parameter only since PHP 5.0.0;
-        // should do no harm for older versions, however.
-        if (!mkdir($fn, 0777, true)) {
-            e('cntwriteto', 'folder', $fn);
-        }
-        // TODO: chmod()!
-    }
-    return $fn;
-}
-
-/**
- * Returns the path of a chat room data file.
- *
- * @param string $room A chat room name.
- *
- * @return string
- */
-function Chat_dataFile($room)
-{
-    return Chat_dataFolder() . $room . '.dat';
-}
-
-/**
- * Returns the name of the currently logged in user, if any, false otherwise.
- *
- * This is meant to work with the Register and the Memberpages plugin.
- *
- * @return string
- */
-function Chat_currentUser()
-{
-    return isset($_SESSION['username'])
-        ? $_SESSION['username'] // Register and Memberpages >= 3
-        : (isset($_SESSION['Name'])
-            ? $_SESSION['Name'] // Memberpages < 3
-            : false);
-}
-
-/**
- * Returns the necessary scripts to handle a chat room.
- * If $bjs is available, the scripts are appended to it,
- * and an empty string is returned.
- *
- * @param string $room A chat room name.
- *
- * @return string (X)HTML.
- *
- * @global array  The paths of system files and folders.
- * @global string The name of the site.
- * @global string The page URL.
- * @global string The scripts that should be written before the closing body tag.
- * @global array  The configuration of the plugins.
- *
- * @staticvar bool $again Whether the scripts have already been written.
- */
-function Chat_JS($room)
-{
-    global $pth, $sn, $su, $bjs, $plugin_cf;
-    static $again = false;
-
-    $o = '';
-    if (!$again) {
-        $o .= '<script type="text/javascript" src="' . $pth['folder']['plugins']
-            . 'chat/chat.js"></script>' . "\n";
-        $again = true;
-    }
-    $url = $sn . '?' . $su;
-    $interval = max(1000 * intval($plugin_cf['chat']['interval_poll']), 1);
-    $o .= '<script type="text/javascript">'
-        . "new Chat('$room', '$url', $interval);"
-        . "</script>\n";
-    if (isset($bjs)) {
-        $bjs .= $o;
-        return '';
-    } else {
-        return $o;
-    }
-}
-
-/**
- * Appends the posted message to the data file.
- *
- * @param string $room A chat room name.
- *
- * @return void
- *
- * @todo Handle Ajax submission errors.
- */
-function Chat_appendMessage($room)
-{
-    if (empty($_POST['chat_message'])) {
-        return;
-    }
-    $rec = array(time(), Chat_currentUser(), stsl($_POST['chat_message']));
-    $line = implode("\t", $rec) . "\n";
-    $fn = Chat_dataFile($room);
-    if (($fp = fopen($fn, 'a')) === false
-        || fwrite($fp, $line) === false
-    ) {
-        e('cntwriteto', 'file', $fn);
-    }
-    if ($fp !== false) {
-        fclose($fp);
-    }
-}
-
-/**
- * Returns a message prepared as bag for the view.
- *
- * @param int    $time The timestamp of the message.
- * @param string $user The user name.
- * @param string $msg  The message text.
- *
- * @return array
- *
- * @global array  The localization of the plugins.
- */
-function Chat_message($time, $user, $msg)
-{
-    global $plugin_tx;
-
-    $ptx = $plugin_tx['chat'];
-    if (!$user) {
-        $user = $ptx['user_unknown'];
-        $class = '';
-    } elseif ($user == Chat_currentUser()) {
-        $user = $ptx['user_self'];
-        $class = 'chat_self';
-    } else {
-        $class = '';
-    }
-    $trans = array(
-        '{USER}' => $user,
-        '{DATE}' => date($ptx['format_date'], $time),
-        '{TIME}' => date($ptx['format_time'], $time)
-    );
-    $user = strtr($ptx['format_user'], $trans);
-    return array(
-        'class' => $class,
-        'user' => $user,
-        'text' => htmlspecialchars($msg, ENT_COMPAT, 'UTF-8')
-    );
-}
-
-/**
- * Returns the view of an instantiated template.
- *
- * @param string $template The name of the template.
- * @param array  $bag      The data for the view.
- *
- * @return string (X)HTML.
- *
- * @global array The paths of system files and folders.
- */
-function Chat_view($template, $bag)
-{
-    global $pth;
-
-    extract($bag);
-    ob_start();
-    include $pth['folder']['plugins'] . 'chat/views/' . $template . '.htm';
-    return ob_get_clean();
-}
-
-/**
- * Returns the view of the history of a chat room.
- *
- * @param string $room A chat room name.
- *
- * @return string (X)HTML.
- *
- * @global array The configuration of the plugins.
- */
-function Chat_messagesView($room)
-{
-    global $plugin_cf;
-
-    $pcf = $plugin_cf['chat'];
-    $fn = Chat_dataFile($room);
-    $currentTime = time();
-    $messages = array();
-    if (file_exists($fn)
-        && ($lines = file($fn)) !== false
-    ) {
-        foreach ($lines as $line) {
-            if (!empty($line)) {
-                list($time, $user, $msg) = explode("\t", rtrim($line), 3);
-                // The following if clause allows to hide messages,
-                // that are older than interval_purge.
-                //if (!$pcf['interval_purge']
-                //    || $currentTime <= $time + $pcf['interval_purge'])
-                //{
-                $messages[] = Chat_message($time, $user, $msg);
-                //}
-            }
-        }
-    }
-    $bag = array('messages' => $messages);
-    return Chat_view('messages', $bag);
-}
-
-/**
- * Returns the complete view of the chat room.
- *
- * @param string $room A chat room name.
- *
- * @return string (X)HTML.
- *
- * @global string The script name.
- * @global string The URL of the requested page.
- * @global array  The localization of the plugins
- */
-function Chat_mainView($room)
-{
-    global $sn, $su, $plugin_tx;
-
-    $url = "$sn?$su&amp;chat_room=$room";
-    $inputs = tag('input type="text" name="chat_message"');
-    $inputs .= tag(
-        'input type="submit" class="submit" value="'
-        . $plugin_tx['chat']['label_send'] . '"'
-    );
-    $bag = array(
-        'room' => $room,
-        'inputs' => $inputs,
-        'url' => $url,
-        'messages' => Chat_messagesView($room)
-    );
-    return Chat_view('chat', $bag);
-}
-
-/**
- * Purges a chat room file after inactive interval has elapsed.
- *
- * @param string $room A chat room name.
- *
- * @return void
- *
- * @global array The configuration of the plugins.
- */
-function Chat_purge($room)
-{
-    global $plugin_cf;
-
-    $fn = Chat_dataFile($room);
-    if (file_exists($fn)
-        && $plugin_cf['chat']['interval_purge']
-        && time() > filemtime($fn) + $plugin_cf['chat']['interval_purge']
-    ) {
-        unlink($fn);
-    }
-}
+$_Chat = new Chat();
 
 /**
  * Handles the chat room and returns its view.
@@ -321,51 +46,22 @@ function Chat_purge($room)
  *
  * @return string (X)HTML.
  *
- * @global string The error messages.
- * @global array  The localization of the plugins.
+ * @global Chat The chat object.
  */
 function chat($room)
 {
-    global $e, $plugin_tx;
+    global $_Chat;
 
-    if (!preg_match('/^[a-z0-9-]*$/u', $room)) {
-        $e .= '<li><strong>' . $plugin_tx['chat']['error_room_name']
-            . '</strong></li>';
-        return false;
-    }
-    if (session_id() == '') {
-        session_start();
-    }
-    // necessary to prevent unauthorized access to protected chat rooms
-    $_SESSION['chat_rooms'][$room] = true;
-    Chat_purge($room);
-    if (isset($_GET['chat_room']) && $_GET['chat_room'] == $room) {
-        Chat_appendMessage($room);
-    }
-    return Chat_mainView($room) . Chat_JS($room);
+    return $_Chat->main($room);
 }
 
-/**
- * Respond to Ajax requests.
+/*
+ * Start session.
  */
-if (isset($_GET['chat_ajax'])) {
-    if (session_id() == '') {
-        session_start();
-    }
-    // Check if user has accessed the page with chat room before.
-    // TODO: better: ask Register/Memberpages if user is authorized to access
-    // this page.
-    if (!empty($_SESSION['chat_rooms'][$_GET['chat_room']])) {
-        Chat_purge($_GET['chat_room']);
-        switch ($_GET['chat_ajax']) {
-        case 'write':
-            Chat_appendMessage($_GET['chat_room']);
-            // FALLTHROUGH
-        case 'read':
-            echo Chat_messagesView($_GET['chat_room']);
-            exit;
-        }
-    }
+if (session_id() == '') {
+    session_start();
 }
+
+$_Chat->dispatch();
 
 ?>
