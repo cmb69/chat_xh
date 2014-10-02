@@ -1,6 +1,5 @@
 * revise manuals
 * don't start session in index.php
-* check and update data/.htaccess
 * put Ajax handling inside chat()
 * add metaconfig.php
 * XH_registerStandardPluginMenuItems(),XH_wantsPluginAdministration(),XH_hsc()
