@@ -9,6 +9,8 @@ $plugin_tx['chat']['format_time']="H:i:s";
 
 $plugin_tx['chat']['label_send']="Senden";
 
+$plugin_tx['chat']['alt_logo']="Sprechblasen";
+
 $plugin_tx['chat']['error_room_name']="Ungültiger Chatraum-Name: darf nur Kleinbuchstaben (a-z), Ziffern (0-9) und Bindestriche enthalten.";
 
 $plugin_tx['chat']['syscheck_title']="Systemprüfung";

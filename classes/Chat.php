@@ -402,18 +402,18 @@ class Chat
      * @return string (X)HTML.
      *
      * @global array The paths of system files and folders.
+     * @global array The localization of the plugins.     *
      */
     protected function aboutView()
     {
-        global $pth;
+        global $pth, $plugin_tx;
 
         $icon = tag(
-            'img src="' . $pth['folder']['plugins']
-            . 'chat/chat.png" alt="Plugin Icon"'
+            'img class="chat_logo" src="' . $pth['folder']['plugins']
+            . 'chat/chat.png" alt="' . $plugin_tx['chat']['alt_logo'] . '"'
         );
         $bag = array(
-            'heading' => 'Chat_XH',
-            'url' => 'http://3-magi.net/?CMSimple_XH/Chat_XH',
+            'heading' => 'Chat &ndash; Info',
             'icon' => $icon,
             'version' => CHAT_VERSION
         );

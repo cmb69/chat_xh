@@ -9,3 +9,14 @@ span.chat_message {}
 div.chat_room form {text-align: center}
 div.chat_room input {width: 100%; padding: 0.3em; border: 1px solid #aaa}
 div.chat_room .submit {display:none}
+
+/*
+ * Administration
+ */
+.chat_logo {
+    float: left;
+    margin: 0 16px 0 0;
+}
+.chat_license {
+    text-align: justify;
+}
