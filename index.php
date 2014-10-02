@@ -3,13 +3,16 @@
 /**
  * Front-end of Chat_XH.
  *
- * @package	Chat
- * @copyright	Copyright (c) 2012-2014 Christoph M. Becker <http://3-magi.net/>
- * @license	http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
- * @version     $Id$
- * @link	http://3-magi.net/?CMSimple_XH/Chat_XH
+ * PHP version 5
+ *
+ * @category  CMSimple_XH
+ * @package   Chat
+ * @author    Christoph M. Becker <cmbecker69@gmx.de>
+ * @copyright 2012-2014 Christoph M. Becker <http://3-magi.net>
+ * @license   http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
+ * @version   SVN: $Id$
+ * @link      http://3-magi.net/?CMSimple_XH/Chat_XH
  */
-
 
 /*
  * Prevent direct access.
@@ -19,27 +22,25 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
     exit;
 }
 
-
 /**
  * The version of the plugin.
  */
 define('CHAT_VERSION', '1beta2');
 
-
-/**
+/*
  * Start session.
  */
 if (session_id() == '') {
     session_start();
 }
 
-
 /**
  * Returns the path of the data folder.
  *
- * @global array  The paths of system files and folders.
- * @global array  The configuration of the plugins.
  * @return string
+ *
+ * @global array The paths of system files and folders.
+ * @global array The configuration of the plugins.
  */
 function Chat_dataFolder()
 {
@@ -48,32 +49,33 @@ function Chat_dataFolder()
     $pcf = $plugin_cf['chat'];
 
     if ($pcf['folder_data'] == '') {
-	$fn = $pth['folder']['plugins'] . 'chat/data/';
+        $fn = $pth['folder']['plugins'] . 'chat/data/';
     } else {
-	$fn = $pth['folder']['base'] . $pcf['folder_data'];
+        $fn = $pth['folder']['base'] . $pcf['folder_data'];
     }
     if (substr($fn, -1) != '/') {
-	$fn .= '/';
+        $fn .= '/';
     }
     if (file_exists($fn)) {
-	if (!is_dir($fn)) {
-	    e('cntopen', 'folder', $fn);
-	}
+        if (!is_dir($fn)) {
+            e('cntopen', 'folder', $fn);
+        }
     } else {
-	// $recursive parameter only since PHP 5.0.0;
-	// should do no harm for older versions, however.
-	if (!mkdir($fn, 0777, true)) {
-	    e('cntwriteto', 'folder', $fn);
-	}
+        // $recursive parameter only since PHP 5.0.0;
+        // should do no harm for older versions, however.
+        if (!mkdir($fn, 0777, true)) {
+            e('cntwriteto', 'folder', $fn);
+        }
+        // TODO: chmod()!
     }
     return $fn;
 }
 
-
 /**
  * Returns the path of a chat room data file.
  *
- * @param $room  The name of the chat room.
+ * @param string $room A chat room name.
+ *
  * @return string
  */
 function Chat_dataFile($room)
@@ -81,34 +83,38 @@ function Chat_dataFile($room)
     return Chat_dataFolder() . $room . '.dat';
 }
 
-
 /**
  * Returns the name of the currently logged in user, if any, false otherwise.
+ *
+ * This is meant to work with the Register and the Memberpages plugin.
  *
  * @return string
  */
 function Chat_currentUser()
 {
     return isset($_SESSION['username'])
-	? $_SESSION['username'] // Register and Memberpages >= 3
-	: (isset($_SESSION['Name'])
-	   ? $_SESSION['Name'] // Memberpages < 3
-	   : false);
+        ? $_SESSION['username'] // Register and Memberpages >= 3
+        : (isset($_SESSION['Name'])
+            ? $_SESSION['Name'] // Memberpages < 3
+            : false);
 }
-
 
 /**
  * Returns the necessary scripts to handle a chat room.
  * If $bjs is available, the scripts are appended to it,
  * and an empty string is returned.
  *
+ * @param string $room A chat room name.
+ *
+ * @return string (X)HTML.
+ *
  * @global array  The paths of system files and folders.
- * @global string  The name of the site.
- * @global string  The query string of the current page.
- * @global string  The scripts that should be written before the closing body tag.
+ * @global string The name of the site.
+ * @global string The page URL.
+ * @global string The scripts that should be written before the closing body tag.
  * @global array  The configuration of the plugins.
- * @param  string $room  The name of the chat room.
- * @return string
+ *
+ * @staticvar bool $again Whether the scripts have already been written.
  */
 function Chat_JS($room)
 {
@@ -117,57 +123,60 @@ function Chat_JS($room)
 
     $o = '';
     if (!$again) {
-	$o .= '<script type="text/javascript" src="' . $pth['folder']['plugins']
-	    . 'chat/chat.min.js"></script>' . "\n";
-	$again = true;
+        $o .= '<script type="text/javascript" src="' . $pth['folder']['plugins']
+            . 'chat/chat.min.js"></script>' . "\n";
+        $again = true;
     }
-    $url = $sn.'?'.$su;
+    $url = $sn . '?' . $su;
     $interval = max(1000 * intval($plugin_cf['chat']['interval_poll']), 1);
     $o .= '<script type="text/javascript">'
-	. "new Chat('$room', '$url', $interval);"
-	. "</script>\n";
+        . "new Chat('$room', '$url', $interval);"
+        . "</script>\n";
     if (isset($bjs)) {
-	$bjs .= $o;
-	return '';
+        $bjs .= $o;
+        return '';
     } else {
-	return $o;
+        return $o;
     }
 }
-
 
 /**
  * Appends the posted message to the data file.
  *
- * @param  string $room  The name of the chat room.
+ * @param string $room A chat room name.
+ *
  * @return void
+ *
+ * @todo Handle Ajax submission errors.
  */
 function Chat_appendMessage($room)
-{ // TODO: handle Ajax submission errors!
+{
     if (empty($_POST['chat_message'])) {
-	return;
+        return;
     }
     $rec = array(time(), Chat_currentUser(), stsl($_POST['chat_message']));
     $line = implode("\t", $rec) . "\n";
     $fn = Chat_dataFile($room);
     if (($fp = fopen($fn, 'a')) === false
-	|| fwrite($fp, $line) === false)
-    {
-	e('cntwriteto', 'file', $fn);
+        || fwrite($fp, $line) === false
+    ) {
+        e('cntwriteto', 'file', $fn);
     }
     if ($fp !== false) {
-	fclose($fp);
+        fclose($fp);
     }
 }
-
 
 /**
  * Returns a message prepared as bag for the view.
  *
- * @global array  The localization of the plugins.
- * @param  int $time  The timestamp of the message.
- * @param  string $user  The user name.
- * @param  string $msg  The message text.
+ * @param int    $time The timestamp of the message.
+ * @param string $user The user name.
+ * @param string $msg  The message text.
+ *
  * @return array
+ *
+ * @global array  The localization of the plugins.
  */
 function Chat_message($time, $user, $msg)
 {
@@ -175,31 +184,36 @@ function Chat_message($time, $user, $msg)
 
     $ptx = $plugin_tx['chat'];
     if (!$user) {
-	$user = $ptx['user_unknown'];
-	$class = '';
+        $user = $ptx['user_unknown'];
+        $class = '';
     } elseif ($user == Chat_currentUser()) {
-	$user = $ptx['user_self'];
-	$class = 'chat_self';
+        $user = $ptx['user_self'];
+        $class = 'chat_self';
     } else {
-	$class = '';
+        $class = '';
     }
-    $trans = array('{USER}' => $user,
-		'{DATE}' => date($ptx['format_date'], $time),
-		'{TIME}' => date($ptx['format_time'], $time));
+    $trans = array(
+        '{USER}' => $user,
+        '{DATE}' => date($ptx['format_date'], $time),
+        '{TIME}' => date($ptx['format_time'], $time)
+    );
     $user = strtr($ptx['format_user'], $trans);
-    return array('class' => $class,
-		 'user' => $user,
-		 'text' => htmlspecialchars($msg, ENT_COMPAT, 'UTF-8'));
+    return array(
+        'class' => $class,
+        'user' => $user,
+        'text' => htmlspecialchars($msg, ENT_COMPAT, 'UTF-8')
+    );
 }
-
 
 /**
  * Returns the view of an instantiated template.
  *
- * @global array  The paths of system files and folders.
- * @param string $template  The name of the template.
- * @param array $bag  The data for the view.
- * @return string
+ * @param string $template The name of the template.
+ * @param array  $bag      The data for the view.
+ *
+ * @return string (X)HTML.
+ *
+ * @global array The paths of system files and folders.
  */
 function Chat_view($template, $bag)
 {
@@ -211,13 +225,14 @@ function Chat_view($template, $bag)
     return ob_get_clean();
 }
 
-
 /**
  * Returns the view of the history of a chat room.
  *
- * @global array  The configuration of the plugins.
- * @param  string $room  The name of the chat room.
- * @return string  The (X)HTML.
+ * @param string $room A chat room name.
+ *
+ * @return string (X)HTML.
+ *
+ * @global array The configuration of the plugins.
  */
 function Chat_messagesView($room)
 {
@@ -228,56 +243,63 @@ function Chat_messagesView($room)
     $currentTime = time();
     $messages = array();
     if (file_exists($fn)
-	&& ($lines = file($fn)) !== false)
-    {
-	foreach ($lines as $line) {
-	    if (!empty($line)) {
-		list($time, $user, $msg) = explode("\t", rtrim($line), 3);
-		// The following if clause allows to hide messages,
-		// that are older than interval_purge.
-		//if (!$pcf['interval_purge']
-		//    || $currentTime <= $time + $pcf['interval_purge'])
-		//{
-		    $messages[] = Chat_message($time, $user, $msg);
-		//}
-	    }
-	}
+        && ($lines = file($fn)) !== false
+    ) {
+        foreach ($lines as $line) {
+            if (!empty($line)) {
+                list($time, $user, $msg) = explode("\t", rtrim($line), 3);
+                // The following if clause allows to hide messages,
+                // that are older than interval_purge.
+                //if (!$pcf['interval_purge']
+                //    || $currentTime <= $time + $pcf['interval_purge'])
+                //{
+                $messages[] = Chat_message($time, $user, $msg);
+                //}
+            }
+        }
     }
     $bag = array('messages' => $messages);
     return Chat_view('messages', $bag);
 }
 
-
 /**
  * Returns the complete view of the chat room.
  *
- * @global string  The name of the site.
- * @global string  The query string of the current page.
+ * @param string $room A chat room name.
+ *
+ * @return string (X)HTML.
+ *
+ * @global string The script name.
+ * @global string The URL of the requested page.
  * @global array  The localization of the plugins
- * @param  string $room  The name of the chat room.
- * @return string  The (X)HTML.
  */
 function Chat_mainView($room)
 {
     global $sn, $su, $plugin_tx;
 
     $url = "$sn?$su&amp;chat_room=$room";
-    $inputs = tag('input type="text" name="chat_message"')
-	. tag('input type="submit" class="submit" value="'
-	      . $plugin_tx['chat']['label_send'] . '"');
-    $bag = array('room' => $room,
-		 'inputs' => $inputs,
-		 'url' => $url,
-		 'messages' => Chat_messagesView($room));
+    $inputs = tag('input type="text" name="chat_message"');
+    $inputs .= tag(
+        'input type="submit" class="submit" value="'
+        . $plugin_tx['chat']['label_send'] . '"'
+    );
+    $bag = array(
+        'room' => $room,
+        'inputs' => $inputs,
+        'url' => $url,
+        'messages' => Chat_messagesView($room)
+    );
     return Chat_view('chat', $bag);
 }
-
 
 /**
  * Purges a chat room file after inactive interval has elapsed.
  *
- * @param  string $room  The name of the chat room.
+ * @param string $room A chat room name.
+ *
  * @return void
+ *
+ * @global array The configuration of the plugins.
  */
 function Chat_purge($room)
 {
@@ -285,30 +307,31 @@ function Chat_purge($room)
 
     $fn = Chat_dataFile($room);
     if (file_exists($fn)
-	&& $plugin_cf['chat']['interval_purge']
-	&& time() > filemtime($fn) + $plugin_cf['chat']['interval_purge'])
-    {
-	unlink($fn);
+        && $plugin_cf['chat']['interval_purge']
+        && time() > filemtime($fn) + $plugin_cf['chat']['interval_purge']
+    ) {
+        unlink($fn);
     }
 }
 
 /**
- * Handles the chat room and returns its (X)HTML view.
+ * Handles the chat room and returns its view.
  *
- * @access public
- * @global string  The error messages.
+ * @param string $room A chat room name.
+ *
+ * @return string (X)HTML.
+ *
+ * @global string The error messages.
  * @global array  The localization of the plugins.
- * @param  string $room  The name of the chat room.
- * @return string
  */
-function Chat($room)
+function chat($room)
 {
     global $e, $plugin_tx;
 
     if (!preg_match('/^[a-z0-9-]*$/u', $room)) {
-	$e .= '<li><strong>' . $plugin_tx['chat']['error_room_name']
-	    . '</strong></li>';
-	return false;
+        $e .= '<li><strong>' . $plugin_tx['chat']['error_room_name']
+            . '</strong></li>';
+        return false;
     }
     if (session_id() == '') {
         session_start();
@@ -317,11 +340,10 @@ function Chat($room)
     $_SESSION['chat_rooms'][$room] = true;
     Chat_purge($room);
     if (isset($_GET['chat_room']) && $_GET['chat_room'] == $room) {
-	Chat_appendMessage($room);
+        Chat_appendMessage($room);
     }
     return Chat_mainView($room) . Chat_JS($room);
 }
-
 
 /**
  * Respond to Ajax requests.
@@ -331,17 +353,18 @@ if (isset($_GET['chat_ajax'])) {
         session_start();
     }
     // Check if user has accessed the page with chat room before.
-    // TODO: better: ask Register/Memberpages if user is authorized to access this page.
+    // TODO: better: ask Register/Memberpages if user is authorized to access
+    // this page.
     if (!empty($_SESSION['chat_rooms'][$_GET['chat_room']])) {
-	Chat_purge($_GET['chat_room']);
-	switch ($_GET['chat_ajax']) {
-	case 'write':
-	    Chat_appendMessage($_GET['chat_room']);
-	    // FALLTHROUGH
-	case 'read':
-	    echo Chat_messagesView($_GET['chat_room']);
-	    exit;
-	}
+        Chat_purge($_GET['chat_room']);
+        switch ($_GET['chat_ajax']) {
+        case 'write':
+            Chat_appendMessage($_GET['chat_room']);
+            // FALLTHROUGH
+        case 'read':
+            echo Chat_messagesView($_GET['chat_room']);
+            exit;
+        }
     }
 }
 
