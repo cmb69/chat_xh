@@ -69,7 +69,7 @@ function Chat_systemCheck()
         . (version_compare(PHP_VERSION, $phpVersion) >= 0 ? $ok : $fail)
         . '&nbsp;&nbsp;' . sprintf($ptx['syscheck_phpversion'], $phpVersion)
         . tag('br');
-    foreach (array('date', 'pcre', 'session') as $ext) {
+    foreach (array('pcre', 'session') as $ext) {
         $o .= (extension_loaded($ext) ? $ok : $fail)
             . '&nbsp;&nbsp;' . sprintf($ptx['syscheck_extension'], $ext) . tag('br');
     }
