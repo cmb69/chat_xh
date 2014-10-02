@@ -25,7 +25,7 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
 /**
  * The version of the plugin.
  */
-define('CHAT_VERSION', '1beta2');
+define('CHAT_VERSION', '@CHAT_VERSION@');
 
 /*
  * Start session.
@@ -124,7 +124,7 @@ function Chat_JS($room)
     $o = '';
     if (!$again) {
         $o .= '<script type="text/javascript" src="' . $pth['folder']['plugins']
-            . 'chat/chat.min.js"></script>' . "\n";
+            . 'chat/chat.js"></script>' . "\n";
         $again = true;
     }
     $url = $sn . '?' . $su;

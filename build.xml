@@ -7,6 +7,10 @@
         <include name="index.php"/>
     </fileset>
 
+    <fileset id="js-sources" dir=".">
+        <include name="chat.js"/>
+    </fileset>
+
     <fileset id="unit-tests" dir="tests/unit">
         <include name="*Test.php"/>
     </fileset>
@@ -71,11 +75,16 @@
         </phpdoc>
     </target>
 
-    <!--<target name="js-doc">
-        <exec command="jsdoc -destination doc/js pagemanager.js" checkreturn="true"/>
-    </target>-->
+    <target name="js-doc">
+        <apply executable="jsdoc" parallel="true" checkreturn="true">
+            <arg value="-d"/>
+            <arg value="doc/js"/>
+            <arg value="-p"/>
+            <fileset refid="js-sources"/>
+        </apply>
+    </target>
 
-    <target name="doc" depends="php-doc"
+    <target name="doc" depends="php-doc,js-doc"
             description="generates the developer documentation"/>
 
     <!-- Build -->
@@ -94,10 +103,16 @@
                 </replacetokens>
             </filterchain>
         </move>
+        <jsMin targetDir="dist" suffix="" failOnError="false">
+            <fileset dir="export">
+                <include name="chat.js"/>
+            </fileset>
+        </jsMin>
         <move todir="dist">
             <fileset dir="export">
                 <exclude name="chat.komodoproject"/>
                 <exclude name="build.xml"/>
+                <exclude name="composer.*"/>
                 <exclude name="coverage.xml"/>
                 <exclude name="phpcompatinfo.*"/>
                 <exclude name="tests/**"/>

@@ -1,5 +1,6 @@
 * revise manuals
 * don't start session in index.php
+* check and update data/.htaccess
 
 * advisory chat (bca; email)
 * chatters online (inspired/suggested by bca)
