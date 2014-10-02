@@ -1,11 +1,11 @@
 * revise manuals
 * don't start session in index.php
 * put Ajax handling inside chat()
-* add metaconfig.php
-* XH_registerStandardPluginMenuItems(),XH_wantsPluginAdministration(),XH_hsc()
-* lift requirements to PHP 5 and XH 1.5.4
+* XH_registerStandardPluginMenuItems(),XH_wantsPluginAdministration()
 * refactor and add unit tests
 * add Content-Type header for Ajax response
+
+* add metaconfig.php
 
 * advisory chat (bca; email)
 * chatters online (inspired/suggested by bca)

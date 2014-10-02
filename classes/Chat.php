@@ -29,13 +29,9 @@ class Chat
      * Dispatches on plugin related requests.
      *
      * @return void
-     *
-     * @global bool Whether we're are logged in as admin.
      */
     public function dispatch()
     {
-        global $adm;
-
         /**
          * Respond to Ajax requests.
          */
@@ -58,7 +54,7 @@ class Chat
                 }
             }
         }
-        if ($adm) {
+        if (XH_ADM) {
             $this->handleAdministration();
         }
     }
@@ -287,7 +283,7 @@ class Chat
         return array(
             'class' => $class,
             'user' => $user,
-            'text' => htmlspecialchars($msg, ENT_COMPAT, 'UTF-8')
+            'text' => XH_hsc($msg)
         );
     }
 
