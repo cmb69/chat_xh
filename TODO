@@ -1,10 +1,7 @@
 * revise manuals
-* don't start session in index.php
 * XH_registerStandardPluginMenuItems(),XH_wantsPluginAdministration()
 * refactor and add unit tests
 * add Content-Type header for Ajax response
-
-* add metaconfig.php
 
 * advisory chat (bca; email)
 * chatters online (inspired/suggested by bca)

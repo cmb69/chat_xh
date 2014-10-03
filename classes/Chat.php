@@ -85,9 +85,6 @@ class Chat
         if (isset($_GET['chat_ajax']) && $_GET['chat_room'] == $room) {
             $this->handleAjaxRequest();
         }
-        if (session_id() == '') {
-            session_start();
-        }
         $this->purge($room);
         if (isset($_GET['chat_room']) && $_GET['chat_room'] == $room) {
             $this->appendMessage($room);
@@ -102,9 +99,6 @@ class Chat
      */
     protected function handleAjaxRequest()
     {
-        if (session_id() == '') {
-            session_start();
-        }
         $this->purge($_GET['chat_room']);
         switch ($_GET['chat_ajax']) {
         case 'write':
@@ -174,6 +168,9 @@ class Chat
      */
     protected function currentUser()
     {
+        if (session_id() == '') {
+            session_start();
+        }
         return isset($_SESSION['username'])
             ? $_SESSION['username'] // Register and Memberpages >= 3
             : (isset($_SESSION['Name'])

@@ -63,13 +63,6 @@ function chat($room)
     return $_Chat->main($room);
 }
 
-/*
- * Start session.
- */
-if (session_id() == '') {
-    session_start();
-}
-
 $_Chat->dispatch();
 
 ?>
