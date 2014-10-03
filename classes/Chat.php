@@ -225,12 +225,11 @@ class Chat
                 e('cntopen', 'folder', $fn);
             }
         } else {
-            // $recursive parameter only since PHP 5.0.0;
-            // should do no harm for older versions, however.
-            if (!mkdir($fn, 0777, true)) {
+            if (mkdir($fn, 0777, true)) {
+                chmod($fn, 0777);
+            } else {
                 e('cntwriteto', 'folder', $fn);
             }
-            // TODO: chmod()!
         }
         return $fn;
     }
