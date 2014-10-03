@@ -33,8 +33,29 @@ class Chat
     public function dispatch()
     {
         if (XH_ADM) {
-            $this->handleAdministration();
+            if (function_exists('XH_registerStandardPluginMenuItems')) {
+                XH_registerStandardPluginMenuItems(false);
+            }
+            if ($this->wantsPluginAdministration()) {
+                $this->handleAdministration();
+            }
         }
+    }
+
+    /**
+     * Returns whether the plugin administration is requested.
+     *
+     * @return bool
+     *
+     * @global string Whether the chat administration is requested.
+     */
+    protected function wantsPluginAdministration()
+    {
+        global $chat;
+
+        return function_exists('XH_wantsPluginAdministration')
+            && XH_wantsPluginAdministration('chat')
+            || isset($chat) && $chat == 'true';
     }
 
     /**
@@ -42,25 +63,91 @@ class Chat
      *
      * @return void
      *
-     * @global string Whether the chat administration is requested.
      * @global string The (X)HTML of the contents area.
      * @global string The value of the admin GP parameter.
      * @global string The value of the action GP parameter.
      */
     protected function handleAdministration()
     {
-        global $chat, $o, $admin, $action;
+        global $o, $admin, $action;
 
-        if (isset($chat) && $chat == 'true') {
-            $o .= print_plugin_admin('off');
-            switch($admin) {
-            case '':
-                $o .= $this->aboutView() . tag('hr') . $this->systemCheck();
-                break;
-            default:
-                $o .= plugin_admin_common($action, $admin, 'chat');
-            }
+        $o .= print_plugin_admin('off');
+        switch($admin) {
+        case '':
+            $o .= $this->aboutView() . tag('hr') . $this->systemCheck();
+            break;
+        default:
+            $o .= plugin_admin_common($action, $admin, 'chat');
         }
+    }
+
+    /**
+     * Returns the plugin's about view.
+     *
+     * @return string (X)HTML.
+     *
+     * @global array The paths of system files and folders.
+     * @global array The localization of the plugins.     *
+     */
+    protected function aboutView()
+    {
+        global $pth, $plugin_tx;
+
+        $icon = tag(
+            'img class="chat_logo" src="' . $pth['folder']['plugins']
+            . 'chat/chat.png" alt="' . $plugin_tx['chat']['alt_logo'] . '"'
+        );
+        $bag = array(
+            'heading' => 'Chat &ndash; Info',
+            'icon' => $icon,
+            'version' => CHAT_VERSION
+        );
+        return $this->view('about', $bag);
+    }
+
+    /**
+     * Returns the requirements information view.
+     *
+     * @return string (X)HTML.
+     *
+     * @global array The paths of system files and folders.
+     * @global array The localization of the core.
+     * @global array The localization of the plugins.
+     */
+    protected function systemCheck()
+    {
+        global $pth, $tx, $plugin_tx;
+
+        $phpVersion = '4.3.0';
+        $ptx = $plugin_tx['chat'];
+        $imgdir = $pth['folder']['plugins'] . 'chat/images/';
+        $ok = tag('img src="' . $imgdir . 'ok.png" alt="ok"');
+        $warn = tag('img src="' . $imgdir . 'warn.png" alt="warning"');
+        $fail = tag('img src="' . $imgdir . 'fail.png" alt="failure"');
+        $o = '<h4>' . $ptx['syscheck_title'] . '</h4>'
+            . (version_compare(PHP_VERSION, $phpVersion) >= 0 ? $ok : $fail)
+            . '&nbsp;&nbsp;' . sprintf($ptx['syscheck_phpversion'], $phpVersion)
+            . tag('br');
+        foreach (array('pcre', 'session') as $ext) {
+            $o .= (extension_loaded($ext) ? $ok : $fail)
+                . '&nbsp;&nbsp;' . sprintf($ptx['syscheck_extension'], $ext)
+                . tag('br');
+        }
+        $o .= (!get_magic_quotes_runtime() ? $ok : $fail)
+            . '&nbsp;&nbsp;' . $ptx['syscheck_magic_quotes'] . tag('br');
+        $o .= tag('br')
+            . (strtoupper($tx['meta']['codepage']) == 'UTF-8' ? $ok : $warn)
+            . '&nbsp;&nbsp;' . $ptx['syscheck_encoding'] . tag('br');
+        foreach (array('config/', 'css/', 'languages/') as $folder) {
+            $folders[] = $pth['folder']['plugins'] . 'chat/' . $folder;
+        }
+        $folders[] = $this->dataFolder();
+        foreach ($folders as $folder) {
+            $o .= (is_writable($folder) ? $ok : $warn)
+                . '&nbsp;&nbsp;' . sprintf($ptx['syscheck_writable'], $folder)
+                . tag('br');
+        }
+        return $o;
     }
 
     /**
@@ -285,26 +372,6 @@ class Chat
     }
 
     /**
-     * Returns the view of an instantiated template.
-     *
-     * @param string $template The name of the template.
-     * @param array  $bag      The data for the view.
-     *
-     * @return string (X)HTML.
-     *
-     * @global array The paths of system files and folders.
-     */
-    protected function view($template, $bag)
-    {
-        global $pth;
-
-        extract($bag);
-        ob_start();
-        include $pth['folder']['plugins'] . 'chat/views/' . $template . '.htm';
-        return ob_get_clean();
-    }
-
-    /**
      * Returns the view of the history of a chat room.
      *
      * @param string $room A chat room name.
@@ -394,72 +461,23 @@ class Chat
     }
 
     /**
-     * Returns the plugin's about view.
+     * Returns the view of an instantiated template.
+     *
+     * @param string $template The name of the template.
+     * @param array  $bag      The data for the view.
      *
      * @return string (X)HTML.
      *
      * @global array The paths of system files and folders.
-     * @global array The localization of the plugins.     *
      */
-    protected function aboutView()
+    protected function view($template, $bag)
     {
-        global $pth, $plugin_tx;
+        global $pth;
 
-        $icon = tag(
-            'img class="chat_logo" src="' . $pth['folder']['plugins']
-            . 'chat/chat.png" alt="' . $plugin_tx['chat']['alt_logo'] . '"'
-        );
-        $bag = array(
-            'heading' => 'Chat &ndash; Info',
-            'icon' => $icon,
-            'version' => CHAT_VERSION
-        );
-        return $this->view('about', $bag);
-    }
-
-    /**
-     * Returns the requirements information view.
-     *
-     * @return string (X)HTML.
-     *
-     * @global array The paths of system files and folders.
-     * @global array The localization of the core.
-     * @global array The localization of the plugins.
-     */
-    protected function systemCheck()
-    {
-        global $pth, $tx, $plugin_tx;
-
-        $phpVersion = '4.3.0';
-        $ptx = $plugin_tx['chat'];
-        $imgdir = $pth['folder']['plugins'] . 'chat/images/';
-        $ok = tag('img src="' . $imgdir . 'ok.png" alt="ok"');
-        $warn = tag('img src="' . $imgdir . 'warn.png" alt="warning"');
-        $fail = tag('img src="' . $imgdir . 'fail.png" alt="failure"');
-        $o = '<h4>' . $ptx['syscheck_title'] . '</h4>'
-            . (version_compare(PHP_VERSION, $phpVersion) >= 0 ? $ok : $fail)
-            . '&nbsp;&nbsp;' . sprintf($ptx['syscheck_phpversion'], $phpVersion)
-            . tag('br');
-        foreach (array('pcre', 'session') as $ext) {
-            $o .= (extension_loaded($ext) ? $ok : $fail)
-                . '&nbsp;&nbsp;' . sprintf($ptx['syscheck_extension'], $ext)
-                . tag('br');
-        }
-        $o .= (!get_magic_quotes_runtime() ? $ok : $fail)
-            . '&nbsp;&nbsp;' . $ptx['syscheck_magic_quotes'] . tag('br');
-        $o .= tag('br')
-            . (strtoupper($tx['meta']['codepage']) == 'UTF-8' ? $ok : $warn)
-            . '&nbsp;&nbsp;' . $ptx['syscheck_encoding'] . tag('br');
-        foreach (array('config/', 'css/', 'languages/') as $folder) {
-            $folders[] = $pth['folder']['plugins'] . 'chat/' . $folder;
-        }
-        $folders[] = $this->dataFolder();
-        foreach ($folders as $folder) {
-            $o .= (is_writable($folder) ? $ok : $warn)
-                . '&nbsp;&nbsp;' . sprintf($ptx['syscheck_writable'], $folder)
-                . tag('br');
-        }
-        return $o;
+        extract($bag);
+        ob_start();
+        include $pth['folder']['plugins'] . 'chat/views/' . $template . '.htm';
+        return ob_get_clean();
     }
 }
 
