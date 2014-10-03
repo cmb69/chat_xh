@@ -32,28 +32,6 @@ class Chat
      */
     public function dispatch()
     {
-        /**
-         * Respond to Ajax requests.
-         */
-        if (isset($_GET['chat_ajax'])) {
-            if (session_id() == '') {
-                session_start();
-            }
-            // Check if user has accessed the page with chat room before.
-            // TODO: better: ask Register/Memberpages if user is authorized to
-            // access this page.
-            if (!empty($_SESSION['chat_rooms'][$_GET['chat_room']])) {
-                $this->purge($_GET['chat_room']);
-                switch ($_GET['chat_ajax']) {
-                case 'write':
-                    $this->appendMessage($_GET['chat_room']);
-                    // FALLTHROUGH
-                case 'read':
-                    echo $this->messagesView($_GET['chat_room']);
-                    exit;
-                }
-            }
-        }
         if (XH_ADM) {
             $this->handleAdministration();
         }
@@ -104,16 +82,38 @@ class Chat
                 . '</strong></li>';
             return false;
         }
+        if (isset($_GET['chat_ajax']) && $_GET['chat_room'] == $room) {
+            $this->handleAjaxRequest();
+        }
         if (session_id() == '') {
             session_start();
         }
-        // necessary to prevent unauthorized access to protected chat rooms
-        $_SESSION['chat_rooms'][$room] = true;
         $this->purge($room);
         if (isset($_GET['chat_room']) && $_GET['chat_room'] == $room) {
             $this->appendMessage($room);
         }
         return $this->mainView($room) . $this->emitJS($room);
+    }
+
+    /**
+     * Handles Ajax requests.
+     *
+     * @return void
+     */
+    protected function handleAjaxRequest()
+    {
+        if (session_id() == '') {
+            session_start();
+        }
+        $this->purge($_GET['chat_room']);
+        switch ($_GET['chat_ajax']) {
+        case 'write':
+            $this->appendMessage($_GET['chat_room']);
+            // FALLTHROUGH
+        case 'read':
+            echo $this->messagesView($_GET['chat_room']);
+            exit;
+        }
     }
 
     /**

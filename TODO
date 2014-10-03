@@ -1,6 +1,5 @@
 * revise manuals
 * don't start session in index.php
-* put Ajax handling inside chat()
 * XH_registerStandardPluginMenuItems(),XH_wantsPluginAdministration()
 * refactor and add unit tests
 * add Content-Type header for Ajax response
