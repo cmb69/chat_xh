@@ -192,6 +192,7 @@ class Chat
             $this->appendMessage($_GET['chat_room']);
             // FALLTHROUGH
         case 'read':
+            header('Content-Type: text/html; charset=UTF-8');
             echo $this->messagesView($_GET['chat_room']);
             exit;
         }

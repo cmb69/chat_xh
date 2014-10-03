@@ -1,6 +1,5 @@
 * revise manuals
 * refactor and add unit tests
-* add Content-Type header for Ajax response
 
 * advisory chat (bca; email)
 * chatters online (inspired/suggested by bca)
