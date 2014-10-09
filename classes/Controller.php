@@ -141,7 +141,7 @@ class Chat_Controller
         foreach (array('config/', 'css/', 'languages/') as $folder) {
             $folders[] = $pth['folder']['plugins'] . 'chat/' . $folder;
         }
-        $folders[] = $this->dataFolder();
+        $folders[] = Chat_Room::dataFolder();
         foreach ($folders as $folder) {
             $o .= (is_writable($folder) ? $ok : $warn)
                 . '&nbsp;&nbsp;' . sprintf($ptx['syscheck_writable'], $folder)
@@ -153,97 +153,56 @@ class Chat_Controller
     /**
      * Handles the chat room and returns its view.
      *
-     * @param string $room A chat room name.
+     * @param string $roomname A chat room name.
      *
      * @return string (X)HTML.
      *
      * @global string The error messages.
      * @global array  The localization of the plugins.
      */
-    public function main($room)
+    public function main($roomname)
     {
         global $e, $plugin_tx;
 
-        if (!preg_match('/^[a-z0-9-]*$/u', $room)) {
+        if (!Chat_Room::isValidName($roomname)) {
             $e .= '<li><strong>' . $plugin_tx['chat']['error_room_name']
                 . '</strong></li>';
             return false;
         }
-        if (isset($_GET['chat_ajax']) && $_GET['chat_room'] == $room) {
-            $this->handleAjaxRequest();
+        $room = new Chat_Room($roomname);
+        if (isset($_GET['chat_ajax']) && $_GET['chat_room'] == $room->getName()) {
+            $this->handleAjaxRequest($room);
         }
-        $this->purge($room);
-        if (isset($_GET['chat_room']) && $_GET['chat_room'] == $room) {
+        if ($room->isExpired()) {
+            $room->purge();
+        }
+        if (isset($_GET['chat_room']) && $_GET['chat_room'] == $room->getName()) {
             $this->appendMessage($room);
         }
-        return $this->mainView($room) . $this->emitJS($room);
+        return $this->mainView($room) . $this->emitJS($roomname);
     }
 
     /**
      * Handles Ajax requests.
      *
+     * @param Chat_Room $room A chat room.
+     *
      * @return void
      */
-    protected function handleAjaxRequest()
+    protected function handleAjaxRequest(Chat_Room $room)
     {
-        $this->purge($_GET['chat_room']);
+        if ($room->isExpired()) {
+            $room->purge();
+        }
         switch ($_GET['chat_ajax']) {
         case 'write':
-            $this->appendMessage($_GET['chat_room']);
+            $this->appendMessage($room);
             // FALLTHROUGH
         case 'read':
             header('Content-Type: text/html; charset=UTF-8');
-            echo $this->messagesView($_GET['chat_room']);
+            echo $this->messagesView($room);
             exit;
         }
-    }
-
-    /**
-     * Returns the path of the data folder.
-     *
-     * @return string
-     *
-     * @global array The paths of system files and folders.
-     * @global array The configuration of the plugins.
-     */
-    protected function dataFolder()
-    {
-        global $pth, $plugin_cf;
-
-        $pcf = $plugin_cf['chat'];
-
-        if ($pcf['folder_data'] == '') {
-            $fn = $pth['folder']['plugins'] . 'chat/data/';
-        } else {
-            $fn = $pth['folder']['base'] . $pcf['folder_data'];
-        }
-        if (substr($fn, -1) != '/') {
-            $fn .= '/';
-        }
-        if (file_exists($fn)) {
-            if (!is_dir($fn)) {
-                e('cntopen', 'folder', $fn);
-            }
-        } else {
-            if (mkdir($fn, 0777, true)) {
-                chmod($fn, 0777);
-            } else {
-                e('cntwriteto', 'folder', $fn);
-            }
-        }
-        return $fn;
-    }
-
-    /**
-     * Returns the path of a chat room data file.
-     *
-     * @param string $room A chat room name.
-     *
-     * @return string
-     */
-    protected function dataFile($room)
-    {
-        return $this->dataFolder() . $room . '.dat';
     }
 
     /**
@@ -309,13 +268,13 @@ class Chat_Controller
     /**
      * Appends the posted message to the data file.
      *
-     * @param string $room A chat room name.
+     * @param Chat_Room $room A chat room.
      *
      * @return void
      *
      * @todo Handle Ajax submission errors.
      */
-    protected function appendMessage($room)
+    protected function appendMessage(Chat_Room $room)
     {
         if (empty($_POST['chat_message'])) {
             return;
@@ -324,14 +283,8 @@ class Chat_Controller
         $entry->setTimestamp(time());
         $entry->setUsername($this->currentUser());
         $entry->setMessage(stsl($_POST['chat_message']));
-        $fn = $this->dataFile($room);
-        if (($fp = fopen($fn, 'a')) === false
-            || fwrite($fp, $entry->getLine() . PHP_EOL) === false
-        ) {
+        if (!$room->appendEntry($entry)) {
             e('cntwriteto', 'file', $fn);
-        }
-        if ($fp !== false) {
-            fclose($fp);
         }
     }
 
@@ -375,44 +328,20 @@ class Chat_Controller
     /**
      * Returns the view of the history of a chat room.
      *
-     * @param string $room A chat room name.
+     * @param Chat_Room $room A chat room.
      *
      * @return string (X)HTML.
-     *
-     * @global array The configuration of the plugins.
      */
-    protected function messagesView($room)
+    protected function messagesView(Chat_Room $room)
     {
-        global $plugin_cf;
-
-        $pcf = $plugin_cf['chat'];
-        $fn = $this->dataFile($room);
-        $currentTime = time();
-        $messages = array();
-        if (file_exists($fn)
-            && ($lines = file($fn)) !== false
-        ) {
-            foreach ($lines as $line) {
-                if (!empty($line)) {
-                    $entry = Chat_Entry::makeFromLine(rtrim($line));
-                    // The following if clause allows to hide messages,
-                    // that are older than interval_purge.
-                    //if (!$pcf['interval_purge']
-                    //    || $currentTime <= $time + $pcf['interval_purge'])
-                    //{
-                    $messages[] = $this->message($entry);
-                    //}
-                }
-            }
-        }
-        $bag = array('messages' => $messages);
-        return $this->view('messages', $bag);
+        $messages = array_map(array($this, 'message'), $room->findEntries());
+        return $this->view('messages', compact('messages'));
     }
 
     /**
      * Returns the complete view of the chat room.
      *
-     * @param string $room A chat room name.
+     * @param Chat_Room $room A chat room.
      *
      * @return string (X)HTML.
      *
@@ -420,45 +349,23 @@ class Chat_Controller
      * @global string The URL of the requested page.
      * @global array  The localization of the plugins.
      */
-    protected function mainView($room)
+    protected function mainView(Chat_Room $room)
     {
         global $sn, $su, $plugin_tx;
 
-        $url = "$sn?$su&amp;chat_room=$room";
+        $url = "$sn?$su&amp;chat_room=" . $room->getName();
         $inputs = tag('input type="text" name="chat_message"');
         $inputs .= tag(
             'input type="submit" class="submit" value="'
             . $plugin_tx['chat']['label_send'] . '"'
         );
         $bag = array(
-            'room' => $room,
+            'room' => $room->getName(),
             'inputs' => $inputs,
             'url' => $url,
             'messages' => $this->messagesView($room)
         );
         return $this->view('chat', $bag);
-    }
-
-    /**
-     * Purges a chat room file after inactive interval has elapsed.
-     *
-     * @param string $room A chat room name.
-     *
-     * @return void
-     *
-     * @global array The configuration of the plugins.
-     */
-    protected function purge($room)
-    {
-        global $plugin_cf;
-
-        $fn = $this->dataFile($room);
-        if (file_exists($fn)
-            && $plugin_cf['chat']['interval_purge']
-            && time() > filemtime($fn) + $plugin_cf['chat']['interval_purge']
-        ) {
-            unlink($fn);
-        }
     }
 
     /**

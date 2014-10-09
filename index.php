@@ -31,6 +31,7 @@ EOT
 }
 
 require_once $pth['folder']['plugin_classes'] . 'Entry.php';
+require_once $pth['folder']['plugin_classes'] . 'Room.php';
 
 /**
  * The chat controllers.
