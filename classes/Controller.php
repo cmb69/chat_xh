@@ -255,7 +255,7 @@ class Chat_Controller
         $url = $sn . '?' . $su;
         $interval = max(1000 * intval($plugin_cf['chat']['interval_poll']), 1);
         $o .= '<script type="text/javascript">'
-            . "new Chat('$room', '$url', $interval);"
+            . "new CHAT.Widget('$room', '$url', $interval);"
             . "</script>\n";
         if (isset($bjs)) {
             $bjs .= $o;
