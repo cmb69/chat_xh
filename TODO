@@ -1,5 +1,4 @@
 * autoloading
-
 * move creation of chat widgets to chat.js
 * advisory chat (bca; email)
 * chatters online (inspired/suggested by bca)
