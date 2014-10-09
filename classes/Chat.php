@@ -320,11 +320,13 @@ class Chat
         if (empty($_POST['chat_message'])) {
             return;
         }
-        $rec = array(time(), $this->currentUser(), stsl($_POST['chat_message']));
-        $line = implode("\t", $rec) . "\n";
+        $entry = new Chat_Entry();
+        $entry->setTimestamp(time());
+        $entry->setUsername($this->currentUser());
+        $entry->setMessage(stsl($_POST['chat_message']));
         $fn = $this->dataFile($room);
         if (($fp = fopen($fn, 'a')) === false
-            || fwrite($fp, $line) === false
+            || fwrite($fp, $entry->getLine()) === false
         ) {
             e('cntwriteto', 'file', $fn);
         }
@@ -336,38 +338,37 @@ class Chat
     /**
      * Returns a message prepared as bag for the view.
      *
-     * @param int    $time The timestamp of the message.
-     * @param string $user The user name.
-     * @param string $msg  The message text.
+     * @param Chat_Entry $entry A chat entry.
      *
      * @return array
      *
      * @global array The localization of the plugins.
      */
-    protected function message($time, $user, $msg)
+    protected function message(Chat_Entry $entry)
     {
         global $plugin_tx;
 
         $ptx = $plugin_tx['chat'];
-        if (!$user) {
+        if (!$entry->getUsername()) {
             $user = $ptx['user_unknown'];
             $class = '';
-        } elseif ($user == $this->currentUser()) {
+        } elseif ($entry->getUsername() == $this->currentUser()) {
             $user = $ptx['user_self'];
             $class = 'chat_self';
         } else {
+            $user = $entry->getUsername();
             $class = '';
         }
         $trans = array(
             '{USER}' => $user,
-            '{DATE}' => date($ptx['format_date'], $time),
-            '{TIME}' => date($ptx['format_time'], $time)
+            '{DATE}' => date($ptx['format_date'], $entry->getTimestamp()),
+            '{TIME}' => date($ptx['format_time'], $entry->getTimestamp())
         );
         $user = strtr($ptx['format_user'], $trans);
         return array(
             'class' => $class,
             'user' => $user,
-            'text' => XH_hsc($msg)
+            'text' => XH_hsc($entry->getMessage())
         );
     }
 
@@ -393,13 +394,13 @@ class Chat
         ) {
             foreach ($lines as $line) {
                 if (!empty($line)) {
-                    list($time, $user, $msg) = explode("\t", rtrim($line), 3);
+                    $entry = Chat_Entry::makeFromLine(rtrim($line));
                     // The following if clause allows to hide messages,
                     // that are older than interval_purge.
                     //if (!$pcf['interval_purge']
                     //    || $currentTime <= $time + $pcf['interval_purge'])
                     //{
-                    $messages[] = $this->message($time, $user, $msg);
+                    $messages[] = $this->message($entry);
                     //}
                 }
             }

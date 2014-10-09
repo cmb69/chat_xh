@@ -30,6 +30,8 @@ EOT
     );
 }
 
+require_once $pth['folder']['plugin_classes'] . 'Entry.php';
+
 /**
  * The chat class.
  */
