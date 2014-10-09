@@ -1,4 +1,3 @@
-* update composer.json
 * rename Chat to Chat_Controller
 * revise manuals
 * add unit tests and refactor
