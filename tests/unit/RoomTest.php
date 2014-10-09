@@ -138,7 +138,7 @@ class RoomTest extends PHPUnit_Framework_TestCase
     {
         $entry = $this->getMock('Chat_Entry');
         $this->subject->appendEntry($entry);
-        $this->assertFileExists(vfsStream::url('test/foo.dat'));
+        $this->assertFileExists(vfsStream::url('test/foo.csv'));
     }
 
     /**
@@ -151,7 +151,7 @@ class RoomTest extends PHPUnit_Framework_TestCase
         $entry = $this->getMock('Chat_Entry');
         $this->subject->appendEntry($entry);
         $this->subject->purge();
-        $this->assertFileNotExists(vfsStream::url('test/foo.dat'));
+        $this->assertFileNotExists(vfsStream::url('test/foo.csv'));
     }
 }
 

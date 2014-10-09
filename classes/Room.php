@@ -107,7 +107,7 @@ class Chat_Room
      */
     protected function getFilename()
     {
-        return self::dataFolder() . $this->name . '.dat';
+        return self::dataFolder() . $this->name . '.csv';
     }
 
     /**
