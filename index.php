@@ -33,9 +33,9 @@ EOT
 require_once $pth['folder']['plugin_classes'] . 'Entry.php';
 
 /**
- * The chat class.
+ * The chat controllers.
  */
-require_once $pth['folder']['plugin_classes'] . 'Chat.php';
+require_once $pth['folder']['plugin_classes'] . 'Controller.php';
 
 /**
  * The version of the plugin.
@@ -43,11 +43,11 @@ require_once $pth['folder']['plugin_classes'] . 'Chat.php';
 define('CHAT_VERSION', '@CHAT_VERSION@');
 
 /**
- * The chat object.
+ * The chat controller.
  *
  * @var Chat
  */
-$_Chat = new Chat();
+$_Chat_controller = new Chat_Controller();
 
 /**
  * Handles the chat room and returns its view.
@@ -56,15 +56,15 @@ $_Chat = new Chat();
  *
  * @return string (X)HTML.
  *
- * @global Chat The chat object.
+ * @global Chat The chat controller.
  */
 function chat($room)
 {
-    global $_Chat;
+    global $_Chat_controller;
 
-    return $_Chat->main($room);
+    return $_Chat_controller->main($room);
 }
 
-$_Chat->dispatch();
+$_Chat_controller->dispatch();
 
 ?>

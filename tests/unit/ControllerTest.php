@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Testing the chat class.
+ * Testing the chat controllers.
  *
  * PHP version 5
  *
@@ -17,10 +17,10 @@
 require_once './vendor/autoload.php';
 require_once '../../cmsimple/functions.php';
 require_once '../../cmsimple/adminfuncs.php';
-require_once './classes/Chat.php';
+require_once './classes/Controller.php';
 
 /**
- * Testing the chat class.
+ * Testing the chat controllers.
  *
  * @category Testing
  * @package  Chat
@@ -28,12 +28,12 @@ require_once './classes/Chat.php';
  * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
  * @link     http://3-magi.net/?CMSimple_XH/Chat_XH
  */
-class ChatTest extends PHPUnit_Framework_TestCase
+class ControllerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * The test subject.
      *
-     * @var Chat
+     * @var Chat_Controller
      */
     protected $subject;
 
@@ -45,7 +45,7 @@ class ChatTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->defineConstant('XH_ADM', true);
-        $this->subject = new Chat();
+        $this->subject = new Chat_Controller();
         $this->rspmiMock = new PHPUnit_Extensions_MockFunction(
             'XH_registerStandardPluginMenuItems', $this->subject
         );

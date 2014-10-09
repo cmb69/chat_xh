@@ -1,7 +1,7 @@
 <?php
 
 /**
- * The chat class.
+ * The chat controllers.
  *
  * PHP version 5
  *
@@ -15,7 +15,7 @@
  */
 
 /**
- * The chat class.
+ * The chat controllers.
  *
  * @category CMSimple_XH
  * @package  Chat
@@ -23,7 +23,7 @@
  * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
  * @link     http://3-magi.net/?CMSimple_XH/Chat_XH
  */
-class Chat
+class Chat_Controller
 {
     /**
      * Dispatches on plugin related requests.
@@ -326,7 +326,7 @@ class Chat
         $entry->setMessage(stsl($_POST['chat_message']));
         $fn = $this->dataFile($room);
         if (($fp = fopen($fn, 'a')) === false
-            || fwrite($fp, $entry->getLine()) === false
+            || fwrite($fp, $entry->getLine() . PHP_EOL) === false
         ) {
             e('cntwriteto', 'file', $fn);
         }

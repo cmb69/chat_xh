@@ -1,4 +1,3 @@
-* rename Chat to Chat_Controller
 * revise manuals
 * add unit tests and refactor
 * change data file extensions (these are not binary)
