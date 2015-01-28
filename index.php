@@ -30,21 +30,6 @@ EOT
 }
 
 /**
- * The chat entries.
- */
-require_once $pth['folder']['plugin_classes'] . 'Entry.php';
-
-/**
- * The chat rooms.
- */
-require_once $pth['folder']['plugin_classes'] . 'Room.php';
-
-/**
- * The chat controllers.
- */
-require_once $pth['folder']['plugin_classes'] . 'Controller.php';
-
-/**
  * The version of the plugin.
  */
 define('CHAT_VERSION', '@CHAT_VERSION@');
