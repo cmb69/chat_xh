@@ -75,7 +75,7 @@ class ControllerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * (Re)defines a constant.
+     * Defines or redefines a constant.
      *
      * @param string $name  A name.
      * @param string $value A value.
