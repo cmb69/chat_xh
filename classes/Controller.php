@@ -31,7 +31,7 @@ class Chat_Controller
      */
     public function dispatch()
     {
-        if (XH_ADM) {
+        if (defined('XH_ADM') && XH_ADM) {
             if (function_exists('XH_registerStandardPluginMenuItems')) {
                 XH_registerStandardPluginMenuItems(false);
             }
@@ -137,7 +137,7 @@ class Chat_Controller
                 'fail',
                 sprintf(
                     $plugin_tx['chat']['error_not_writable'],
-                    XH_ADM ? $room->getFilename() : ''
+                    defined('XH_ADM') && XH_ADM ? $room->getFilename() : ''
                 )
             );
         }
