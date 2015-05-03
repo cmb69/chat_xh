@@ -24,7 +24,6 @@ $plugin_tx['chat']['syscheck_magic_quotes']="Magic quotes runtime off";
 $plugin_tx['chat']['syscheck_writable']="Folder '%s' writable";
 $plugin_tx['chat']['syscheck_xhversion']="CMSimple_XH version &ge; %s";
 
-$plugin_tx['chat']['cf_folder_data']="Path of a folder relative to the CMSimple_XH root directory, where to store the plugin's data. E.g. \"userfiles/chat/\". Leave empty to store into the plugin's data/ folder.";
 $plugin_tx['chat']['cf_format_date']="The format of the date when used as {DATE} in \"format user\" (see http://php.net/manual/en/function.date.php).";
 $plugin_tx['chat']['cf_format_time']="The format of the time when used as {TIME} in \"format user\" (see http://php.net/manual/en/function.date.php).";
 $plugin_tx['chat']['cf_format_user']="The format of the username in the message. The following placeholders are allowed: {USER} (the name of the user), {DATE} (the date of posting) and {TIME} (the time of posting). E.g.: \"{USER} wrote on {DATE} at {TIME}: \"";

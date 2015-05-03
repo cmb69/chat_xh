@@ -37,24 +37,12 @@ class Chat_Room
      * @return string
      *
      * @global array The paths of system files and folders.
-     * @global array The configuration of the plugins.
-     *
-     * @todo Use content/ folder.
      */
     public static function dataFolder()
     {
-        global $pth, $plugin_cf;
+        global $pth;
 
-        $pcf = $plugin_cf['chat'];
-
-        if ($pcf['folder_data'] == '') {
-            $filename = $pth['folder']['plugins'] . 'chat/data/';
-        } else {
-            $filename = $pth['folder']['base'] . $pcf['folder_data'];
-        }
-        if (substr($filename, -1) != '/') {
-            $filename .= '/';
-        }
+        $filename = $pth['folder']['content'] . 'chat/';
         if (!file_exists($filename)) {
             if (mkdir($filename, 0777, true)) {
                 chmod($filename, 0777);
