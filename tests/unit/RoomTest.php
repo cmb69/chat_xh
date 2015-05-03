@@ -51,10 +51,10 @@ class RoomTest extends PHPUnit_Framework_TestCase
         global $pth, $plugin_cf;
 
         vfsStreamWrapper::register();
-        vfsStreamWrapper::setRoot(new vfsStreamDirectory('test'));
-        $pth = ['folder' => ['base' => vfsStream::url('')]];
+        vfsStreamWrapper::setRoot(new vfsStreamDirectory('chat'));
+        $pth = ['folder' => ['content' => vfsStream::url('')]];
         $plugin_cf = [
-            'chat' => ['folder_data' => 'test', 'interval_purge' => 3600]
+            'chat' => ['interval_purge' => 3600]
         ];
         $this->subject = new Chat_Room('foo');
         $this->makeEntryFromLineMock = new PHPUnit_Extensions_MockStaticMethod(
@@ -69,7 +69,7 @@ class RoomTest extends PHPUnit_Framework_TestCase
      */
     public function testDataFolder()
     {
-        $this->assertEquals(vfsStream::url('test/'), Chat_Room::dataFolder());
+        $this->assertEquals(vfsStream::url('chat/'), Chat_Room::dataFolder());
     }
 
     /**
@@ -136,7 +136,7 @@ class RoomTest extends PHPUnit_Framework_TestCase
     {
         $entry = $this->getMock('Chat_Entry');
         $this->subject->appendEntry($entry);
-        $this->assertFileExists(vfsStream::url('test/foo.csv'));
+        $this->assertFileExists(vfsStream::url('chat/foo.csv'));
     }
 
     /**
@@ -149,7 +149,7 @@ class RoomTest extends PHPUnit_Framework_TestCase
         $entry = $this->getMock('Chat_Entry');
         $this->subject->appendEntry($entry);
         $this->subject->purge();
-        $this->assertFileNotExists(vfsStream::url('test/foo.csv'));
+        $this->assertFileNotExists(vfsStream::url('chat/foo.csv'));
     }
 }
 
