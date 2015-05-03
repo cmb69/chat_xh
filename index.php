@@ -19,28 +19,19 @@
 define('CHAT_VERSION', '@CHAT_VERSION@');
 
 /**
- * The chat controller.
- *
- * @var Chat
- */
-$_Chat_controller = new Chat_Controller();
-
-/**
  * Handles the chat room and returns its view.
  *
  * @param string $room A chat room name.
  *
  * @return string (X)HTML.
- *
- * @global Chat The chat controller.
  */
 function chat($room)
 {
-    global $_Chat_controller;
-
-    return $_Chat_controller->main($room);
+    $controller = new Chat_RoomController();
+    return $controller->handle($room);
 }
 
-$_Chat_controller->dispatch();
+$temp = new Chat_Controller();
+$temp->dispatch();
 
 ?>

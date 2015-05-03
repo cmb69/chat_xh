@@ -55,9 +55,6 @@ class ControllerTest extends PHPUnit_Framework_TestCase
         $this->rspmiMock = new PHPUnit_Extensions_MockFunction(
             'XH_registerStandardPluginMenuItems', $this->subject
         );
-        $this->messageMock = new PHPUnit_Extensions_MockFunction(
-            'XH_message', $this->subject
-        );
     }
 
     /**
@@ -69,18 +66,6 @@ class ControllerTest extends PHPUnit_Framework_TestCase
     {
         $this->rspmiMock->expects($this->once())->with(false);
         $this->subject->dispatch();
-    }
-
-    /**
-     * Tests that an invalid room name returns a failure message.
-     *
-     * @return void
-     */
-    public function testInvalidRoomNameReturnsFailureMessage()
-    {
-        $this->messageMock->expects($this->once())->with($this->equalTo('fail'));
-        $this->subject->main('te$t');
-
     }
 
     /**
