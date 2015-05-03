@@ -14,8 +14,7 @@
  */
 
 require_once './vendor/autoload.php';
-require_once './classes/Entry.php';
-require_once './classes/Room.php';
+require_once './classes/required_classes.php';
 
 use org\bovigo\vfs\vfsStreamWrapper;
 use org\bovigo\vfs\vfsStreamDirectory;

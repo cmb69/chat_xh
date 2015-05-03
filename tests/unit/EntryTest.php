@@ -14,7 +14,7 @@
  */
 
 require_once './vendor/autoload.php';
-require_once './classes/Entry.php';
+require_once './classes/required_classes.php';
 
 /**
  * Testing the chat class.
