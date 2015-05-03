@@ -7,13 +7,6 @@
  * @link      http://3-magi.net/?CMSimple_XH/Chat_XH
  */
 
-/**
- * The plugin namespace.
- *
- * @namespace
- */
-var CHAT = CHAT || {};
-
 (function () {
     "use strict";
 
@@ -106,4 +99,35 @@ var CHAT = CHAT || {};
         request.send("chat_message=" + window.encodeURIComponent(msg));
         return false;
     };
+
+    function onload(listener) {
+        if (typeof window.addEventListener !== "undefined") {
+            window.addEventListener("load", listener, false);
+        } else if (typeof window.attachEvent !== "undefined") {
+            window.attachEvent("onload", listener);
+        }
+    }
+
+    function doForEach(className, func) {
+        var elements, i, n;
+
+        if (typeof document.getElementsByClassName != "undefined") {
+            elements = document.getElementsByClassName(className);
+        } else if (typeof document.querySelectorAll != "undefined") {
+            elements = document.querySelectorAll("." + className);
+        } else {
+            elements = [];
+        }
+        for (i = 0, n = elements.length; i < n; i++) {
+            func(elements[i]);
+        }
+    }
+
+    onload(function () {
+        doForEach("chat_room", function (element) {
+            var room = element.id.substr(("chat_room_").length);
+
+            new CHAT.Widget(room, CHAT.config.url, CHAT.config.interval);
+        });
+    });
 }());

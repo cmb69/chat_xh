@@ -137,8 +137,6 @@ class Chat_RoomController extends Chat_AbstractController
      * @global array  The configuration of the plugins.
      *
      * @staticvar bool $again Whether the scripts have already been written.
-     *
-     * @todo Instantiate chat widgets in JS file.
      */
     protected function emitJS($room)
     {
@@ -146,15 +144,16 @@ class Chat_RoomController extends Chat_AbstractController
         static $again = false;
 
         if (!$again) {
-            $bjs .= '<script type="text/javascript" src="'
-                . $pth['folder']['plugins'] . 'chat/chat.js"></script>' . "\n";
             $again = true;
+            $config = array(
+                'url' => $sn . '?' . $su,
+                'interval' => max(1000 * $plugin_cf['chat']['interval_poll'], 1)
+            );
+            $bjs .= '<script type="text/javascript">var CHAT = {config: '
+                . json_encode($config) . '};</script>'
+                . '<script type="text/javascript" src="'
+                . $pth['folder']['plugins'] . 'chat/chat.js"></script>' . "\n";
         }
-        $url = $sn . '?' . $su;
-        $interval = max(1000 * intval($plugin_cf['chat']['interval_poll']), 1);
-        $bjs .= '<script type="text/javascript">'
-            . "new CHAT.Widget('$room', '$url', $interval);"
-            . "</script>\n";
     }
 
     /**
