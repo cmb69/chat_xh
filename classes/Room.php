@@ -38,6 +38,8 @@ class Chat_Room
      *
      * @global array The paths of system files and folders.
      * @global array The configuration of the plugins.
+     *
+     * @todo Use content/ folder.
      */
     public static function dataFolder()
     {
@@ -169,21 +171,14 @@ class Chat_Room
      *
      * @param Chat_Entry $entry A chat entry.
      *
-     * @return void
+     * @return bool
      */
     public function appendEntry(Chat_Entry $entry)
     {
-        $okay = true;
         $filename = $this->getFilename();
-        if (($file = fopen($filename, 'a')) === false
-            || fwrite($file, $entry->getLine() . PHP_EOL) === false
-        ) {
-            $okay = false;
-        }
-        if ($file !== false) {
-            fclose($file);
-        }
-        return $okay;
+        return (bool) file_put_contents(
+            $filename, $entry->getLine() . PHP_EOL, FILE_APPEND
+        );
     }
 }
 

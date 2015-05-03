@@ -53,7 +53,8 @@ class Chat_RoomController extends Chat_AbstractController
         if (isset($_GET['chat_room']) && $_GET['chat_room'] == $room->getName()) {
             $this->appendMessage($room);
         }
-        return $this->mainView($room) . $this->emitJS($roomname);
+        $this->emitJS($roomname);
+        return $this->mainView($room);
     }
 
     /**
@@ -136,29 +137,24 @@ class Chat_RoomController extends Chat_AbstractController
      * @global array  The configuration of the plugins.
      *
      * @staticvar bool $again Whether the scripts have already been written.
+     *
+     * @todo Instantiate chat widgets in JS file.
      */
     protected function emitJS($room)
     {
         global $pth, $sn, $su, $bjs, $plugin_cf;
         static $again = false;
 
-        $o = '';
         if (!$again) {
-            $o .= '<script type="text/javascript" src="' . $pth['folder']['plugins']
-                . 'chat/chat.js"></script>' . "\n";
+            $bjs .= '<script type="text/javascript" src="'
+                . $pth['folder']['plugins'] . 'chat/chat.js"></script>' . "\n";
             $again = true;
         }
         $url = $sn . '?' . $su;
         $interval = max(1000 * intval($plugin_cf['chat']['interval_poll']), 1);
-        $o .= '<script type="text/javascript">'
+        $bjs .= '<script type="text/javascript">'
             . "new CHAT.Widget('$room', '$url', $interval);"
             . "</script>\n";
-        if (isset($bjs)) {
-            $bjs .= $o;
-            return '';
-        } else {
-            return $o;
-        }
     }
 
     /**
