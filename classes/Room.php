@@ -104,7 +104,7 @@ class Chat_Room
      *
      * @return string
      */
-    protected function getFilename()
+    public function getFilename()
     {
         return self::dataFolder() . $this->name . '.csv';
     }

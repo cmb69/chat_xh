@@ -283,7 +283,7 @@ class Chat_Controller
         $entry->setUsername($this->currentUser());
         $entry->setMessage(stsl($_POST['chat_message']));
         if (!$room->appendEntry($entry)) {
-            e('cntwriteto', 'file', $fn);
+            e('cntwriteto', 'file', $room->getFilename());
         }
     }
 
