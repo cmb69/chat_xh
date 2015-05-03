@@ -37,6 +37,13 @@ class ControllerTest extends PHPUnit_Framework_TestCase
     protected $subject;
 
     /**
+     * The XH_registerStandardPluginMenuItems mock.
+     *
+     * @var object
+     */
+    protected $rspmiMock;
+
+    /**
      * Sets up the test fixture.
      *
      * @return void
@@ -47,6 +54,9 @@ class ControllerTest extends PHPUnit_Framework_TestCase
         $this->subject = new Chat_Controller();
         $this->rspmiMock = new PHPUnit_Extensions_MockFunction(
             'XH_registerStandardPluginMenuItems', $this->subject
+        );
+        $this->messageMock = new PHPUnit_Extensions_MockFunction(
+            'XH_message', $this->subject
         );
     }
 
@@ -62,13 +72,14 @@ class ControllerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests that an invalid room name returns nothing.
+     * Tests that an invalid room name returns a failure message.
      *
      * @return void
      */
-    public function testInvalidRoomNameReturnsNothing()
+    public function testInvalidRoomNameReturnsFailureMessage()
     {
-        $this->assertEmpty($this->subject->main('te$t'));
+        $this->messageMock->expects($this->once())->with($this->equalTo('fail'));
+        $this->subject->main('te$t');
 
     }
 

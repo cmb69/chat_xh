@@ -12,13 +12,14 @@ $plugin_tx['chat']['label_send']="Senden";
 $plugin_tx['chat']['alt_logo']="Sprechblasen";
 
 $plugin_tx['chat']['error_room_name']="Ungültiger Chatraum-Name: darf nur Kleinbuchstaben (a-z), Ziffern (0-9) und Bindestriche enthalten.";
+$plugin_tx['chat']['error_not_writable']="Chatraum %s ist nicht schreibbar!";
 
 $plugin_tx['chat']['syscheck_title']="Systemprüfung";
 $plugin_tx['chat']['syscheck_phpversion']="PHP-Version ≥ %s";
 $plugin_tx['chat']['syscheck_extension']="Erweiterung '%s' geladen";
 $plugin_tx['chat']['syscheck_encoding']="UTF-8 Kodierung eingestellt";
 $plugin_tx['chat']['syscheck_magic_quotes']="Magic quotes runtime off";
-$plugin_tx['chat']['syscheck_writable']="Ordner '%s' beschreibbar";
+$plugin_tx['chat']['syscheck_writable']="Ordner '%s' schreibbar";
 
 $plugin_tx['chat']['cf_folder_data']="Pfad eines Ordners relativ zum CMSimple_XH Installationsverzeichnis, wo die Plugindaten gespeichert werden sollen. Z.B. \"userfiles/chat/\". Leer lassen, um im data/ Ordner des Plugins zu speichern.";
 $plugin_tx['chat']['cf_format_date']="Das Datumsformat wenn {DATE} in \"format user\" verwendet wird (siehe http://php.net/manual/de/function.date.php).";

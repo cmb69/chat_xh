@@ -53,15 +53,9 @@ class Chat_Room
         if (substr($filename, -1) != '/') {
             $filename .= '/';
         }
-        if (file_exists($filename)) {
-            if (!is_dir($filename)) {
-                e('cntopen', 'folder', $filename);
-            }
-        } else {
+        if (!file_exists($filename)) {
             if (mkdir($filename, 0777, true)) {
                 chmod($filename, 0777);
-            } else {
-                e('cntwriteto', 'folder', $filename);
             }
         }
         return $filename;
@@ -107,6 +101,18 @@ class Chat_Room
     public function getFilename()
     {
         return self::dataFolder() . $this->name . '.csv';
+    }
+
+    /**
+     * Returns whether the chat room data file is writable.
+     *
+     * @return bool
+     */
+    public function isWritable()
+    {
+        $filename = $this->getFilename();
+        return is_writable($filename) ||
+            !file_exists($filename) && is_writable(dirname($filename));
     }
 
     /**

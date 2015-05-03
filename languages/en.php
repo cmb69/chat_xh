@@ -12,6 +12,7 @@ $plugin_tx['chat']['label_send']="Send";
 $plugin_tx['chat']['alt_logo']="Speech bubbles";
 
 $plugin_tx['chat']['error_room_name']="Invalid chat room name: may contain only lowercase alphanumeric letters (a-z and 0-9) and hyphens.";
+$plugin_tx['chat']['error_not_writable']="Chat room %s is not writable!";
 
 $plugin_tx['chat']['syscheck_title']="System check";
 $plugin_tx['chat']['syscheck_phpversion']="PHP version ≥ %s";

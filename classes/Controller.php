@@ -156,19 +156,25 @@ class Chat_Controller
      *
      * @return string (X)HTML.
      *
-     * @global string The error messages.
      * @global array  The localization of the plugins.
      */
     public function main($roomname)
     {
-        global $e, $plugin_tx;
+        global $plugin_tx;
 
         if (!Chat_Room::isValidName($roomname)) {
-            $e .= '<li><strong>' . $plugin_tx['chat']['error_room_name']
-                . '</strong></li>';
-            return false;
+            return XH_message('fail', $plugin_tx['chat']['error_room_name']);
         }
         $room = new Chat_Room($roomname);
+        if (!$room->isWritable()) {
+            return XH_message(
+                'fail',
+                sprintf(
+                    $plugin_tx['chat']['error_not_writable'],
+                    XH_ADM ? $room->getFilename() : ''
+                )
+            );
+        }
         if (isset($_GET['chat_ajax']) && $_GET['chat_room'] == $room->getName()) {
             $this->handleAjaxRequest($room);
         }
@@ -282,9 +288,7 @@ class Chat_Controller
         $entry->setTimestamp(time());
         $entry->setUsername($this->currentUser());
         $entry->setMessage(stsl($_POST['chat_message']));
-        if (!$room->appendEntry($entry)) {
-            e('cntwriteto', 'file', $room->getFilename());
-        }
+        $room->appendEntry($entry);
     }
 
     /**
