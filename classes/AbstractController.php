@@ -40,7 +40,7 @@ class Chat_AbstractController
 
         extract($bag);
         ob_start();
-        include $pth['folder']['plugins'] . 'chat/views/' . $template . '.htm';
+        include $pth['folder']['plugins'] . 'chat/views/' . $template . '.php';
         return ob_get_clean();
     }
 }
