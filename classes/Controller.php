@@ -117,7 +117,7 @@ class Chat_Controller
     {
         global $pth, $tx, $plugin_tx;
 
-        $phpVersion = '4.3.0';
+        $phpVersion = '5.1.2';
         $ptx = $plugin_tx['chat'];
         $imgdir = $pth['folder']['plugins'] . 'chat/images/';
         $ok = tag('img src="' . $imgdir . 'ok.png" alt="ok"');
