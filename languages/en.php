@@ -15,11 +15,14 @@ $plugin_tx['chat']['error_room_name']="Invalid chat room name: may contain only 
 $plugin_tx['chat']['error_not_writable']="Chat room %s is not writable!";
 
 $plugin_tx['chat']['syscheck_title']="System check";
+$plugin_tx['chat']['syscheck_alt_ok']="OK";
+$plugin_tx['chat']['syscheck_alt_warn']="Warning";
+$plugin_tx['chat']['syscheck_alt_fail']="Failure";
 $plugin_tx['chat']['syscheck_phpversion']="PHP version ≥ %s";
 $plugin_tx['chat']['syscheck_extension']="Extension '%s' loaded";
-$plugin_tx['chat']['syscheck_encoding']="Encoding 'UTF-8' configured";
 $plugin_tx['chat']['syscheck_magic_quotes']="Magic quotes runtime off";
 $plugin_tx['chat']['syscheck_writable']="Folder '%s' writable";
+$plugin_tx['chat']['syscheck_xhversion']="CMSimple_XH version &ge; %s";
 
 $plugin_tx['chat']['cf_folder_data']="Path of a folder relative to the CMSimple_XH root directory, where to store the plugin's data. E.g. \"userfiles/chat/\". Leave empty to store into the plugin's data/ folder.";
 $plugin_tx['chat']['cf_format_date']="The format of the date when used as {DATE} in \"format user\" (see http://php.net/manual/en/function.date.php).";

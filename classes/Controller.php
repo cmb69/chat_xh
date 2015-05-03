@@ -108,45 +108,11 @@ class Chat_Controller
      * Returns the requirements information view.
      *
      * @return string (X)HTML.
-     *
-     * @global array The paths of system files and folders.
-     * @global array The localization of the core.
-     * @global array The localization of the plugins.
      */
     protected function systemCheck()
     {
-        global $pth, $tx, $plugin_tx;
-
-        $phpVersion = '5.1.2';
-        $ptx = $plugin_tx['chat'];
-        $imgdir = $pth['folder']['plugins'] . 'chat/images/';
-        $ok = tag('img src="' . $imgdir . 'ok.png" alt="ok"');
-        $warn = tag('img src="' . $imgdir . 'warn.png" alt="warning"');
-        $fail = tag('img src="' . $imgdir . 'fail.png" alt="failure"');
-        $o = '<h4>' . $ptx['syscheck_title'] . '</h4>'
-            . (version_compare(PHP_VERSION, $phpVersion) >= 0 ? $ok : $fail)
-            . '&nbsp;&nbsp;' . sprintf($ptx['syscheck_phpversion'], $phpVersion)
-            . tag('br');
-        foreach (array('pcre', 'session') as $ext) {
-            $o .= (extension_loaded($ext) ? $ok : $fail)
-                . '&nbsp;&nbsp;' . sprintf($ptx['syscheck_extension'], $ext)
-                . tag('br');
-        }
-        $o .= (!get_magic_quotes_runtime() ? $ok : $fail)
-            . '&nbsp;&nbsp;' . $ptx['syscheck_magic_quotes'] . tag('br');
-        $o .= tag('br')
-            . (strtoupper($tx['meta']['codepage']) == 'UTF-8' ? $ok : $warn)
-            . '&nbsp;&nbsp;' . $ptx['syscheck_encoding'] . tag('br');
-        foreach (array('config/', 'css/', 'languages/') as $folder) {
-            $folders[] = $pth['folder']['plugins'] . 'chat/' . $folder;
-        }
-        $folders[] = Chat_Room::dataFolder();
-        foreach ($folders as $folder) {
-            $o .= (is_writable($folder) ? $ok : $warn)
-                . '&nbsp;&nbsp;' . sprintf($ptx['syscheck_writable'], $folder)
-                . tag('br');
-        }
-        return $o;
+        $check = new Chat_SystemCheck();
+        return $check->render();
     }
 
     /**
