@@ -1,3 +1,11 @@
+Version 1.0rc1 - released 2015-05-05
+* lifted requirements to PHP 5.1.2
+* changed data folder to content/ and removed respective config option
+* changed file extensions of view files from .htm to .php
+* increased default poll interval to 12 seconds
+* added optional parameter for the purge interval (sugg. by snafu)
+* improved error handling
+
 Version 1.0beta3 - released 2014-10-09
 * secured access to chat rooms
 * fixed potential bug, where Ajax responses didn't have an Content-Type header
