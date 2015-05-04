@@ -1,6 +1,6 @@
 
 <!-- Chat_XH: begin of chat room -->
-<div id="chat_room_<?php echo $room;?>" class="chat_room">
+<div class="chat_room" data-chat-room="<?php echo $room?>">
     <div id="chat_room_<?php echo $room;?>_messages" class="chat_messages">
 	<?php echo $messages;?>
     </div>

@@ -1,105 +1,46 @@
-/**
- * JavaScript of Chat_XH.
+/*!
+ * Chat_XH.
  *
- * @package   Chat
  * @copyright Copyright (c) 2012-2015 Christoph M. Becker <http://3-magi.net/>
  * @license   http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
- * @link      http://3-magi.net/?CMSimple_XH/Chat_XH
  */
+
+/*jslint browser: true, maxlen: 80*/
+/*global CHAT*/
 
 (function () {
     "use strict";
 
     /**
-     * A chat room.
+     * Calls a function for each element with the given class.
      *
-     * @constructor
+     * @param {string}   className A class name.
+     * @param {function} func      A callback function.
      *
-     * @param {String} room     The name of the chat room.
-     * @param {String} base     The base URL for Ajax requests.
-     * @param {Number} interval The polling interval in sec.
+     * @returns {undefined}
      */
-    CHAT.Widget = function (room, base, interval) {
-        var that = this;
+    function doForEach(className, func) {
+        var elements, i, n;
 
-        this.room = room;
-        this.url = base + "&chat_room=" + this.room + "&chat_ajax=";
-        this.container = document.getElementById("chat_room_" + room);
-        this.messages = document.getElementById(
-            "chat_room_" + room + "_messages"
-        );
-        this.form = document.getElementById("chat_room_" + room + "_form");
-        this.scrollDown();
-        if (typeof window.XMLHttpRequest !== "undefined") {
-            this.form.onsubmit = function () {
-                return that.submit();
-            };
-            setInterval(function () {
-                that.poll();
-            }, interval);
+        if (typeof document.getElementsByClassName !== "undefined") {
+            elements = document.getElementsByClassName(className);
+        } else if (typeof document.querySelectorAll !== "undefined") {
+            elements = document.querySelectorAll("." + className);
+        } else {
+            elements = [];
         }
-    };
+        for (i = 0, n = elements.length; i < n; i += 1) {
+            func(elements[i]);
+        }
+    }
 
     /**
-     * Clears the text input field.
+     * Registers a load event listener for window.
+     *
+     * @param {function} listener A listener.
+     *
+     * @returns {undefined}
      */
-    CHAT.Widget.prototype.clearInput = function () {
-        this.form.elements.chat_message.value = "";
-    };
-
-    /**
-     * Scrolls down to the bottom of the chat.
-     */
-    CHAT.Widget.prototype.scrollDown = function () {
-        this.messages.scrollTop = this.messages.scrollHeight;
-    };
-
-    /**
-     * Polls the chat.
-     */
-    CHAT.Widget.prototype.poll = function () {
-        var that = this,
-            mustScroll = this.messages.scrollTop >=
-                this.messages.scrollHeight - this.messages.clientHeight,
-            request = new XMLHttpRequest();
-
-        request.open("GET", this.url + "read");
-        request.onreadystatechange = function () {
-            if (request.readyState === 4 && request.status === 200) {
-                that.messages.innerHTML = request.responseText;
-                if (mustScroll) {
-                    that.scrollDown();
-                }
-            }
-        };
-        request.send(null);
-    };
-
-    /**
-     * Submits a chat line.
-     */
-    CHAT.Widget.prototype.submit = function () {
-        var that = this,
-            request = new XMLHttpRequest(),
-            msg;
-
-        request.open("POST", this.url + "write");
-        request.setRequestHeader(
-            "Content-Type",
-            "application/x-www-form-urlencoded"
-        );
-        request.onreadystatechange = function () {
-            if (request.readyState === 4 && request.status === 200) {
-                that.messages.innerHTML = request.responseText;
-                that.scrollDown();
-                that.clearInput();
-            }
-        };
-        msg = this.form.elements.chat_message.value;
-        request.send("chat_message=" + window.encodeURIComponent(msg));
-        return false;
-    };
-
     function onload(listener) {
         if (typeof window.addEventListener !== "undefined") {
             window.addEventListener("load", listener, false);
@@ -108,26 +49,106 @@
         }
     }
 
-    function doForEach(className, func) {
-        var elements, i, n;
+    /**
+     * Initializes a chat room widget.
+     *
+     * @param {string} room The name of the chat room.
+     *
+     * @returns {undefined}
+     */
+    function initWidget(element) {
+        var room, url, messages, form;
 
-        if (typeof document.getElementsByClassName != "undefined") {
-            elements = document.getElementsByClassName(className);
-        } else if (typeof document.querySelectorAll != "undefined") {
-            elements = document.querySelectorAll("." + className);
-        } else {
-            elements = [];
+        /**
+         * Clears the text input field.
+         *
+         * @returns {undefined}
+         */
+        function clearInput() {
+            form.elements.chat_message.value = "";
         }
-        for (i = 0, n = elements.length; i < n; i++) {
-            func(elements[i]);
+
+        /**
+         * Scrolls down to the bottom of the chat.
+         *
+         * @returns {undefined}
+         */
+        function scrollDown() {
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        /**
+         * Polls the chat.
+         *
+         * @returns {undefined}
+         */
+        function poll() {
+            var request;
+
+            function mustScroll() {
+                return messages.scrollTop >=
+                    messages.scrollHeight - messages.clientHeight;
+            }
+
+            function onReadyStateChange() {
+                if (request.readyState === 4 && request.status === 200) {
+                    messages.innerHTML = request.responseText;
+                    if (mustScroll()) {
+                        scrollDown();
+                    }
+                }
+            }
+
+            request = new XMLHttpRequest();
+            request.open("GET", url + "read");
+            request.onreadystatechange = onReadyStateChange;
+            request.send(null);
+        }
+
+        /**
+         * Submits a chat line.
+         *
+         * @returns {undefined}
+         */
+        function submit() {
+            var request, msg;
+
+            function onReadyStateChange() {
+                if (request.readyState === 4 && request.status === 200) {
+                    messages.innerHTML = request.responseText;
+                    scrollDown();
+                    clearInput();
+                }
+            }
+
+            request = new XMLHttpRequest();
+            request.open("POST", url + "write");
+            request.setRequestHeader(
+                "Content-Type",
+                "application/x-www-form-urlencoded"
+            );
+            request.onreadystatechange = onReadyStateChange;
+            msg = form.elements.chat_message.value;
+            request.send("chat_message=" + encodeURIComponent(msg));
+            return false;
+        }
+
+        room = element.getAttribute("data-chat-room");
+        url = CHAT.url + "&chat_room=" + room + "&chat_ajax=";
+        messages = document.getElementById(
+            "chat_room_" + room + "_messages"
+        );
+        form = document.getElementById("chat_room_" + room + "_form");
+        scrollDown();
+        if (typeof XMLHttpRequest !== "undefined") {
+            form.onsubmit = submit;
+            setInterval(poll, CHAT.interval);
         }
     }
 
     onload(function () {
         doForEach("chat_room", function (element) {
-            var room = element.id.substr(("chat_room_").length);
-
-            new CHAT.Widget(room, CHAT.config.url, CHAT.config.interval);
+            initWidget(element);
         });
     });
 }());

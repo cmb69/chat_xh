@@ -53,7 +53,7 @@ class Chat_RoomController extends Chat_AbstractController
         if (isset($_GET['chat_room']) && $_GET['chat_room'] == $room->getName()) {
             $this->appendMessage($room);
         }
-        $this->emitJS($roomname);
+        $this->emitJS();
         return $this->mainView($room);
     }
 
@@ -126,8 +126,6 @@ class Chat_RoomController extends Chat_AbstractController
      * If $bjs is available, the scripts are appended to it,
      * and an empty string is returned.
      *
-     * @param string $room A chat room name.
-     *
      * @return string (X)HTML.
      *
      * @global array  The paths of system files and folders.
@@ -138,7 +136,7 @@ class Chat_RoomController extends Chat_AbstractController
      *
      * @staticvar bool $again Whether the scripts have already been written.
      */
-    protected function emitJS($room)
+    protected function emitJS()
     {
         global $pth, $sn, $su, $bjs, $plugin_cf;
         static $again = false;
@@ -149,8 +147,8 @@ class Chat_RoomController extends Chat_AbstractController
                 'url' => $sn . '?' . $su,
                 'interval' => max(1000 * $plugin_cf['chat']['interval_poll'], 1)
             );
-            $bjs .= '<script type="text/javascript">var CHAT = {config: '
-                . json_encode($config) . '};</script>'
+            $bjs .= '<script type="text/javascript">var CHAT = '
+                . json_encode($config) . ';</script>'
                 . '<script type="text/javascript" src="'
                 . $pth['folder']['plugins'] . 'chat/chat.js"></script>' . "\n";
         }
