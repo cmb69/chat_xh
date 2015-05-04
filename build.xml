@@ -30,6 +30,7 @@
     <target name="mess" description="detects code flaws">
         <phpmd>
             <fileset refid="php-sources"/>
+            <fileset refid="unit-tests"/>
          </phpmd>
     </target>
 
