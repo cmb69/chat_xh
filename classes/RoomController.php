@@ -27,20 +27,25 @@ class Chat_RoomController extends Chat_AbstractController
     /**
      * Handles the chat room and returns its view.
      *
-     * @param string $roomname A chat room name.
+     * @param string $roomname      A chat room name.
+     * @param int    $purgeInterval A purge interval in seconds.
      *
      * @return string (X)HTML.
      *
-     * @global array  The localization of the plugins.
+     * @global array The configuration of the plugins.
+     * @global array The localization of the plugins.
      */
-    public function handle($roomname)
+    public function handle($roomname, $purgeInterval = null)
     {
-        global $plugin_tx;
+        global $plugin_cf, $plugin_tx;
 
         if (!Chat_Room::isValidName($roomname)) {
             return XH_message('fail', $plugin_tx['chat']['error_room_name']);
         }
-        $room = new Chat_Room($roomname);
+        if (!isset($purgeInterval)) {
+            $purgeInterval = $plugin_cf['chat']['interval_purge'];
+        }
+        $room = new Chat_Room($roomname, $purgeInterval);
         if (!$room->isWritable()) {
             return $this->reportUnwritability($room);
         }

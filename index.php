@@ -21,14 +21,15 @@ define('CHAT_VERSION', '@CHAT_VERSION@');
 /**
  * Handles the chat room and returns its view.
  *
- * @param string $room A chat room name.
+ * @param string $room          A chat room name.
+ * @param int    $purgeInterval A purge interval in seconds.
  *
  * @return string (X)HTML.
  */
-function chat($room)
+function chat($room, $purgeInterval = null)
 {
     $controller = new Chat_RoomController();
-    return $controller->handle($room);
+    return $controller->handle($room, $purgeInterval);
 }
 
 $temp = new Chat_Controller();

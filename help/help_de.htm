@@ -86,15 +86,25 @@ Sprachdatei zur Verfügung steht, oder diese Ihren Wünschen gemäß anpassen.</
 <h2>Verwendung</h2>
 <p>Zum Einbinden eines Chats auf einer Seite verwenden Sie folgenden
 Pluginaufruf:</p>
-<pre>{{{chat('%CHAT_ROOM%');}}}</pre>
+<pre>{{{chat('%CHAT_ROOM%', %PURGE_TIME%);}}}</pre>
 <p>Um einen Chat im Template einzubinden, fügen Sie dort folgendes ein:</p>
-<pre>&lt;?php echo chat('%CHAT_ROOM%');?&gt;</pre>
-<p>%CHAT_ROOM% ist der Name des Chats. Dieser kann beliebig gewählt werden, aber
+<pre>&lt;?php echo chat('%CHAT_ROOM%', %PURGE_TIME%);?&gt;</pre>
+<dl>
+<dt>%CHAT_ROOM%</dt>
+<dd>Der Name des Chats. Dieser kann beliebig gewählt werden, aber
 er darf nur Kleinbuchstaben (a-z), Ziffern (0-9) und Bindestriche enthalten. Ein
-paar Beispiele:</p>
+paar Beispiele:</dd>
+<dt>%PURGE_TIME%</dt>
+<dd>Die Zeitdauer in Sekunden nachdem ein inaktiver Chat gelöscht wird. \"0\"
+bedeutet: nie löschen. Dieses Argument ist optional; wird es ausgelassen
+(einschließlich des vorangehenden Kommas), wird die Standardeinstellung aus der
+Konfiguration genommen.</dd>
+</dl>
+<p>Beispiele:</p>
 <pre>{{{chat('chat');}}}
 {{{chat('chat17');}}}
-{{{chat('women-only');}}}</pre>
+{{{chat('quick-chat', 120);}}}
+{{{chat('shoutbox', 0);}}}</pre>
 <p>Sie können auf jeder einzelnen Seite so viele Chats einbinden wie sie wollen
 &ndash; diese sind unabhängig voneinander solange sie unterschiedliche Namen
 haben.</p>

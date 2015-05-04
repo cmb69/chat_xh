@@ -32,6 +32,13 @@ class Chat_Room
     protected $name;
 
     /**
+     * The purge interval in seconds.
+     *
+     * @var int
+     */
+    protected $purgeInterval;
+
+    /**
      * Returns the path of the data folder.
      *
      * @return string
@@ -66,11 +73,13 @@ class Chat_Room
     /**
      * Initializes a new instance.
      *
-     * @param string $name A name.
+     * @param string $name          A name.
+     * @param int    $purgeInterval A purge interval in seconds.
      */
-    public function __construct($name)
+    public function __construct($name, $purgeInterval)
     {
         $this->name = $name;
+        $this->purgeInterval = $purgeInterval;
     }
 
     /**
@@ -109,18 +118,13 @@ class Chat_Room
      * Returns whether the room is expired.
      *
      * @return bool
-     *
-     * @global array The configuration of the plugins.
      */
     public function isExpired()
     {
-        global $plugin_cf;
-
         $filename = $this->getFilename();
-        $purgeInterval = $plugin_cf['chat']['interval_purge'];
         return file_exists($filename)
-            && $purgeInterval
-            && time() > filemtime($filename) + $purgeInterval;
+            && $this->purgeInterval
+            && time() > filemtime($filename) + $this->purgeInterval;
     }
 
     /**

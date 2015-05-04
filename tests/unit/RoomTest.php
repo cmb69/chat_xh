@@ -44,19 +44,15 @@ class RoomTest extends PHPUnit_Framework_TestCase
      * @return void
      *
      * @global array The paths of system files and folders.
-     * @global array The configuration of the plugins.
      */
     public function setUp()
     {
-        global $pth, $plugin_cf;
+        global $pth;
 
         vfsStreamWrapper::register();
         vfsStreamWrapper::setRoot(new vfsStreamDirectory('chat'));
         $pth = ['folder' => ['content' => vfsStream::url('')]];
-        $plugin_cf = [
-            'chat' => ['interval_purge' => 3600]
-        ];
-        $this->subject = new Chat_Room('foo');
+        $this->subject = new Chat_Room('foo', 3600);
         $this->makeEntryFromLineMock = new PHPUnit_Extensions_MockStaticMethod(
             'Chat_Entry::makeFromLine', $this->subject
         );

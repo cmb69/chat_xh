@@ -84,15 +84,23 @@ available, or customize them according to your needs.</p>
 <h2>Usage</h2>
 <p>Embedding of a chat room on a page is done with the following plugin
 call:</p>
-<pre>{{{chat('%CHAT_ROOM%');}}}</pre>
+<pre>{{{chat('%CHAT_ROOM%', %PURGE_TIME%);}}}</pre>
 <p>To embed a chat room in the template, insert:</p>
-<pre>&lt;?php echo chat('%CHAT_ROOM%');?&gt;</pre>
-<p>%CHAT_ROOM% is the name of the chat. It can be choosen arbitrarily, but may
-contain only lowercase alphanumeric characters (a-z and 0-9) and hyphens. Some
-examples:</p>
+<pre>&lt;?php echo chat('%CHAT_ROOM%', %PURGE_TIME%);?&gt;</pre>
+<dl>
+<dt>%CHAT_ROOM%</dt>
+<dd>The name of the chat. It can be choosen arbitrarily, but may
+contain only lowercase alphanumeric characters (a-z and 0-9) and hyphens.</dd>
+<dt>%PURGE_TIME%</dt>
+<dd>The time in seconds after which an inactive chat will be purged. "0" means:
+keep entries forever. This argument is optional; if it is omitted (including the
+leading comma), the default is taken from the configuration.</dd>
+</dl>
+<p>Examples:</p>
 <pre>{{{chat('chat');}}}
 {{{chat('chat17');}}}
-{{{chat('women-only');}}}</pre>
+{{{chat('quick-chat', 120);}}}
+{{{chat('shoutbox', 0);}}}</pre>
 <p>You can embed as many chat rooms on any single page as you like&mdash;they're
 working independent of each other as long as they have different names.</p>
 <p>After a configurable time of inactivity (i.e. no new messages are posted),
