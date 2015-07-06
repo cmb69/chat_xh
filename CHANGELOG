@@ -1,3 +1,6 @@
+Version 1.0 - released 2015-07-06
+* no relevant changes
+
 Version 1.0rc1 - released 2015-05-05
 * lifted requirements to PHP 5.1.2
 * changed data folder to content/ and removed respective config option
