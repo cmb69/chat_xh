@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+	<title>Chat</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">PluginListedInSystemInfo</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>?login<datalist><option>?login</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=passwd<datalist><option>id=passwd</option><option>name=keycut</option><option>//input[@id='passwd']</option><option>//form[@id='login']/input[3]</option><option>//input[3]</option></datalist></td><td>test</td>
+</tr>
+<tr><td>click</td><td>id=submit<datalist><option>id=submit</option><option>name=submit</option><option>//input[@id='submit']</option><option>//form[@id='login']/input[4]</option><option>//input[4]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>link=Info<datalist><option>link=Info</option></datalist></td><td></td>
+</tr>
+<tr><td>verifyTitle</td><td>English Site Title – System Info<datalist><option>English Site Title – System Info</option></datalist></td><td></td>
+</tr>
+<tr><td>assertText</td><td>//div[@id='wrapper']/div/div[2]/ul[2]/li<datalist><option>//div[@id='wrapper']/div/div[2]/ul[2]/li</option></datalist></td><td>Chat @CHAT_VERSION@</td>
+</tr>
+<tr><td>click</td><td>link=Logout<datalist><option>link=Logout</option><option>//a[contains(text(),'Logout')]</option><option>//div[@id='xh_adminmenu']/ul/li[6]/a</option><option>//a[contains(@href, '/xhrel9/?&amp;logout')]</option><option>//li[6]/a</option></datalist></td><td></td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">PluginAccessibleFromAdminMenu</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>?login<datalist><option>?login</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=passwd<datalist><option>id=passwd</option></datalist></td><td>test</td>
+</tr>
+<tr><td>click</td><td>id=submit<datalist><option>id=submit</option><option>name=submit</option><option>//input[@id='submit']</option><option>//form[@id='login']/input[4]</option><option>//input[4]</option><option>id=submit</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>link=Chat<datalist><option>link=Chat</option><option>//a[contains(text(),'Chat')]</option><option>//ul[@id='xh_adminmenu_plugins']/li/a</option><option>//a[contains(@href, '/xhrel9/?chat&amp;normal')]</option><option>//li[5]/ul/li/a</option><option>link=Chat</option></datalist></td><td></td>
+</tr>
+<tr><td>assertTitle</td><td>English Site Title –<datalist><option>English Site Title –</option><option>English Site Title –</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>link=Logout<datalist><option>link=Logout</option><option>//div[2]/div/div[2]</option><option>link=Logout</option><option>link=Logout</option></datalist></td><td></td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">CanSaveChangedPluginConfig</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>?login<datalist><option>?login</option><option>?login</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=passwd<datalist><option>id=passwd</option><option>name=keycut</option><option>//input[@id='passwd']</option><option>//form[@id='login']/input[3]</option><option>//input[3]</option><option>id=passwd</option></datalist></td><td>test</td>
+</tr>
+<tr><td>click</td><td>id=submit<datalist><option>id=submit</option><option>name=submit</option><option>//input[@id='submit']</option><option>//form[@id='login']/input[4]</option><option>//input[4]</option><option>id=submit</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>link=Config<datalist><option>link=Config</option><option>xpath=(//a[contains(text(),'Config')])[2]</option><option>//ul[@id='xh_adminmenu_plugins']/li/ul/li[2]/a</option><option>//a[contains(@href, '/xhrel9/?&amp;chat&amp;admin=plugin_config&amp;action=plugin_edit&amp;normal')]</option><option>//li[5]/ul/li/ul/li[2]/a</option><option>link=Config</option></datalist></td><td></td>
+</tr>
+<tr><td>storeValue</td><td>name=PL3bbeec384_interval_poll<datalist><option>name=PL3bbeec384_interval_poll</option></datalist></td><td>oldValue</td>
+</tr>
+<tr><td>type</td><td>name=PL3bbeec384_interval_poll<datalist><option>name=PL3bbeec384_interval_poll</option><option>//input[@name='PL3bbeec384_interval_poll']</option><option>//form[@id='xh_config_form']/fieldset/div[2]/input</option><option>//div[2]/input</option><option>name=PL3bbeec384_interval_poll</option></datalist></td><td>123</td>
+</tr>
+<tr><td>click</td><td>xpath=(//input[@value='Save'])[2]<datalist><option>xpath=(//input[@value='Save'])[2]</option><option>//form[@id='xh_config_form']/input[5]</option><option>//input[5]</option><option>xpath=(//input[@value='Save'])[2]</option></datalist></td><td></td>
+</tr>
+<tr><td>assertValue</td><td>name=PL3bbeec384_interval_poll<datalist><option>name=PL3bbeec384_interval_poll</option><option>//input[@name='PL3bbeec384_interval_poll']</option><option>//form[@id='xh_config_form']/fieldset/div[2]/input</option><option>//div[2]/input</option><option>name=PL3bbeec384_interval_poll@value</option><option>name=PL3bbeec384_interval_poll</option></datalist></td><td>123</td>
+</tr>
+<tr><td>type</td><td>name=PL3bbeec384_interval_poll<datalist><option>name=PL3bbeec384_interval_poll</option><option>//input[@name='PL3bbeec384_interval_poll']</option><option>//form[@id='xh_config_form']/fieldset/div[2]/input</option><option>//div[2]/input</option><option>name=PL3bbeec384_interval_poll</option></datalist></td><td>${oldValue}</td>
+</tr>
+<tr><td>click</td><td>xpath=(//input[@value='Save'])[2]<datalist><option>xpath=(//input[@value='Save'])[2]</option><option>//form[@id='xh_config_form']/input[5]</option><option>//input[5]</option><option>xpath=(//input[@value='Save'])[2]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>link=Logout<datalist><option>link=Logout</option><option>//a[contains(text(),'Logout')]</option><option>//div[@id='xh_adminmenu']/ul/li[6]/a</option><option>//a[contains(@href, '/xhrel9/?&amp;logout')]</option><option>//li[6]/a</option><option>link=Logout</option></datalist></td><td></td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">SubmitChatMessage</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>?Chat<datalist><option>?Chat</option><option>?Chat</option><option>?Chat</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>name=chat_message<datalist><option>name=chat_message</option><option>//input[@name='chat_message']</option><option>//form[@id='chat_room_chat_form']/input</option><option>//div[2]/div/div/form/input</option><option>name=chat_message</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>name=chat_message<datalist><option>name=chat_message</option><option>//input[@name='chat_message']</option><option>//form[@id='chat_room_chat_form']/input</option><option>//div[2]/div/div/form/input</option><option>name=chat_message</option></datalist></td><td>hello</td>
+</tr>
+<tr><td>submit</td><td>id=chat_room_chat_form<datalist><option>id=chat_room_chat_form</option><option>id=chat_room_chat_form</option></datalist></td><td></td>
+</tr>
+<tr><td>assertText</td><td>//div[@id='chat_room_chat_messages']/div[9]/span[2]<datalist><option>//div[@id='chat_room_chat_messages']/div[9]/span[2]</option><option>//div[9]/span[2]</option><option>//div[@id='chat_room_chat_messages']/div[last()]/span[2]</option><option>//div[@id='chat_room_chat_messages']/div[last()]/span[2]</option></datalist></td><td>hello</td>
+</tr>
+</tbody></table>
+</body>
+</html>
