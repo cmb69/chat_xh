@@ -16,7 +16,7 @@
 /**
  * The version of the plugin.
  */
-define('CHAT_VERSION', '@CHAT_VERSION@');
+define('CHAT_VERSION', '1.0');
 
 /**
  * Handles the chat room and returns its view.
