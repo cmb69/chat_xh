@@ -36,7 +36,7 @@ class Chat_SystemCheck
         global $plugin_tx;
 
         $o = '<h4>' . $plugin_tx['chat']['syscheck_title'] . '</h4>'
-            . $this->checkPHPVersion('5.1.2') . tag('br');
+            . $this->checkPHPVersion('7.1.0') . tag('br');
         foreach (array('pcre', 'session') as $ext) {
             $o .= $this->checkExtension($ext) . tag('br');
         }
