@@ -2,10 +2,6 @@
 
 <project name="Chat" default="help">
 
-  <fileset id="js-sources" dir=".">
-    <include name="chat.js"/>
-  </fileset>
-
   <fileset id="unit-tests" dir="tests/unit">
     <include name="*Test.php"/>
   </fileset>
