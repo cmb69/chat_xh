@@ -40,8 +40,7 @@ class Chat_SystemCheck
         foreach (array('pcre', 'session') as $ext) {
             $o .= $this->checkExtension($ext) . tag('br');
         }
-        $o .= $this->checkMagicQuotesRuntime() . tag('br') . tag('br')
-            . $this->checkXHVersion('1.6') . tag('br') . tag('br');
+        $o .= $this->checkXHVersion('1.6') . tag('br') . tag('br');
         foreach ($this->getWritableFolders() as $folder) {
             $o .= $this->checkWritability($folder) . tag('br');
         }
@@ -86,22 +85,6 @@ class Chat_SystemCheck
             . sprintf(
                 $plugin_tx['chat']['syscheck_extension'], $name
             );
-    }
-
-    /**
-     * Renders the magic_quotes_runtime check.
-     *
-     * @return string (X)HTML
-     *
-     * @global array The localization of the plugins.
-     */
-    protected function checkMagicQuotesRuntime()
-    {
-        global $plugin_tx;
-
-        $kind = get_magic_quotes_runtime() ? 'fail' : 'ok';
-        return $this->renderCheckIcon($kind). '&nbsp;&nbsp;'
-            . $plugin_tx['chat']['syscheck_magic_quotes'];
     }
 
     /**
