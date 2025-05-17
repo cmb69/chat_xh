@@ -64,13 +64,11 @@ class RoomController
         if ($request->header("X-CMSimple-XH-Request") === "chat-{$roomname}") {
             return $this->handleAjaxRequest($request, $room);
         }
-        if ($request->get("chat_room") === $room->getName()) {
+        if ($request->post("chat_room") === $roomname && $request->post("chat_message") !== null) {
             if (!$this->appendMessage($request, $room)) {
                 return Response::create($this->view->message("fail", "error_save"));
             }
-            if ($request->post("chat_message") !== null) {
-                return Response::redirect($request->url()->absolute());
-            }
+            return Response::redirect($request->url()->absolute());
         }
         return Response::create($this->mainView($request, $room));
     }
@@ -88,9 +86,7 @@ class RoomController
     /** @todo Handle Ajax submission errors. */
     private function appendMessage(Request $request, Room $room): bool
     {
-        if ($request->post("chat_message") === null) {
-            return true;
-        }
+        assert($request->post("chat_message") !== null);
         $entry = new Entry($request->time(), $request->username() ?? "", $request->post("chat_message"));
         return $room->appendEntry($entry);
     }
@@ -131,7 +127,7 @@ class RoomController
     {
         return $this->view->render("chat", [
             "room" => $room->getName(),
-            "url" => $request->url()->with("chat_room", $room->getName())->relative(),
+            "url" => $request->url()->relative(),
             "messages" => $this->messagesView($request, $room),
             "script" => $this->pluginFolder . "chat.js",
             "config" => [

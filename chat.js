@@ -89,7 +89,7 @@ function initWidget(element) {
 
     room = element.getAttribute("data-chat-room");
     config = JSON.parse(element.dataset.chatConfig);
-    url = config.url + "&chat_room=" + room;
+    url = config.url;
     messages = document.querySelector("#chat_room_" + room + "_messages");
     form = document.querySelector("#chat_room_" + room + "_form");
     scrollDown();

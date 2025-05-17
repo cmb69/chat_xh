@@ -45,7 +45,7 @@ class RoomControllerTest extends TestCase
     public function testHandlesAjaxRequest(): void
     {
         $request = new FakeRequest([
-            "url" => "http://example.com/?&chat_room=chat",
+            "url" => "http://example.com/",
             "header" => ["X-CMSimple-XH-Request" => "chat-chat"],
         ]);
         $response = $this->sut()->handle("chat", null, $request);
@@ -57,8 +57,8 @@ class RoomControllerTest extends TestCase
     {
         vfsStream::setQuota(0);
         $request = new FakeRequest([
-            "url" => "http://example.com/?&chat_room=chat",
-            "post" => ["chat_message" => "test"],
+            "url" => "http://example.com/",
+            "post" => ["chat_room" => "chat", "chat_message" => "test"],
         ]);
         $response = $this->sut()->handle("chat", null, $request);
         $this->assertStringContainsString("Chat message could not be saved!", $response->output());
@@ -74,10 +74,10 @@ class RoomControllerTest extends TestCase
     public function testRedirectsAfterSuccessfulSave(): void
     {
         $request = new FakeRequest([
-            "url" => "http://example.com/?&chat_room=chat",
-            "post" => ["chat_message" => "test"],
+            "url" => "http://example.com/",
+            "post" => ["chat_room" => "chat", "chat_message" => "test"],
         ]);
         $response = $this->sut()->handle("chat", null, $request);
-        $this->assertSame("http://example.com/?&chat_room=chat", $response->location());
+        $this->assertSame("http://example.com/", $response->location());
     }
 }

@@ -22,6 +22,6 @@ if (!defined("CMSIMPLE_XH_VERSION")) {http_response_code(403); exit;}
   </div>
   <form id="chat_room_<?=$this->esc($room)?>_form" action="<?=$this->esc($url)?>" method="post">
     <input type="text" name="chat_message">
-    <input type="submit" class="submit" value="<?=$this->text("label_send")?>">
+    <button name="chat_room" value="<?=$this->esc($room)?>"><?=$this->text("label_send")?></button>
   </form>
 </div>
