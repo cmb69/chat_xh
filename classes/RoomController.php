@@ -124,6 +124,7 @@ class RoomController
         $room->appendEntry($entry);
     }
 
+    /** @return array{class:string,user:string,text:string} */
     private function message(Request $request, Entry $entry): array
     {
         global $plugin_tx;
@@ -148,7 +149,7 @@ class RoomController
         return array(
             'class' => $class,
             'user' => $user,
-            'text' => XH_hsc($entry->getMessage())
+            'text' => $entry->getMessage(),
         );
     }
 
@@ -163,7 +164,7 @@ class RoomController
     {
         global $sn, $su, $plugin_tx;
 
-        $url = "$sn?$su&amp;chat_room=" . $room->getName();
+        $url = "$sn?$su&chat_room=" . $room->getName();
         $inputs = tag('input type="text" name="chat_message"');
         $inputs .= tag(
             'input type="submit" class="submit" value="'
