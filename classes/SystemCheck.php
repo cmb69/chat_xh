@@ -13,6 +13,8 @@
  * @link      http://3-magi.net/?CMSimple_XH/Chat_XH
  */
 
+namespace Chat;
+
 /**
  * The system check.
  *
@@ -22,7 +24,7 @@
  * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
  * @link     http://3-magi.net/?CMSimple_XH/Chat_XH
  */
-class Chat_SystemCheck
+class SystemCheck
 {
     /**
      * Returns the requirements information view.
@@ -176,7 +178,7 @@ class Chat_SystemCheck
         foreach (array('config/', 'css/', 'languages/') as $folder) {
             $folders[] = $pth['folder']['plugins'] . 'chat/' . $folder;
         }
-        $folders[] = Chat_Room::dataFolder();
+        $folders[] = Room::dataFolder();
         return $folders;
     }
 }

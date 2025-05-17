@@ -13,6 +13,8 @@
  * @link      http://3-magi.net/?CMSimple_XH/Chat_XH
  */
 
+namespace Chat;
+
 /**
  * The chat controllers.
  *
@@ -22,7 +24,7 @@
  * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
  * @link     http://3-magi.net/?CMSimple_XH/Chat_XH
  */
-class Chat_Controller extends Chat_AbstractController
+class Controller extends AbstractController
 {
     /**
      * Dispatches on plugin related requests.
@@ -111,7 +113,7 @@ class Chat_Controller extends Chat_AbstractController
      */
     protected function systemCheck()
     {
-        $check = new Chat_SystemCheck();
+        $check = new SystemCheck();
         return $check->render();
     }
 }

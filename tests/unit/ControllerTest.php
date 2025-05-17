@@ -32,7 +32,7 @@ class ControllerTest extends PHPUnit_Framework_TestCase
     /**
      * The test subject.
      *
-     * @var Chat_Controller
+     * @var Controller
      */
     protected $subject;
 
@@ -51,7 +51,7 @@ class ControllerTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->defineConstant('XH_ADM', true);
-        $this->subject = new Chat_Controller();
+        $this->subject = new Controller();
         $this->rspmiMock = new PHPUnit_Extensions_MockFunction(
             'XH_registerStandardPluginMenuItems', $this->subject
         );

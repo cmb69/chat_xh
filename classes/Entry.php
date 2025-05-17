@@ -13,6 +13,8 @@
  * @link      http://3-magi.net/?CMSimple_XH/Chat_XH
  */
 
+namespace Chat;
+
 /**
  * The chat entries.
  *
@@ -22,7 +24,7 @@
  * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
  * @link     http://3-magi.net/?CMSimple_XH/Chat_XH
  */
-class Chat_Entry
+class Entry
 {
     /**
      * The timestamp.
@@ -50,7 +52,7 @@ class Chat_Entry
      *
      * @param string $line A CSV line.
      *
-     * @return Chat_Entry
+     * @return Entry
      */
     public static function makeFromLine($line)
     {

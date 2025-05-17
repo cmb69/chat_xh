@@ -13,6 +13,8 @@
  * @link      http://3-magi.net/?CMSimple_XH/Chat_XH
  */
 
+namespace Chat;
+
 /**
  * The chat room controllers.
  *
@@ -22,7 +24,7 @@
  * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
  * @link     http://3-magi.net/?CMSimple_XH/Chat_XH
  */
-class Chat_RoomController extends Chat_AbstractController
+class RoomController extends AbstractController
 {
     /**
      * Handles the chat room and returns its view.
@@ -39,13 +41,13 @@ class Chat_RoomController extends Chat_AbstractController
     {
         global $plugin_cf, $plugin_tx;
 
-        if (!Chat_Room::isValidName($roomname)) {
+        if (!Room::isValidName($roomname)) {
             return XH_message('fail', $plugin_tx['chat']['error_room_name']);
         }
         if (!isset($purgeInterval)) {
             $purgeInterval = $plugin_cf['chat']['interval_purge'];
         }
-        $room = new Chat_Room($roomname, $purgeInterval);
+        $room = new Room($roomname, $purgeInterval);
         if (!$room->isWritable()) {
             return $this->reportUnwritability($room);
         }
@@ -65,13 +67,13 @@ class Chat_RoomController extends Chat_AbstractController
     /**
      * Returns an error message that a room is not writable.
      *
-     * @param Chat_Room $room A chat room.
+     * @param Room $room A chat room.
      *
      * @return string (X)HTML.
      *
      * @global array The localization of the plugins.
      */
-    protected function reportUnwritability(Chat_Room $room)
+    protected function reportUnwritability(Room $room)
     {
         global $plugin_tx;
 
@@ -87,11 +89,11 @@ class Chat_RoomController extends Chat_AbstractController
     /**
      * Handles Ajax requests.
      *
-     * @param Chat_Room $room A chat room.
+     * @param Room $room A chat room.
      *
      * @return void
      */
-    protected function handleAjaxRequest(Chat_Room $room)
+    protected function handleAjaxRequest(Room $room)
     {
         if ($room->isExpired()) {
             $room->purge();
@@ -162,18 +164,18 @@ class Chat_RoomController extends Chat_AbstractController
     /**
      * Appends the posted message to the data file.
      *
-     * @param Chat_Room $room A chat room.
+     * @param Room $room A chat room.
      *
      * @return void
      *
      * @todo Handle Ajax submission errors.
      */
-    protected function appendMessage(Chat_Room $room)
+    protected function appendMessage(Room $room)
     {
         if (empty($_POST['chat_message'])) {
             return;
         }
-        $entry = new Chat_Entry();
+        $entry = new Entry();
         $entry->setTimestamp(time());
         $entry->setUsername($this->currentUser());
         $entry->setMessage(stsl($_POST['chat_message']));
@@ -183,13 +185,13 @@ class Chat_RoomController extends Chat_AbstractController
     /**
      * Returns a message prepared as bag for the view.
      *
-     * @param Chat_Entry $entry A chat entry.
+     * @param Entry $entry A chat entry.
      *
      * @return array
      *
      * @global array The localization of the plugins.
      */
-    protected function message(Chat_Entry $entry)
+    protected function message(Entry $entry)
     {
         global $plugin_tx;
 
@@ -220,11 +222,11 @@ class Chat_RoomController extends Chat_AbstractController
     /**
      * Returns the view of the history of a chat room.
      *
-     * @param Chat_Room $room A chat room.
+     * @param Room $room A chat room.
      *
      * @return string (X)HTML.
      */
-    protected function messagesView(Chat_Room $room)
+    protected function messagesView(Room $room)
     {
         $messages = array_map(array($this, 'message'), $room->findEntries());
         return $this->view('messages', compact('messages'));
@@ -233,7 +235,7 @@ class Chat_RoomController extends Chat_AbstractController
     /**
      * Returns the complete view of the chat room.
      *
-     * @param Chat_Room $room A chat room.
+     * @param Room $room A chat room.
      *
      * @return string (X)HTML.
      *
@@ -241,7 +243,7 @@ class Chat_RoomController extends Chat_AbstractController
      * @global string The URL of the requested page.
      * @global array  The localization of the plugins.
      */
-    protected function mainView(Chat_Room $room)
+    protected function mainView(Room $room)
     {
         global $sn, $su, $plugin_tx;
 

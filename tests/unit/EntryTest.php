@@ -49,7 +49,7 @@ class EntryTest extends PHPUnit_Framework_TestCase
      */
     public function testMakeFromLineSetsTimestamp()
     {
-        $entry = Chat_Entry::makeFromLine($this->getLine());
+        $entry = Entry::makeFromLine($this->getLine());
         $this->assertEquals(self::TIMESTAMP, $entry->getTimestamp());
     }
 
@@ -60,7 +60,7 @@ class EntryTest extends PHPUnit_Framework_TestCase
      */
     public function testMakeFromLineSetsUsername()
     {
-        $entry = Chat_Entry::makeFromLine($this->getLine());
+        $entry = Entry::makeFromLine($this->getLine());
         $this->assertEquals(self::USERNAME, $entry->getUsername());
     }
 
@@ -71,7 +71,7 @@ class EntryTest extends PHPUnit_Framework_TestCase
      */
     public function testMakeFromLineSetsMessage()
     {
-        $entry = Chat_Entry::makeFromLine($this->getLine());
+        $entry = Entry::makeFromLine($this->getLine());
         $this->assertEquals(self::MESSAGE, $entry->getMessage());
     }
 
@@ -82,7 +82,7 @@ class EntryTest extends PHPUnit_Framework_TestCase
      */
     public function testLineIsCorrect()
     {
-        $entry = new Chat_Entry();
+        $entry = new Entry();
         $entry->setTimestamp(self::TIMESTAMP);
         $entry->setUsername(self::USERNAME);
         $entry->setMessage(self::MESSAGE);

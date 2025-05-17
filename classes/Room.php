@@ -13,6 +13,8 @@
  * @link      http://3-magi.net/?CMSimple_XH/Chat_XH
  */
 
+namespace Chat;
+
 /**
  * The chat rooms.
  *
@@ -22,7 +24,7 @@
  * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
  * @link     http://3-magi.net/?CMSimple_XH/Chat_XH
  */
-class Chat_Room
+class Room
 {
     /**
      * The room name.
@@ -140,7 +142,7 @@ class Chat_Room
     /**
      * Finds and returns all entries.
      *
-     * @return array<Chat_Entry>
+     * @return array<Entry>
      */
     public function findEntries()
     {
@@ -151,7 +153,7 @@ class Chat_Room
         ) {
             foreach ($lines as $line) {
                 if (!empty($line)) {
-                    $entries[] = Chat_Entry::makeFromLine(rtrim($line));
+                    $entries[] = Entry::makeFromLine(rtrim($line));
                 }
             }
         }
@@ -161,11 +163,11 @@ class Chat_Room
     /**
      * Appends an entry.
      *
-     * @param Chat_Entry $entry A chat entry.
+     * @param Entry $entry A chat entry.
      *
      * @return bool
      */
-    public function appendEntry(Chat_Entry $entry)
+    public function appendEntry(Entry $entry)
     {
         $filename = $this->getFilename();
         return (bool) file_put_contents(

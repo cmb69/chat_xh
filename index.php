@@ -13,6 +13,9 @@
  * @link      http://3-magi.net/?CMSimple_XH/Chat_XH
  */
 
+use Chat\Controller;
+use Chat\RoomController;
+
 /**
  * The version of the plugin.
  */
@@ -28,11 +31,11 @@ define('CHAT_VERSION', '1.0');
  */
 function chat($room, $purgeInterval = null)
 {
-    $controller = new Chat_RoomController();
+    $controller = new RoomController();
     return $controller->handle($room, $purgeInterval);
 }
 
-$temp = new Chat_Controller();
+$temp = new Controller();
 $temp->dispatch();
 
 ?>
