@@ -131,7 +131,7 @@ class Chat_RoomController extends Chat_AbstractController
      * If $bjs is available, the scripts are appended to it,
      * and an empty string is returned.
      *
-     * @return string (X)HTML.
+     * @return void
      *
      * @global array  The paths of system files and folders.
      * @global string The name of the site.

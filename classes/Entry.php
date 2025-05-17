@@ -55,8 +55,9 @@ class Chat_Entry
     public static function makeFromLine($line)
     {
         $entry = new self();
-        list($entry->timestamp, $entry->username, $entry->message)
+        list($timestamp, $entry->username, $entry->message)
             = explode("\t", $line, 3);
+        $entry->timestamp = (int) $timestamp;
         return $entry;
     }
 

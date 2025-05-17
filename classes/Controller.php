@@ -76,7 +76,7 @@ class Chat_Controller extends Chat_AbstractController
             $o .= $this->aboutView() . tag('hr') . $this->systemCheck();
             break;
         default:
-            $o .= plugin_admin_common($action, $admin, 'chat');
+            $o .= plugin_admin_common($action, $admin, 'chat'); // @phpstan-ignore-line
         }
     }
 
