@@ -45,7 +45,7 @@ class Controller extends AbstractController
         $o .= print_plugin_admin('off');
         switch ($admin) {
             case '':
-                $o .= (new InfoCommand())->render();
+                $o .= Dic::infoCommand()->render();
                 break;
             default:
                 $o .= plugin_admin_common($action, $admin, 'chat'); // @phpstan-ignore-line

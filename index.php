@@ -14,7 +14,7 @@
  */
 
 use Chat\Controller;
-use Chat\RoomController;
+use Chat\Dic;
 
 /**
  * The version of the plugin.
@@ -31,8 +31,7 @@ define('CHAT_VERSION', '1.0');
  */
 function chat($room, $purgeInterval = null)
 {
-    $controller = new RoomController();
-    return $controller->handle($room, $purgeInterval);
+    return Dic::roomController()->handle($room, $purgeInterval);
 }
 
 $temp = new Controller();
