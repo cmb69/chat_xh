@@ -8,7 +8,6 @@ if (!defined("CMSIMPLE_XH_VERSION")) {http_response_code(403); exit;}
 /**
  * @var View $this
  * @var string $room
- * @var string $inputs
  * @var string $url
  * @var string $messages
  */
@@ -19,6 +18,7 @@ if (!defined("CMSIMPLE_XH_VERSION")) {http_response_code(403); exit;}
   <?=$this->raw($messages)?>
   </div>
   <form id="chat_room_<?=$this->esc($room)?>_form" action="<?=$this->esc($url)?>" method="post">
-  <?=$this->raw($inputs)?>
+    <input type="text" name="chat_message">
+    <input type="submit" class="submit" value="<?=$this->text("label_send")?>">
   </form>
 </div>

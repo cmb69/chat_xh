@@ -162,17 +162,11 @@ class RoomController
 
     private function mainView(Request $request, Room $room): string
     {
-        global $sn, $su, $plugin_tx;
+        global $sn, $su;
 
         $url = "$sn?$su&chat_room=" . $room->getName();
-        $inputs = tag('input type="text" name="chat_message"');
-        $inputs .= tag(
-            'input type="submit" class="submit" value="'
-            . $plugin_tx['chat']['label_send'] . '"'
-        );
         $bag = array(
             'room' => $room->getName(),
-            'inputs' => $inputs,
             'url' => $url,
             'messages' => $this->messagesView($request, $room)
         );
