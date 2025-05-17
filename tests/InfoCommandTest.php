@@ -4,6 +4,7 @@ namespace Chat;
 
 use ApprovalTests\Approvals;
 use PHPUnit\Framework\TestCase;
+use Plib\FakeSystemChecker;
 use Plib\View;
 
 class InfoCommandTest extends TestCase
@@ -21,7 +22,7 @@ class InfoCommandTest extends TestCase
 
     private function sut(): InfoCommand
     {
-        return new InfoCommand($this->view);
+        return new InfoCommand(new FakeSystemChecker(), $this->view);
     }
 
     public function testRendersSystemCheck(): void

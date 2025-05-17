@@ -21,6 +21,7 @@
 
 namespace Chat;
 
+use Plib\SystemChecker;
 use Plib\View;
 
 class Dic
@@ -32,7 +33,7 @@ class Dic
 
     public static function infoCommand(): InfoCommand
     {
-        return new InfoCommand(self::view());
+        return new InfoCommand(new SystemChecker(), self::view());
     }
 
     private static function view(): View

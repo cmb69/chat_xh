@@ -21,15 +21,20 @@
 
 namespace Chat;
 
+use Plib\SystemChecker;
 use Plib\View;
 
 class InfoCommand
 {
+    /** @var SystemChecker */
+    private $systemChecker;
+
     /** @var View */
     private $view;
 
-    public function __construct(View $view)
+    public function __construct(SystemChecker $systemChecker, View $view)
     {
+        $this->systemChecker = $systemChecker;
         $this->view = $view;
     }
 
@@ -70,7 +75,7 @@ class InfoCommand
     {
         global $plugin_tx;
 
-        $kind = version_compare(PHP_VERSION, $version) >= 0 ? 'ok' : 'fail';
+        $kind = $this->systemChecker->checkVersion(PHP_VERSION, $version) ? 'ok' : 'fail';
         return $this->renderCheckIcon($kind) . '&nbsp;&nbsp;'
             . sprintf($plugin_tx['chat']['syscheck_phpversion'], $version);
     }
@@ -79,7 +84,7 @@ class InfoCommand
     {
         global $plugin_tx;
 
-        $kind = extension_loaded($name) ? 'ok' : 'fail';
+        $kind = $this->systemChecker->checkExtension($name) ? 'ok' : 'fail';
         return $this->renderCheckIcon($kind) . '&nbsp;&nbsp;'
             . sprintf($plugin_tx['chat']['syscheck_extension'], $name);
     }
@@ -88,23 +93,16 @@ class InfoCommand
     {
         global $plugin_tx;
 
-        $kind = $this->hasXHVersion($version) ? 'ok' : 'fail';
+        $kind = $this->systemChecker->checkVersion(CMSIMPLE_XH_VERSION, "CMSimple_XH {$version}") ? 'ok' : 'fail';
         return $this->renderCheckIcon($kind) . '&nbsp;&nbsp;'
             . sprintf($plugin_tx['chat']['syscheck_xhversion'], $version);
-    }
-
-    protected function hasXHVersion(string $version): bool
-    {
-        return defined('CMSIMPLE_XH_VERSION')
-            && strpos(CMSIMPLE_XH_VERSION, 'CMSimple_XH') === 0
-            && version_compare(CMSIMPLE_XH_VERSION, "CMSimple_XH {$version}", 'gt');
     }
 
     protected function checkWritability(string $filename): string
     {
         global $plugin_tx;
 
-        $kind = is_writable($filename) ? 'ok' : 'warn';
+        $kind = $this->systemChecker->checkWritability($filename) ? 'ok' : 'warn';
         return $this->renderCheckIcon($kind) . '&nbsp;&nbsp;'
             . sprintf($plugin_tx['chat']['syscheck_writable'], $filename);
     }
