@@ -99,13 +99,13 @@ class RoomController extends AbstractController
             $room->purge();
         }
         switch ($_GET['chat_ajax']) {
-        case 'write':
-            $this->appendMessage($room);
-            // FALLTHROUGH
-        case 'read':
-            header('Content-Type: text/html; charset=UTF-8');
-            echo $this->messagesView($room);
-            exit;
+            case 'write':
+                $this->appendMessage($room);
+                // FALLTHROUGH
+            case 'read':
+                header('Content-Type: text/html; charset=UTF-8');
+                echo $this->messagesView($room);
+                exit;
         }
     }
 
@@ -262,5 +262,3 @@ class RoomController extends AbstractController
         return $this->view('chat', $bag);
     }
 }
-
-?>

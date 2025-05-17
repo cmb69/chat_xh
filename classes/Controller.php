@@ -73,12 +73,12 @@ class Controller extends AbstractController
         global $o, $admin, $action;
 
         $o .= print_plugin_admin('off');
-        switch($admin) {
-        case '':
-            $o .= $this->aboutView() . tag('hr') . $this->systemCheck();
-            break;
-        default:
-            $o .= plugin_admin_common($action, $admin, 'chat'); // @phpstan-ignore-line
+        switch ($admin) {
+            case '':
+                $o .= $this->aboutView() . tag('hr') . $this->systemCheck();
+                break;
+            default:
+                $o .= plugin_admin_common($action, $admin, 'chat'); // @phpstan-ignore-line
         }
     }
 
@@ -117,5 +117,3 @@ class Controller extends AbstractController
         return $check->render();
     }
 }
-
-?>

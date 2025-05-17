@@ -170,10 +170,6 @@ class Room
     public function appendEntry(Entry $entry)
     {
         $filename = $this->getFilename();
-        return (bool) file_put_contents(
-            $filename, $entry->getLine() . PHP_EOL, FILE_APPEND
-        );
+        return (bool) file_put_contents($filename, $entry->getLine() . PHP_EOL, FILE_APPEND);
     }
 }
-
-?>

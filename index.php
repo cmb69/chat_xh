@@ -37,5 +37,3 @@ function chat($room, $purgeInterval = null)
 
 $temp = new Controller();
 $temp->dispatch();
-
-?>

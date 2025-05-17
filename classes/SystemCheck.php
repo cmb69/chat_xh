@@ -64,9 +64,7 @@ class SystemCheck
 
         $kind = version_compare(PHP_VERSION, $version) >= 0 ? 'ok' : 'fail';
         return $this->renderCheckIcon($kind) . '&nbsp;&nbsp;'
-            . sprintf(
-                $plugin_tx['chat']['syscheck_phpversion'], $version
-            );
+            . sprintf($plugin_tx['chat']['syscheck_phpversion'], $version);
     }
 
     /**
@@ -84,9 +82,7 @@ class SystemCheck
 
         $kind = extension_loaded($name) ? 'ok' : 'fail';
         return $this->renderCheckIcon($kind) . '&nbsp;&nbsp;'
-            . sprintf(
-                $plugin_tx['chat']['syscheck_extension'], $name
-            );
+            . sprintf($plugin_tx['chat']['syscheck_extension'], $name);
     }
 
     /**
@@ -104,9 +100,7 @@ class SystemCheck
 
         $kind = $this->hasXHVersion($version) ? 'ok' : 'fail';
         return $this->renderCheckIcon($kind) . '&nbsp;&nbsp;'
-            . sprintf(
-                $plugin_tx['chat']['syscheck_xhversion'], $version
-            );
+            . sprintf($plugin_tx['chat']['syscheck_xhversion'], $version);
     }
 
     /**
@@ -138,9 +132,7 @@ class SystemCheck
 
         $kind = is_writable($filename) ? 'ok' : 'warn';
         return $this->renderCheckIcon($kind) . '&nbsp;&nbsp;'
-            . sprintf(
-                $plugin_tx['chat']['syscheck_writable'], $filename
-            );
+            . sprintf($plugin_tx['chat']['syscheck_writable'], $filename);
     }
 
     /**
@@ -182,5 +174,3 @@ class SystemCheck
         return $folders;
     }
 }
-
-?>

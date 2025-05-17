@@ -139,5 +139,3 @@ class Entry
         return $this->timestamp . "\t" . $this->username . "\t" . $this->message;
     }
 }
-
-?>
