@@ -2,10 +2,6 @@
 
 <project name="Chat" default="help">
 
-  <fileset id="unit-tests" dir="tests/unit">
-    <include name="*Test.php"/>
-  </fileset>
-
   <target name="help" description="lists available targets">
     <exec executable="phing" outputProperty="help">
       <arg line="-l"/>
