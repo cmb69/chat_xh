@@ -120,7 +120,7 @@ class RoomController
         $entry = new Entry();
         $entry->setTimestamp(time());
         $entry->setUsername($request->username());
-        $entry->setMessage(stsl($_POST['chat_message']));
+        $entry->setMessage($_POST['chat_message']);
         $room->appendEntry($entry);
     }
 
