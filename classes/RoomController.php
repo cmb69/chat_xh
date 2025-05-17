@@ -45,7 +45,7 @@ class RoomController
             return $this->view->message("fail", "error_room_name");
         }
         if (!isset($purgeInterval)) {
-            $purgeInterval = $this->conf["interval_purge"];
+            $purgeInterval = (int) $this->conf["interval_purge"];
         }
         $room = new Room($roomname, $purgeInterval);
         if (!$room->isWritable()) {
@@ -119,7 +119,7 @@ class RoomController
         }
         $entry = new Entry();
         $entry->setTimestamp(time());
-        $entry->setUsername($request->username());
+        $entry->setUsername($request->username() ?? "");
         $entry->setMessage($_POST['chat_message']);
         $room->appendEntry($entry);
     }
