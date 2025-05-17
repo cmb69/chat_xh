@@ -63,13 +63,6 @@ class Room
         return self::dataFolder() . $this->name . '.csv';
     }
 
-    public function isWritable(): bool
-    {
-        $filename = $this->getFilename();
-        return is_writable($filename) ||
-            !file_exists($filename) && is_writable(dirname($filename));
-    }
-
     public function isExpired(): bool
     {
         $filename = $this->getFilename();
@@ -103,6 +96,7 @@ class Room
     public function appendEntry(Entry $entry): bool
     {
         $filename = $this->getFilename();
-        return (bool) file_put_contents($filename, $entry->getLine() . PHP_EOL, FILE_APPEND);
+        $line = $entry->getLine() . "\n";
+        return @file_put_contents($filename, $line, FILE_APPEND) === strlen($line);
     }
 }

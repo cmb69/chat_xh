@@ -43,6 +43,16 @@ class RoomControllerTest extends TestCase
         $this->assertStringContainsString("Invalid chat room name:", $response);
     }
 
+    public function testReportsFailureToSave(): void
+    {
+        $_GET = ["chat_room" => "chat"];
+        $_POST = ["chat_message" => "test"];
+        vfsStream::setQuota(0);
+        $request = new FakeRequest();
+        $response = $this->sut()->handle("chat", null, $request);
+        $this->assertStringContainsString("Chat message could not be saved!", $response);
+    }
+
     public function testShowsRoom(): void
     {
         global $bjs;

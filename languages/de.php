@@ -10,7 +10,7 @@ $plugin_tx['chat']['format_time']="H:i:s";
 $plugin_tx['chat']['label_send']="Senden";
 
 $plugin_tx['chat']['error_room_name']="Ungültiger Chatraum-Name: darf nur Kleinbuchstaben (a-z), Ziffern (0-9) und Bindestriche enthalten.";
-$plugin_tx['chat']['error_not_writable']="Chatraum %s ist nicht schreibbar!";
+$plugin_tx['chat']['error_save']="Chat-Nachricht konnte nicht gespeichert werden!";
 
 $plugin_tx['chat']['syscheck_title']="Systemprüfung";
 $plugin_tx['chat']['syscheck_alt_ok']="OK";

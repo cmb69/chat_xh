@@ -48,9 +48,6 @@ class RoomController
             $purgeInterval = (int) $this->conf["interval_purge"];
         }
         $room = new Room($roomname, $purgeInterval);
-        if (!$room->isWritable()) {
-            return $this->reportUnwritability($room);
-        }
         if (isset($_GET['chat_ajax']) && $_GET['chat_room'] == $room->getName()) {
             $this->handleAjaxRequest($request, $room);
         }
@@ -58,23 +55,12 @@ class RoomController
             $room->purge();
         }
         if (isset($_GET['chat_room']) && $_GET['chat_room'] == $room->getName()) {
-            $this->appendMessage($request, $room);
+            if (!$this->appendMessage($request, $room)) {
+                return $this->view->message("fail", "error_save");
+            }
         }
         $this->emitJS($request);
         return $this->mainView($request, $room);
-    }
-
-    private function reportUnwritability(Room $room): string
-    {
-        global $plugin_tx;
-
-        return $this->view->message(
-            'fail',
-            sprintf(
-                $plugin_tx['chat']['error_not_writable'],
-                defined('XH_ADM') && XH_ADM ? $room->getFilename() : ''
-            )
-        );
     }
 
     private function handleAjaxRequest(Request $request, Room $room): void
@@ -85,6 +71,7 @@ class RoomController
         switch ($_GET['chat_ajax']) {
             case 'write':
                 $this->appendMessage($request, $room);
+                // TODO handle failure to append
                 // FALLTHROUGH
             case 'read':
                 header('Content-Type: text/html; charset=UTF-8');
@@ -112,16 +99,16 @@ class RoomController
     }
 
     /** @todo Handle Ajax submission errors. */
-    private function appendMessage(Request $request, Room $room): void
+    private function appendMessage(Request $request, Room $room): bool
     {
         if (empty($_POST['chat_message'])) {
-            return;
+            return true;
         }
         $entry = new Entry();
         $entry->setTimestamp(time());
         $entry->setUsername($request->username() ?? "");
         $entry->setMessage($_POST['chat_message']);
-        $room->appendEntry($entry);
+        return $room->appendEntry($entry);
     }
 
     /** @return array{class:string,user:string,text:string} */

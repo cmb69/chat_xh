@@ -10,7 +10,7 @@ $plugin_tx['chat']['format_time']="h:i:s a";
 $plugin_tx['chat']['label_send']="Send";
 
 $plugin_tx['chat']['error_room_name']="Invalid chat room name: may contain only lowercase alphanumeric letters (a-z and 0-9) and hyphens.";
-$plugin_tx['chat']['error_not_writable']="Chat room %s is not writable!";
+$plugin_tx['chat']['error_save']="Chat message could not be saved!";
 
 $plugin_tx['chat']['syscheck_title']="System check";
 $plugin_tx['chat']['syscheck_alt_ok']="OK";
