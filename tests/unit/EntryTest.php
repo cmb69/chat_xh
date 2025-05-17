@@ -13,9 +13,6 @@
  * @link      http://3-magi.net/?CMSimple_XH/Chat_XH
  */
 
-require_once './vendor/autoload.php';
-require_once './classes/required_classes.php';
-
 /**
  * Testing the chat class.
  *
