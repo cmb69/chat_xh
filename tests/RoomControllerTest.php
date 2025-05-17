@@ -45,9 +45,9 @@ class RoomControllerTest extends TestCase
 
     public function testHandlesAjaxRequest(): void
     {
-        $_GET = ["chat_ajax" => "read", "chat_room" => "chat"];
-        $_POST = ["chat_message" => "test"];
-        $request = new FakeRequest();
+        $request = new FakeRequest([
+            "url" => "http://example.com/?&chat_room=chat&chat_ajax=read",
+        ]);
         $response = $this->sut()->handle("chat", null, $request);
         $this->assertSame("Content-Type: text/html; charset=UTF-8", $response->contentType());
         Approvals::verifyHtml($response->output());
@@ -55,10 +55,11 @@ class RoomControllerTest extends TestCase
 
     public function testReportsFailureToSave(): void
     {
-        $_GET = ["chat_room" => "chat"];
-        $_POST = ["chat_message" => "test"];
         vfsStream::setQuota(0);
-        $request = new FakeRequest();
+        $request = new FakeRequest([
+            "url" => "http://example.com/?&chat_room=chat",
+            "post" => ["chat_message" => "test"],
+        ]);
         $response = $this->sut()->handle("chat", null, $request);
         $this->assertStringContainsString("Chat message could not be saved!", $response->output());
     }

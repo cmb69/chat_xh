@@ -49,13 +49,13 @@ class RoomController
             $purgeInterval = (int) $this->conf["interval_purge"];
         }
         $room = new Room($roomname, $purgeInterval);
-        if (isset($_GET['chat_ajax']) && $_GET['chat_room'] == $room->getName()) {
+        if ($request->get("chat_ajax") && $request->get("chat_room") === $room->getName()) {
             return $this->handleAjaxRequest($request, $room);
         }
         if ($room->isExpired()) {
             $room->purge();
         }
-        if (isset($_GET['chat_room']) && $_GET['chat_room'] == $room->getName()) {
+        if ($request->get("chat_room") === $room->getName()) {
             if (!$this->appendMessage($request, $room)) {
                 return Response::create($this->view->message("fail", "error_save"));
             }
@@ -69,7 +69,7 @@ class RoomController
         if ($room->isExpired()) {
             $room->purge();
         }
-        if ($_GET['chat_ajax'] === "write") {
+        if ($request->get("chat_ajax") === "write") {
             $this->appendMessage($request, $room);
             // TODO handle failure to append
         }
@@ -98,13 +98,13 @@ class RoomController
     /** @todo Handle Ajax submission errors. */
     private function appendMessage(Request $request, Room $room): bool
     {
-        if (empty($_POST['chat_message'])) {
+        if ($request->post("chat_message") === null) {
             return true;
         }
         $entry = new Entry();
-        $entry->setTimestamp(time());
+        $entry->setTimestamp($request->time());
         $entry->setUsername($request->username() ?? "");
-        $entry->setMessage($_POST['chat_message']);
+        $entry->setMessage($request->post("chat_message"));
         return $room->appendEntry($entry);
     }
 
