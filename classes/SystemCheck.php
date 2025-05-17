@@ -42,7 +42,7 @@ class SystemCheck
         foreach (array('pcre', 'session') as $ext) {
             $o .= $this->checkExtension($ext) . tag('br');
         }
-        $o .= $this->checkXHVersion('1.6') . tag('br') . tag('br');
+        $o .= $this->checkXHVersion('1.7.0') . tag('br') . tag('br');
         foreach ($this->getWritableFolders() as $folder) {
             $o .= $this->checkWritability($folder) . tag('br');
         }
