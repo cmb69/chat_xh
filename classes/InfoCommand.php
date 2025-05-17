@@ -40,18 +40,17 @@ class InfoCommand
 
     public function render(): string
     {
-        global $plugin_tx;
-
-        $o = $this->view->render("about", [
-            "version" => CHAT_VERSION,
-        ]);
-        $o .= '<h4>' . $plugin_tx['chat']['syscheck_title'] . '</h4>' . "\n"
-            . $this->checkPHPVersion('7.1.0');
-        $o .= $this->checkXHVersion('1.7.0');
+        $checks = [
+            $this->checkPHPVersion("7.1.0"),
+            $this->checkXHVersion("1.7.0"),
+        ];
         foreach ($this->getWritableFolders() as $folder) {
-            $o .= $this->checkWritability($folder);
+            $checks[]  = $this->checkWritability($folder);
         }
-        return $o;
+        return $this->view->render("about", [
+            "version" => CHAT_VERSION,
+            "checks" => $checks,
+        ]);
     }
 
     private function checkPHPVersion(string $version): string
