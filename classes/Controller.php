@@ -45,32 +45,10 @@ class Controller extends AbstractController
         $o .= print_plugin_admin('off');
         switch ($admin) {
             case '':
-                $o .= $this->aboutView() . tag('hr') . $this->systemCheck();
+                $o .= (new InfoCommand())->render();
                 break;
             default:
                 $o .= plugin_admin_common($action, $admin, 'chat'); // @phpstan-ignore-line
         }
-    }
-
-    protected function aboutView(): string
-    {
-        global $pth, $plugin_tx;
-
-        $icon = tag(
-            'img class="chat_logo" src="' . $pth['folder']['plugins']
-            . 'chat/chat.png" alt="' . $plugin_tx['chat']['alt_logo'] . '"'
-        );
-        $bag = array(
-            'heading' => 'Chat &ndash; Info',
-            'icon' => $icon,
-            'version' => CHAT_VERSION
-        );
-        return $this->view('about', $bag);
-    }
-
-    protected function systemCheck(): string
-    {
-        $check = new SystemCheck();
-        return $check->render();
     }
 }

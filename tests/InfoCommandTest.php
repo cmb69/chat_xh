@@ -5,7 +5,7 @@ namespace Chat;
 use ApprovalTests\Approvals;
 use PHPUnit\Framework\TestCase;
 
-class SystemCheckTest extends TestCase
+class InfoCommandTest extends TestCase
 {
     public function setUp(): void
     {
@@ -14,9 +14,9 @@ class SystemCheckTest extends TestCase
         $plugin_tx = XH_includeVar("./languages/en.php", "plugin_tx");
     }
 
-    private function sut(): SystemCheck
+    private function sut(): InfoCommand
     {
-        return new SystemCheck();
+        return new InfoCommand();
     }
 
     public function testRendersSystemCheck(): void
