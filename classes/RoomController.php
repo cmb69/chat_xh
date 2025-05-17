@@ -111,14 +111,11 @@ class RoomController
     /** @return array{class:string,user:string,text:string} */
     private function message(Request $request, Entry $entry): array
     {
-        global $plugin_tx;
-
-        $ptx = $plugin_tx['chat'];
         if (!$entry->getUsername()) {
-            $user = $ptx['user_unknown'];
+            $user = $this->view->plain("user_unknown");
             $class = '';
         } elseif ($entry->getUsername() == $request->username()) {
-            $user = $ptx['user_self'];
+            $user = $this->view->plain("user_self");
             $class = 'chat_self';
         } else {
             $user = $entry->getUsername();
@@ -126,10 +123,10 @@ class RoomController
         }
         $trans = array(
             '{USER}' => $user,
-            '{DATE}' => date($ptx['format_date'], $entry->getTimestamp()),
-            '{TIME}' => date($ptx['format_time'], $entry->getTimestamp())
+            '{DATE}' => date($this->view->plain("format_date"), $entry->getTimestamp()),
+            '{TIME}' => date($this->view->plain("format_time"), $entry->getTimestamp())
         );
-        $user = strtr($ptx['format_user'], $trans);
+        $user = strtr($this->view->plain("format_user"), $trans);
         return array(
             'class' => $class,
             'user' => $user,
