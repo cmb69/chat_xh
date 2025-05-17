@@ -7,6 +7,7 @@ use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
 
+/** @small */
 class RoomTest extends TestCase
 {
     /** @var Room*/
@@ -20,7 +21,6 @@ class RoomTest extends TestCase
         vfsStreamWrapper::setRoot(new vfsStreamDirectory('chat'));
         $pth = ['folder' => ['content' => vfsStream::url('')]];
         $this->subject = new Room('foo', 3600);
-        // $this->makeEntryFromLineMock = new PHPUnit_Extensions_MockStaticMethod('Entry::makeFromLine', $this->subject);
     }
 
     public function testDataFolder(): void
@@ -47,31 +47,31 @@ class RoomTest extends TestCase
 
     public function testIsNotExpired(): void
     {
-        $entry = $this->createMock(Entry::class);
-        $this->subject->appendEntry($entry);
+        $this->subject->appendEntry($this->entry());
         $this->assertFalse($this->subject->isExpired());
     }
 
     public function testFindOneEntry(): void
     {
-        $this->markTestSkipped();
-        $entry = $this->createMock(Entry::class);
-        $this->subject->appendEntry($entry);
+        $this->subject->appendEntry($this->entry());
         $this->assertCount(1, $this->subject->findEntries());
     }
 
     public function testFileExistsAfterAppendingEntry(): void
     {
-        $entry = $this->createMock(Entry::class);
-        $this->subject->appendEntry($entry);
+        $this->subject->appendEntry($this->entry());
         $this->assertFileExists(vfsStream::url('chat/foo.csv'));
     }
 
     public function testPurgingRemovesFile(): void
     {
-        $entry = $this->createMock(Entry::class);
-        $this->subject->appendEntry($entry);
+        $this->subject->appendEntry($this->entry());
         $this->subject->purge();
         $this->assertFileDoesNotExist(vfsStream::url('chat/foo.csv'));
+    }
+
+    private function entry(): Entry
+    {
+        return new Entry(1234567, "cmb", "blah blah");
     }
 }

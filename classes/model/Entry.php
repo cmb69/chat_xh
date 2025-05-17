@@ -34,10 +34,15 @@ class Entry
 
     public static function makeFromLine(string $line): self
     {
-        $entry = new self();
-        [$timestamp, $entry->username, $entry->message] = explode("\t", $line, 3);
-        $entry->timestamp = (int) $timestamp;
-        return $entry;
+        [$timestamp, $username, $message] = explode("\t", $line, 3);
+        return new self((int) $timestamp, $username, $message);
+    }
+
+    public function __construct(int $timestamp, string $username, string $message)
+    {
+        $this->timestamp = $timestamp;
+        $this->username = $username;
+        $this->message = $message;
     }
 
     public function getTimestamp(): int
@@ -45,29 +50,14 @@ class Entry
         return $this->timestamp;
     }
 
-    public function setTimestamp(int $timestamp): void
-    {
-        $this->timestamp = $timestamp;
-    }
-
     public function getUsername(): string
     {
         return $this->username;
     }
 
-    public function setUsername(string $username): void
-    {
-        $this->username = $username;
-    }
-
     public function getMessage(): string
     {
         return $this->message;
-    }
-
-    public function setMessage(string $message): void
-    {
-        $this->message = $message;
     }
 
     public function getLine(): string

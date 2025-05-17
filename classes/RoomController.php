@@ -94,10 +94,7 @@ class RoomController
         if ($request->post("chat_message") === null) {
             return true;
         }
-        $entry = new Entry();
-        $entry->setTimestamp($request->time());
-        $entry->setUsername($request->username() ?? "");
-        $entry->setMessage($request->post("chat_message"));
+        $entry = new Entry($request->time(), $request->username() ?? "", $request->post("chat_message"));
         return $room->appendEntry($entry);
     }
 
