@@ -108,8 +108,8 @@ class RoomController
         return $room->appendEntry($entry);
     }
 
-    /** @return array{class:string,user:string,text:string} */
-    private function message(Request $request, Entry $entry): array
+    /** @return object{class:string,user:string,text:string} */
+    private function message(Request $request, Entry $entry)
     {
         if (!$entry->getUsername()) {
             $user = $this->view->plain("user_unknown");
@@ -126,7 +126,7 @@ class RoomController
             "{DATE}" => date($this->view->plain("format_date"), $entry->getTimestamp()),
             "{TIME}" => date($this->view->plain("format_time"), $entry->getTimestamp()),
         ]);
-        return [
+        return (object) [
             'class' => $class,
             'user' => $user,
             'text' => $entry->getMessage(),
