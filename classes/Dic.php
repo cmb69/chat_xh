@@ -28,7 +28,8 @@ class Dic
 {
     public static function roomController(): RoomController
     {
-        return new RoomController(self::view());
+        global $plugin_cf;
+        return new RoomController($plugin_cf["chat"], self::view());
     }
 
     public static function infoCommand(): InfoCommand

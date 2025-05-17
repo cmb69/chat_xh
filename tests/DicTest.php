@@ -8,8 +8,9 @@ class DicTest extends TestCase
 {
     public function setUp(): void
     {
-        global $pth, $plugin_tx;
+        global $pth, $plugin_cf, $plugin_tx;
         $pth = ["folder" => ["plugins" => ""]];
+        $plugin_cf = ["chat" => []];
         $plugin_tx = ["chat" => []];
     }
 

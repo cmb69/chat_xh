@@ -25,23 +25,26 @@ use Plib\View;
 
 class RoomController extends AbstractController
 {
+    /** @var array<string,string> */
+    private $conf;
+
     /** @var View */
     private $view;
 
-    public function __construct(View $view)
+    /** @param array<string,string> $conf */
+    public function __construct(array $conf, View $view)
     {
+        $this->conf = $conf;
         $this->view = $view;
     }
 
     public function handle(string $roomname, int $purgeInterval = null): string
     {
-        global $plugin_cf;
-
         if (!Room::isValidName($roomname)) {
             return $this->view->message("fail", "error_room_name");
         }
         if (!isset($purgeInterval)) {
-            $purgeInterval = $plugin_cf['chat']['interval_purge'];
+            $purgeInterval = $this->conf["interval_purge"];
         }
         $room = new Room($roomname, $purgeInterval);
         if (!$room->isWritable()) {
@@ -103,14 +106,14 @@ class RoomController extends AbstractController
 
     private function emitJS(): void
     {
-        global $pth, $sn, $su, $bjs, $plugin_cf;
+        global $pth, $sn, $su, $bjs;
         static $again = false;
 
         if (!$again) {
             $again = true;
             $config = array(
                 'url' => $sn . '?' . $su,
-                'interval' => max(1000 * $plugin_cf['chat']['interval_poll'], 1)
+                'interval' => max(1000 * (int) $this->conf["interval_poll"], 1)
             );
             $bjs .= '<script type="text/javascript">var CHAT = '
                 . json_encode($config) . ';</script>'
