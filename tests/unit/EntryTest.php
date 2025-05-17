@@ -13,6 +13,8 @@
  * @link      http://3-magi.net/?CMSimple_XH/Chat_XH
  */
 
+namespace Chat;
+
 /**
  * Testing the chat class.
  *

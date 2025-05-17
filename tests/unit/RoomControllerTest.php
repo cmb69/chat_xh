@@ -13,6 +13,8 @@
  * @link      http://3-magi.net/?CMSimple_XH/Chat_XH
  */
 
+namespace Chat;
+
 /**
  * Testing the chat room controllers.
  *
@@ -33,15 +35,12 @@ class RoomControllerTest extends PHPUnit_Framework_TestCase
     public function setUp(): void
     {
         $this->subject = new Chat_RoomController();
-        $this->messageMock = new PHPUnit_Extensions_MockFunction(
-            'XH_message', $this->subject
-        );
+        $this->messageMock = new PHPUnit_Extensions_MockFunction('XH_message', $this->subject);
     }
 
     public function testInvalidRoomNameReturnsFailureMessage(): void
     {
         $this->messageMock->expects($this->once())->with($this->equalTo('fail'));
         $this->subject->handle('te$t');
-
     }
 }

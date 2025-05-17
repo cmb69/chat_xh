@@ -13,6 +13,8 @@
  * @link      http://3-magi.net/?CMSimple_XH/Chat_XH
  */
 
+namespace Chat;
+
 use org\bovigo\vfs\vfsStreamWrapper;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStream;
@@ -39,9 +41,7 @@ class RoomTest extends PHPUnit_Framework_TestCase
         vfsStreamWrapper::setRoot(new vfsStreamDirectory('chat'));
         $pth = ['folder' => ['content' => vfsStream::url('')]];
         $this->subject = new Room('foo', 3600);
-        $this->makeEntryFromLineMock = new PHPUnit_Extensions_MockStaticMethod(
-            'Entry::makeFromLine', $this->subject
-        );
+        $this->makeEntryFromLineMock = new PHPUnit_Extensions_MockStaticMethod('Entry::makeFromLine', $this->subject);
     }
 
     public function testDataFolder(): void

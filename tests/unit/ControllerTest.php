@@ -13,6 +13,8 @@
  * @link      http://3-magi.net/?CMSimple_XH/Chat_XH
  */
 
+namespace Chat;
+
 /**
  * Testing the chat controllers.
  *
@@ -35,7 +37,8 @@ class ControllerTest extends PHPUnit_Framework_TestCase
         $this->defineConstant('XH_ADM', true);
         $this->subject = new Controller();
         $this->rspmiMock = new PHPUnit_Extensions_MockFunction(
-            'XH_registerStandardPluginMenuItems', $this->subject
+            'XH_registerStandardPluginMenuItems',
+            $this->subject
         );
     }
 
