@@ -15,8 +15,18 @@
 
 namespace Chat;
 
-class InfoCommand extends AbstractController
+use Plib\View;
+
+class InfoCommand
 {
+    /** @var View */
+    private $view;
+
+    public function __construct(View $view)
+    {
+        $this->view = $view;
+    }
+
     public function render(): string
     {
         global $plugin_tx;
@@ -47,7 +57,7 @@ class InfoCommand extends AbstractController
             'icon' => $icon,
             'version' => CHAT_VERSION
         );
-        return $this->view('about', $bag);
+        return $this->view->render('about', $bag);
     }
 
     protected function checkPHPVersion(string $version): string
