@@ -22,6 +22,7 @@
 namespace Chat;
 
 use Plib\Request;
+use Plib\Response;
 use Plib\View;
 
 class RoomController
@@ -39,45 +40,41 @@ class RoomController
         $this->view = $view;
     }
 
-    public function handle(string $roomname, ?int $purgeInterval, Request $request): string
+    public function handle(string $roomname, ?int $purgeInterval, Request $request): Response
     {
         if (!Room::isValidName($roomname)) {
-            return $this->view->message("fail", "error_room_name");
+            return Response::create($this->view->message("fail", "error_room_name"));
         }
         if (!isset($purgeInterval)) {
             $purgeInterval = (int) $this->conf["interval_purge"];
         }
         $room = new Room($roomname, $purgeInterval);
         if (isset($_GET['chat_ajax']) && $_GET['chat_room'] == $room->getName()) {
-            $this->handleAjaxRequest($request, $room);
+            return $this->handleAjaxRequest($request, $room);
         }
         if ($room->isExpired()) {
             $room->purge();
         }
         if (isset($_GET['chat_room']) && $_GET['chat_room'] == $room->getName()) {
             if (!$this->appendMessage($request, $room)) {
-                return $this->view->message("fail", "error_save");
+                return Response::create($this->view->message("fail", "error_save"));
             }
         }
         $this->emitJS($request);
-        return $this->mainView($request, $room);
+        return Response::create($this->mainView($request, $room));
     }
 
-    private function handleAjaxRequest(Request $request, Room $room): void
+    private function handleAjaxRequest(Request $request, Room $room): Response
     {
         if ($room->isExpired()) {
             $room->purge();
         }
-        switch ($_GET['chat_ajax']) {
-            case 'write':
-                $this->appendMessage($request, $room);
-                // TODO handle failure to append
-                // FALLTHROUGH
-            case 'read':
-                header('Content-Type: text/html; charset=UTF-8');
-                echo $this->messagesView($request, $room);
-                exit;
+        if ($_GET['chat_ajax'] === "write") {
+            $this->appendMessage($request, $room);
+            // TODO handle failure to append
         }
+        return Response::create($this->messagesView($request, $room))
+            ->withContentType("Content-Type: text/html; charset=UTF-8");
     }
 
     private function emitJS(Request $request): void

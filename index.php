@@ -37,5 +37,5 @@ define('CHAT_VERSION', '1.0');
  */
 function chat($room, $purgeInterval = null)
 {
-    return Dic::roomController()->handle($room, $purgeInterval, Request::current());
+    return Dic::roomController()->handle($room, $purgeInterval, Request::current())();
 }

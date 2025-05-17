@@ -40,7 +40,17 @@ class RoomControllerTest extends TestCase
     {
         $request = new FakeRequest();
         $response = $this->sut()->handle('te$t', null, $request);
-        $this->assertStringContainsString("Invalid chat room name:", $response);
+        $this->assertStringContainsString("Invalid chat room name:", $response->output());
+    }
+
+    public function testHandlesAjaxRequest(): void
+    {
+        $_GET = ["chat_ajax" => "read", "chat_room" => "chat"];
+        $_POST = ["chat_message" => "test"];
+        $request = new FakeRequest();
+        $response = $this->sut()->handle("chat", null, $request);
+        $this->assertSame("Content-Type: text/html; charset=UTF-8", $response->contentType());
+        Approvals::verifyHtml($response->output());
     }
 
     public function testReportsFailureToSave(): void
@@ -50,7 +60,7 @@ class RoomControllerTest extends TestCase
         vfsStream::setQuota(0);
         $request = new FakeRequest();
         $response = $this->sut()->handle("chat", null, $request);
-        $this->assertStringContainsString("Chat message could not be saved!", $response);
+        $this->assertStringContainsString("Chat message could not be saved!", $response->output());
     }
 
     public function testShowsRoom(): void
@@ -63,6 +73,6 @@ class RoomControllerTest extends TestCase
             . "<script type=\"text/javascript\" src=\"../chat/chat.js\"></script>\n",
             $bjs
         );
-        Approvals::verifyHtml($response);
+        Approvals::verifyHtml($response->output());
     }
 }
