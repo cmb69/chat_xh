@@ -1,16 +1,22 @@
 <?php
 
 /**
- * Front-end of Chat_XH.
+ * Copyright (c) Christoph M. Becker
  *
- * PHP version 5
+ * This file is part of Chat_XH.
  *
- * @category  CMSimple_XH
- * @package   Chat
- * @author    Christoph M. Becker <cmbecker69@gmx.de>
- * @copyright 2012-2015 Christoph M. Becker <http://3-magi.net>
- * @license   http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
- * @link      http://3-magi.net/?CMSimple_XH/Chat_XH
+ * Chat_XH is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Chat_XH is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Chat_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 use Chat\Controller;
