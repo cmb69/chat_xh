@@ -20,7 +20,7 @@ $plugin_tx['chat']['syscheck_phpversion']="PHP version ≥ %s";
 $plugin_tx['chat']['syscheck_extension']="Extension '%s' loaded";
 $plugin_tx['chat']['syscheck_magic_quotes']="Magic quotes runtime off";
 $plugin_tx['chat']['syscheck_writable']="Folder '%s' writable";
-$plugin_tx['chat']['syscheck_xhversion']="CMSimple_XH version &ge; %s";
+$plugin_tx['chat']['syscheck_xhversion']="CMSimple_XH version ≥ %s";
 
 $plugin_tx['chat']['cf_format_date']="The format of the date when used as {DATE} in \"format user\" (see http://php.net/manual/en/function.date.php).";
 $plugin_tx['chat']['cf_format_time']="The format of the time when used as {TIME} in \"format user\" (see http://php.net/manual/en/function.date.php).";

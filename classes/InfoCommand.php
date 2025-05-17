@@ -46,61 +46,39 @@ class InfoCommand
             "version" => CHAT_VERSION,
         ]);
         $o .= '<h4>' . $plugin_tx['chat']['syscheck_title'] . '</h4>' . "\n"
-            . $this->checkPHPVersion('7.1.0') . tag('br') . "\n";
+            . $this->checkPHPVersion('7.1.0');
         foreach (array('pcre', 'session') as $ext) {
-            $o .= $this->checkExtension($ext) . tag('br') . "\n";
+            $o .= $this->checkExtension($ext);
         }
-        $o .= $this->checkXHVersion('1.7.0') . tag('br') . tag('br') . "\n";
+        $o .= $this->checkXHVersion('1.7.0');
         foreach ($this->getWritableFolders() as $folder) {
-            $o .= $this->checkWritability($folder) . tag('br') . "\n";
+            $o .= $this->checkWritability($folder);
         }
         return $o;
     }
 
     protected function checkPHPVersion(string $version): string
     {
-        global $plugin_tx;
-
-        $kind = $this->systemChecker->checkVersion(PHP_VERSION, $version) ? 'ok' : 'fail';
-        return $this->renderCheckIcon($kind) . '&nbsp;&nbsp;'
-            . sprintf($plugin_tx['chat']['syscheck_phpversion'], $version);
+        $kind = $this->systemChecker->checkVersion(PHP_VERSION, $version) ? 'success' : 'fail';
+        return $this->view->message($kind, "syscheck_phpversion", $version);
     }
 
     protected function checkExtension(string $name): string
     {
-        global $plugin_tx;
-
-        $kind = $this->systemChecker->checkExtension($name) ? 'ok' : 'fail';
-        return $this->renderCheckIcon($kind) . '&nbsp;&nbsp;'
-            . sprintf($plugin_tx['chat']['syscheck_extension'], $name);
+        $kind = $this->systemChecker->checkExtension($name) ? 'success' : 'fail';
+        return $this->view->message($kind, "syscheck_extension", $name);
     }
 
     protected function checkXHVersion(string $version): string
     {
-        global $plugin_tx;
-
-        $kind = $this->systemChecker->checkVersion(CMSIMPLE_XH_VERSION, "CMSimple_XH {$version}") ? 'ok' : 'fail';
-        return $this->renderCheckIcon($kind) . '&nbsp;&nbsp;'
-            . sprintf($plugin_tx['chat']['syscheck_xhversion'], $version);
+        $kind = $this->systemChecker->checkVersion(CMSIMPLE_XH_VERSION, "CMSimple_XH {$version}") ? 'success' : 'fail';
+        return $this->view->message($kind, "syscheck_xhversion", $version);
     }
 
     protected function checkWritability(string $filename): string
     {
-        global $plugin_tx;
-
-        $kind = $this->systemChecker->checkWritability($filename) ? 'ok' : 'warn';
-        return $this->renderCheckIcon($kind) . '&nbsp;&nbsp;'
-            . sprintf($plugin_tx['chat']['syscheck_writable'], $filename);
-    }
-
-    protected function renderCheckIcon(string $kind): string
-    {
-        global $pth, $plugin_tx;
-
-        $path = $pth['folder']['plugins'] . 'chat/images/'
-            . $kind . '.png';
-        $alt = $plugin_tx['chat']['syscheck_alt_' . $kind];
-        return tag('img src="' . $path  . '" alt="' . $alt . '"');
+        $kind = $this->systemChecker->checkWritability($filename) ? 'success' : 'warning';
+        return $this->view->message($kind, "syscheck_writable", $filename);
     }
 
     protected function getWritableFolders(): array

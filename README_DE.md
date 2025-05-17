@@ -140,9 +140,6 @@ angeregt.
 Das Plugin-Icon wurde von [Alessandro Rei](http://www.mentalrey.it/) entworfen.
 Vielen Dank für die Veröffentlichung dieses Icons unter GPL.
 
-Dieses Plugin verwendet freie Anwendungs-Icons von [Aha-Soft](http://www.aha-soft.com/).
-Vielen Dank für die freie Nutzbarkeit dieser Icons.
-
 Vielen Dank an die Community im [CMSimple_XH Forum](http://www.cmsimpleforum.com/)
 für Hinweise, Anregungen und das Testen.
 Besonders möchte ich *snafu* für sein schnelles Feedback danken.
