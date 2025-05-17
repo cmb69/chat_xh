@@ -95,7 +95,7 @@ Wenn Sie die Chat-Dateien bearbeiten wollen, müssen Sie dies per FTP tun.
 
 ## Einschränkungen
 
-Wenn JavaScript oder Cookies im Browser des Besuchers deaktiviert sind, oder
+Wenn JavaScript im Browser des Besuchers deaktiviert ist, oder
 falls der Browser das nötige JavaScript nicht unterstützt (z.B. IE 7 und älter),
 funktioniert der automatische Abruf von neuen Nachrichten nicht. Statt dessen
 müssen Besucher den Browser aktualisieren, um diese zu sehen.

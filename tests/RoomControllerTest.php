@@ -5,6 +5,7 @@ namespace Chat;
 use ApprovalTests\Approvals;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
+use Plib\FakeRequest;
 use Plib\View;
 
 class RoomControllerTest extends TestCase
@@ -20,7 +21,10 @@ class RoomControllerTest extends TestCase
         global $pth, $plugin_tx;
         vfsStream::setup();
         mkdir(vfsStream::url("root/chat"));
-        file_put_contents(vfsStream::url("root/chat/chat.csv"), "1747486215\t\thello");
+        file_put_contents(
+            vfsStream::url("root/chat/chat.csv"),
+            "1747486215\t\thello\n1747486220\tolape\tworld\n1747486225\tcmb\t'sup"
+        );
         $pth = ["folder" => ["content" => vfsStream::url("root/"), "plugins" => "../"]];
         $this->conf = XH_includeVar("./config/config.php", "plugin_cf")["chat"];
         $plugin_tx = XH_includeVar("./languages/en.php", "plugin_tx");
@@ -34,24 +38,21 @@ class RoomControllerTest extends TestCase
 
     public function testInvalidRoomNameReturnsFailureMessage(): void
     {
-        $response = $this->sut()->handle('te$t');
+        $request = new FakeRequest();
+        $response = $this->sut()->handle('te$t', null, $request);
         $this->assertStringContainsString("Invalid chat room name:", $response);
     }
 
-    public function testEmitsJS(): void
+    public function testShowsRoom(): void
     {
         global $bjs;
-        $this->sut()->handle("chat");
+        $request = new FakeRequest(["username" => "cmb"]);
+        $response = $this->sut()->handle("chat", null, $request);
         $this->assertSame(
             "<script type=\"text/javascript\">var CHAT = {\"url\":\"?\",\"interval\":12000};</script>"
             . "<script type=\"text/javascript\" src=\"../chat/chat.js\"></script>\n",
             $bjs
         );
-    }
-
-    public function testShowsRoom(): void
-    {
-        $response = $this->sut()->handle("chat");
         Approvals::verifyHtml($response);
     }
 }

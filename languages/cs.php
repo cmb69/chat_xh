@@ -6,7 +6,6 @@ $plugin_tx['chat']['label_send']="Odeslat";
 $plugin_tx['chat']['error_room_name']="Nesprávný název místnosti pro chat()!";
 $plugin_tx['chat']['syscheck_title']="Kontrola systému";
 $plugin_tx['chat']['syscheck_phpversion']="PHP verze ≥ %s";
-$plugin_tx['chat']['syscheck_extension']="Rozšíření '%s' načteno";
 $plugin_tx['chat']['syscheck_magic_quotes']="Magic quotes runtime off";
 $plugin_tx['chat']['syscheck_writable']="Do adresáře '%s' lze zapisovat.";
 $plugin_tx['chat']['cf_format_user']="Formát uživatelského jména ve zprávě. {USER} je znak pro umístění uživatelského jména.";

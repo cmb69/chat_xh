@@ -17,7 +17,6 @@ $plugin_tx['chat']['syscheck_alt_ok']="OK";
 $plugin_tx['chat']['syscheck_alt_warn']="Warning";
 $plugin_tx['chat']['syscheck_alt_fail']="Failure";
 $plugin_tx['chat']['syscheck_phpversion']="PHP version ≥ %s";
-$plugin_tx['chat']['syscheck_extension']="Extension '%s' loaded";
 $plugin_tx['chat']['syscheck_magic_quotes']="Magic quotes runtime off";
 $plugin_tx['chat']['syscheck_writable']="Folder '%s' writable";
 $plugin_tx['chat']['syscheck_xhversion']="CMSimple_XH version ≥ %s";

@@ -47,9 +47,6 @@ class InfoCommand
         ]);
         $o .= '<h4>' . $plugin_tx['chat']['syscheck_title'] . '</h4>' . "\n"
             . $this->checkPHPVersion('7.1.0');
-        foreach (array('pcre', 'session') as $ext) {
-            $o .= $this->checkExtension($ext);
-        }
         $o .= $this->checkXHVersion('1.7.0');
         foreach ($this->getWritableFolders() as $folder) {
             $o .= $this->checkWritability($folder);
@@ -61,12 +58,6 @@ class InfoCommand
     {
         $kind = $this->systemChecker->checkVersion(PHP_VERSION, $version) ? 'success' : 'fail';
         return $this->view->message($kind, "syscheck_phpversion", $version);
-    }
-
-    private function checkExtension(string $name): string
-    {
-        $kind = $this->systemChecker->checkExtension($name) ? 'success' : 'fail';
-        return $this->view->message($kind, "syscheck_extension", $name);
     }
 
     private function checkXHVersion(string $version): string

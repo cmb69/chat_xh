@@ -20,6 +20,7 @@
  */
 
 use Chat\Dic;
+use Plib\Request;
 
 /**
  * The version of the plugin.
@@ -36,5 +37,5 @@ define('CHAT_VERSION', '1.0');
  */
 function chat($room, $purgeInterval = null)
 {
-    return Dic::roomController()->handle($room, $purgeInterval);
+    return Dic::roomController()->handle($room, $purgeInterval, Request::current());
 }

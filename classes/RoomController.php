@@ -21,6 +21,7 @@
 
 namespace Chat;
 
+use Plib\Request;
 use Plib\View;
 
 class RoomController extends AbstractController
@@ -38,7 +39,7 @@ class RoomController extends AbstractController
         $this->view = $view;
     }
 
-    public function handle(string $roomname, int $purgeInterval = null): string
+    public function handle(string $roomname, ?int $purgeInterval, Request $request): string
     {
         if (!Room::isValidName($roomname)) {
             return $this->view->message("fail", "error_room_name");
@@ -51,16 +52,16 @@ class RoomController extends AbstractController
             return $this->reportUnwritability($room);
         }
         if (isset($_GET['chat_ajax']) && $_GET['chat_room'] == $room->getName()) {
-            $this->handleAjaxRequest($room);
+            $this->handleAjaxRequest($request, $room);
         }
         if ($room->isExpired()) {
             $room->purge();
         }
         if (isset($_GET['chat_room']) && $_GET['chat_room'] == $room->getName()) {
-            $this->appendMessage($room);
+            $this->appendMessage($request, $room);
         }
         $this->emitJS();
-        return $this->mainView($room);
+        return $this->mainView($request, $room);
     }
 
     private function reportUnwritability(Room $room): string
@@ -76,32 +77,20 @@ class RoomController extends AbstractController
         );
     }
 
-    private function handleAjaxRequest(Room $room): void
+    private function handleAjaxRequest(Request $request, Room $room): void
     {
         if ($room->isExpired()) {
             $room->purge();
         }
         switch ($_GET['chat_ajax']) {
             case 'write':
-                $this->appendMessage($room);
+                $this->appendMessage($request, $room);
                 // FALLTHROUGH
             case 'read':
                 header('Content-Type: text/html; charset=UTF-8');
-                echo $this->messagesView($room);
+                echo $this->messagesView($request, $room);
                 exit;
         }
-    }
-
-    private function currentUser(): string
-    {
-        if (session_id() == '') {
-            session_start();
-        }
-        return isset($_SESSION['username'])
-            ? $_SESSION['username'] // Register and Memberpages >= 3
-            : (isset($_SESSION['Name'])
-                ? $_SESSION['Name'] // Memberpages < 3
-                : false);
     }
 
     private function emitJS(): void
@@ -123,19 +112,19 @@ class RoomController extends AbstractController
     }
 
     /** @todo Handle Ajax submission errors. */
-    private function appendMessage(Room $room): void
+    private function appendMessage(Request $request, Room $room): void
     {
         if (empty($_POST['chat_message'])) {
             return;
         }
         $entry = new Entry();
         $entry->setTimestamp(time());
-        $entry->setUsername($this->currentUser());
+        $entry->setUsername($request->username());
         $entry->setMessage(stsl($_POST['chat_message']));
         $room->appendEntry($entry);
     }
 
-    private function message(Entry $entry): array
+    private function message(Request $request, Entry $entry): array
     {
         global $plugin_tx;
 
@@ -143,7 +132,7 @@ class RoomController extends AbstractController
         if (!$entry->getUsername()) {
             $user = $ptx['user_unknown'];
             $class = '';
-        } elseif ($entry->getUsername() == $this->currentUser()) {
+        } elseif ($entry->getUsername() == $request->username()) {
             $user = $ptx['user_self'];
             $class = 'chat_self';
         } else {
@@ -163,13 +152,14 @@ class RoomController extends AbstractController
         );
     }
 
-    private function messagesView(Room $room): string
+    private function messagesView(Request $request, Room $room): string
     {
-        $messages = array_map(array($this, 'message'), $room->findEntries());
+        $entries = $room->findEntries();
+        $messages = array_map(array($this, 'message'), array_fill(0, count($entries), $request), $entries);
         return $this->view('messages', compact('messages'));
     }
 
-    private function mainView(Room $room): string
+    private function mainView(Request $request, Room $room): string
     {
         global $sn, $su, $plugin_tx;
 
@@ -183,7 +173,7 @@ class RoomController extends AbstractController
             'room' => $room->getName(),
             'inputs' => $inputs,
             'url' => $url,
-            'messages' => $this->messagesView($room)
+            'messages' => $this->messagesView($request, $room)
         );
         return $this->view('chat', $bag);
     }

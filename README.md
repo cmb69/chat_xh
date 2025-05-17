@@ -94,7 +94,7 @@ If you want to edit the chat data files, you have to do this via FTP.
 
 ## Limitations
 
-If JavaScript or Cookies are disabled in the browser of the visitor, or in case
+If JavaScript is disabled in the browser of the visitor, or in case
 the browser does not support the required JavaScript (e.g. IE 7 and older), the
 automatic retrieval of new messages does not work. Instead visitors have to
 refresh their browsers to see them.
