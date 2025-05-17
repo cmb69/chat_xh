@@ -42,7 +42,9 @@ class InfoCommand
     {
         global $plugin_tx;
 
-        $o = $this->aboutView() . tag('hr');
+        $o = $this->view->render("about", [
+            "version" => CHAT_VERSION,
+        ]);
         $o .= '<h4>' . $plugin_tx['chat']['syscheck_title'] . '</h4>' . "\n"
             . $this->checkPHPVersion('7.1.0') . tag('br') . "\n";
         foreach (array('pcre', 'session') as $ext) {
@@ -53,22 +55,6 @@ class InfoCommand
             $o .= $this->checkWritability($folder) . tag('br') . "\n";
         }
         return $o;
-    }
-
-    protected function aboutView(): string
-    {
-        global $pth, $plugin_tx;
-
-        $icon = tag(
-            'img class="chat_logo" src="' . $pth['folder']['plugins']
-            . 'chat/chat.png" alt="' . $plugin_tx['chat']['alt_logo'] . '"'
-        );
-        $bag = array(
-            'heading' => 'Chat &ndash; Info',
-            'icon' => $icon,
-            'version' => CHAT_VERSION
-        );
-        return $this->view->render('about', $bag);
     }
 
     protected function checkPHPVersion(string $version): string
