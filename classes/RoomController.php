@@ -27,6 +27,9 @@ use Plib\View;
 
 class RoomController
 {
+    /** @var string */
+    private $pluginFolder;
+
     /** @var array<string,string> */
     private $conf;
 
@@ -34,8 +37,12 @@ class RoomController
     private $view;
 
     /** @param array<string,string> $conf */
-    public function __construct(array $conf, View $view)
-    {
+    public function __construct(
+        string $pluginFolder,
+        array $conf,
+        View $view
+    ) {
+        $this->pluginFolder = $pluginFolder;
         $this->conf = $conf;
         $this->view = $view;
     }
@@ -79,7 +86,7 @@ class RoomController
 
     private function emitJS(Request $request): void
     {
-        global $pth, $bjs;
+        global $bjs;
         static $again = false;
 
         if (!$again) {
@@ -91,7 +98,7 @@ class RoomController
             $bjs .= '<script type="text/javascript">var CHAT = '
                 . json_encode($config) . ';</script>'
                 . '<script type="text/javascript" src="'
-                . $pth['folder']['plugins'] . 'chat/chat.js"></script>' . "\n";
+                . $this->pluginFolder . 'chat.js"></script>' . "\n";
         }
     }
 

@@ -28,13 +28,22 @@ class Dic
 {
     public static function roomController(): RoomController
     {
-        global $plugin_cf;
-        return new RoomController($plugin_cf["chat"], self::view());
+        global $pth, $plugin_cf;
+        return new RoomController(
+            $pth["folder"]["plugins"] . "chat/",
+            $plugin_cf["chat"],
+            self::view()
+        );
     }
 
     public static function infoCommand(): InfoCommand
     {
-        return new InfoCommand(new SystemChecker(), self::view());
+        global $pth;
+        return new InfoCommand(
+            $pth["folder"]["plugins"] . "chat/",
+            new SystemChecker(),
+            self::view()
+        );
     }
 
     private static function view(): View

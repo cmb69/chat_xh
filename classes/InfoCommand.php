@@ -26,14 +26,21 @@ use Plib\View;
 
 class InfoCommand
 {
+    /** @var string */
+    private $pluginFolder;
+
     /** @var SystemChecker */
     private $systemChecker;
 
     /** @var View */
     private $view;
 
-    public function __construct(SystemChecker $systemChecker, View $view)
-    {
+    public function __construct(
+        string $pluginFolder,
+        SystemChecker $systemChecker,
+        View $view
+    ) {
+        $this->pluginFolder = $pluginFolder;
         $this->systemChecker = $systemChecker;
         $this->view = $view;
     }
@@ -74,11 +81,9 @@ class InfoCommand
     /** @return list<string> */
     private function getWritableFolders(): array
     {
-        global $pth;
-
         $folders = [];
-        foreach (['config/', 'css/', 'languages/'] as $folder) {
-            $folders[] = $pth['folder']['plugins'] . 'chat/' . $folder;
+        foreach (["config/", "css/", "languages/"] as $folder) {
+            $folders[] = $this->pluginFolder . $folder;
         }
         $folders[] = Room::dataFolder();
         return $folders;

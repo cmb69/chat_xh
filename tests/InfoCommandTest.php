@@ -15,14 +15,14 @@ class InfoCommandTest extends TestCase
     public function setUp(): void
     {
         global $pth, $plugin_tx;
-        $pth = ["folder" => ["content" => "../../content/", "plugins" => "../"]];
+        $pth = ["folder" => ["content" => "../../content/"]];
         $plugin_tx = XH_includeVar("./languages/en.php", "plugin_tx");
         $this->view = new View("./views/", $plugin_tx["chat"]);
     }
 
     private function sut(): InfoCommand
     {
-        return new InfoCommand(new FakeSystemChecker(), $this->view);
+        return new InfoCommand("./", new FakeSystemChecker(), $this->view);
     }
 
     public function testRendersSystemCheck(): void

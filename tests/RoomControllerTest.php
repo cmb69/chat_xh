@@ -18,22 +18,21 @@ class RoomControllerTest extends TestCase
 
     public function setUp(): void
     {
-        global $pth, $plugin_tx;
+        global $pth;
         vfsStream::setup();
         mkdir(vfsStream::url("root/chat"));
         file_put_contents(
             vfsStream::url("root/chat/chat.csv"),
             "1747486215\t\thello\n1747486220\tolape\tworld\n1747486225\tcmb\t'sup"
         );
-        $pth = ["folder" => ["content" => vfsStream::url("root/"), "plugins" => "../"]];
+        $pth = ["folder" => ["content" => vfsStream::url("root/")]];
         $this->conf = XH_includeVar("./config/config.php", "plugin_cf")["chat"];
-        $plugin_tx = XH_includeVar("./languages/en.php", "plugin_tx");
-        $this->view = new View("./views/", $plugin_tx["chat"]);
+        $this->view = new View("./views/", XH_includeVar("./languages/en.php", "plugin_tx")["chat"]);
     }
 
     private function sut(): RoomController
     {
-        return new RoomController($this->conf, $this->view);
+        return new RoomController("./", $this->conf, $this->view);
     }
 
     public function testInvalidRoomNameReturnsFailureMessage(): void
@@ -71,7 +70,7 @@ class RoomControllerTest extends TestCase
         $response = $this->sut()->handle("chat", null, $request);
         $this->assertSame(
             "<script type=\"text/javascript\">var CHAT = {\"url\":\"\/\",\"interval\":12000};</script>"
-            . "<script type=\"text/javascript\" src=\"../chat/chat.js\"></script>\n",
+            . "<script type=\"text/javascript\" src=\"./chat.js\"></script>\n",
             $bjs
         );
         Approvals::verifyHtml($response->output());
