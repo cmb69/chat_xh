@@ -35,8 +35,7 @@ class Entry
     public static function makeFromLine(string $line): self
     {
         $entry = new self();
-        list($timestamp, $entry->username, $entry->message)
-            = explode("\t", $line, 3);
+        [$timestamp, $entry->username, $entry->message] = explode("\t", $line, 3);
         $entry->timestamp = (int) $timestamp;
         return $entry;
     }

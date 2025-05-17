@@ -77,8 +77,8 @@ class InfoCommand
     {
         global $pth;
 
-        $folders = array();
-        foreach (array('config/', 'css/', 'languages/') as $folder) {
+        $folders = [];
+        foreach (['config/', 'css/', 'languages/'] as $folder) {
             $folders[] = $pth['folder']['plugins'] . 'chat/' . $folder;
         }
         $folders[] = Room::dataFolder();

@@ -84,10 +84,10 @@ class RoomController
 
         if (!$again) {
             $again = true;
-            $config = array(
+            $config = [
                 'url' => $request->url()->relative(),
                 'interval' => max(1000 * (int) $this->conf["interval_poll"], 1)
-            );
+            ];
             $bjs .= '<script type="text/javascript">var CHAT = '
                 . json_encode($config) . ';</script>'
                 . '<script type="text/javascript" src="'
@@ -121,34 +121,34 @@ class RoomController
             $user = $entry->getUsername();
             $class = '';
         }
-        $trans = array(
+        $trans = [
             '{USER}' => $user,
             '{DATE}' => date($this->view->plain("format_date"), $entry->getTimestamp()),
             '{TIME}' => date($this->view->plain("format_time"), $entry->getTimestamp())
-        );
+        ];
         $user = strtr($this->view->plain("format_user"), $trans);
-        return array(
+        return [
             'class' => $class,
             'user' => $user,
             'text' => $entry->getMessage(),
-        );
+        ];
     }
 
     private function messagesView(Request $request, Room $room): string
     {
         $entries = $room->findEntries();
-        $messages = array_map(array($this, 'message'), array_fill(0, count($entries), $request), $entries);
+        $messages = array_map([$this, 'message'], array_fill(0, count($entries), $request), $entries);
         return $this->view->render('messages', compact('messages'));
     }
 
     private function mainView(Request $request, Room $room): string
     {
         $url = $request->url()->with("chat_room", $room->getName());
-        $bag = array(
+        $bag = [
             'room' => $room->getName(),
             'url' => $url->relative(),
             'messages' => $this->messagesView($request, $room)
-        );
+        ];
         return $this->view->render('chat', $bag);
     }
 }

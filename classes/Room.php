@@ -80,7 +80,7 @@ class Room
     public function findEntries(): array
     {
         $filename = $this->getFilename();
-        $entries = array();
+        $entries = [];
         if (is_readable($filename)
             && ($lines = file($filename)) !== false
         ) {
