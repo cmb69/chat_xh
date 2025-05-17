@@ -19,15 +19,6 @@ use org\bovigo\vfs\vfsStreamWrapper;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStream;
 
-/**
- * Testing the chat rooms.
- *
- * @category Testing
- * @package  Chat
- * @author   Christoph M. Becker <cmbecker69@gmx.de>
- * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
- * @link     http://3-magi.net/?CMSimple_XH/Chat_XH
- */
 class RoomTest extends PHPUnit_Framework_TestCase
 {
     /** @var Room*/

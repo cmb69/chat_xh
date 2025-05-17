@@ -15,15 +15,6 @@
 
 namespace Chat;
 
-/**
- * Testing the chat class.
- *
- * @category Testing
- * @package  Chat
- * @author   Christoph M. Becker <cmbecker69@gmx.de>
- * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
- * @link     http://3-magi.net/?CMSimple_XH/Chat_XH
- */
 class EntryTest extends PHPUnit_Framework_TestCase
 {
     const TIMESTAMP = 1234567;
