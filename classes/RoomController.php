@@ -24,7 +24,7 @@ namespace Chat;
 use Plib\Request;
 use Plib\View;
 
-class RoomController extends AbstractController
+class RoomController
 {
     /** @var array<string,string> */
     private $conf;
@@ -156,7 +156,7 @@ class RoomController extends AbstractController
     {
         $entries = $room->findEntries();
         $messages = array_map(array($this, 'message'), array_fill(0, count($entries), $request), $entries);
-        return $this->view('messages', compact('messages'));
+        return $this->view->render('messages', compact('messages'));
     }
 
     private function mainView(Request $request, Room $room): string
@@ -175,6 +175,6 @@ class RoomController extends AbstractController
             'url' => $url,
             'messages' => $this->messagesView($request, $room)
         );
-        return $this->view('chat', $bag);
+        return $this->view->render('chat', $bag);
     }
 }
