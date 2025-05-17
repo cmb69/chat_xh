@@ -24,10 +24,10 @@ namespace Chat;
 class Room
 {
     /** @var string */
-    protected $name;
+    private $name;
 
     /** @var int */
-    protected $purgeInterval;
+    private $purgeInterval;
 
     public static function dataFolder(): string
     {

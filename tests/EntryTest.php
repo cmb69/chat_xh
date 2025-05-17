@@ -39,7 +39,7 @@ class EntryTest extends TestCase
         $this->assertEquals($this->getLine(), $entry->getLine());
     }
 
-    protected function getLine(): string
+    private function getLine(): string
     {
         return self::TIMESTAMP . "\t" . self::USERNAME . "\t" . self::MESSAGE;
     }

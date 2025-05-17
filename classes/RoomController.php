@@ -50,7 +50,7 @@ class RoomController extends AbstractController
         return $this->mainView($room);
     }
 
-    protected function reportUnwritability(Room $room): string
+    private function reportUnwritability(Room $room): string
     {
         global $plugin_tx;
 
@@ -63,7 +63,7 @@ class RoomController extends AbstractController
         );
     }
 
-    protected function handleAjaxRequest(Room $room): void
+    private function handleAjaxRequest(Room $room): void
     {
         if ($room->isExpired()) {
             $room->purge();
@@ -79,7 +79,7 @@ class RoomController extends AbstractController
         }
     }
 
-    protected function currentUser(): string
+    private function currentUser(): string
     {
         if (session_id() == '') {
             session_start();
@@ -91,7 +91,7 @@ class RoomController extends AbstractController
                 : false);
     }
 
-    protected function emitJS(): void
+    private function emitJS(): void
     {
         global $pth, $sn, $su, $bjs, $plugin_cf;
         static $again = false;
@@ -110,7 +110,7 @@ class RoomController extends AbstractController
     }
 
     /** @todo Handle Ajax submission errors. */
-    protected function appendMessage(Room $room): void
+    private function appendMessage(Room $room): void
     {
         if (empty($_POST['chat_message'])) {
             return;
@@ -122,7 +122,7 @@ class RoomController extends AbstractController
         $room->appendEntry($entry);
     }
 
-    protected function message(Entry $entry): array
+    private function message(Entry $entry): array
     {
         global $plugin_tx;
 
@@ -150,13 +150,13 @@ class RoomController extends AbstractController
         );
     }
 
-    protected function messagesView(Room $room): string
+    private function messagesView(Room $room): string
     {
         $messages = array_map(array($this, 'message'), $room->findEntries());
         return $this->view('messages', compact('messages'));
     }
 
-    protected function mainView(Room $room): string
+    private function mainView(Room $room): string
     {
         global $sn, $su, $plugin_tx;
 

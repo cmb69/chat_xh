@@ -7,10 +7,7 @@ use PHPUnit\Framework\TestCase;
 class RoomControllerTest extends TestCase
 {
     /** @var RoomController */
-    protected $subject;
-
-    /** @var object */
-    protected $messageMock;
+    private $subject;
 
     public function setUp(): void
     {

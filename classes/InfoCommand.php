@@ -57,31 +57,31 @@ class InfoCommand
         return $o;
     }
 
-    protected function checkPHPVersion(string $version): string
+    private function checkPHPVersion(string $version): string
     {
         $kind = $this->systemChecker->checkVersion(PHP_VERSION, $version) ? 'success' : 'fail';
         return $this->view->message($kind, "syscheck_phpversion", $version);
     }
 
-    protected function checkExtension(string $name): string
+    private function checkExtension(string $name): string
     {
         $kind = $this->systemChecker->checkExtension($name) ? 'success' : 'fail';
         return $this->view->message($kind, "syscheck_extension", $name);
     }
 
-    protected function checkXHVersion(string $version): string
+    private function checkXHVersion(string $version): string
     {
         $kind = $this->systemChecker->checkVersion(CMSIMPLE_XH_VERSION, "CMSimple_XH {$version}") ? 'success' : 'fail';
         return $this->view->message($kind, "syscheck_xhversion", $version);
     }
 
-    protected function checkWritability(string $filename): string
+    private function checkWritability(string $filename): string
     {
         $kind = $this->systemChecker->checkWritability($filename) ? 'success' : 'warning';
         return $this->view->message($kind, "syscheck_writable", $filename);
     }
 
-    protected function getWritableFolders(): array
+    private function getWritableFolders(): array
     {
         global $pth;
 

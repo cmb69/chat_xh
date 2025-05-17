@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 class RoomTest extends TestCase
 {
     /** @var Room*/
-    protected $subject;
+    private $subject;
 
     public function setUp(): void
     {
