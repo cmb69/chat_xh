@@ -60,7 +60,7 @@ class RoomController
         if (isset($_GET['chat_room']) && $_GET['chat_room'] == $room->getName()) {
             $this->appendMessage($request, $room);
         }
-        $this->emitJS();
+        $this->emitJS($request);
         return $this->mainView($request, $room);
     }
 
@@ -93,15 +93,15 @@ class RoomController
         }
     }
 
-    private function emitJS(): void
+    private function emitJS(Request $request): void
     {
-        global $pth, $sn, $su, $bjs;
+        global $pth, $bjs;
         static $again = false;
 
         if (!$again) {
             $again = true;
             $config = array(
-                'url' => $sn . '?' . $su,
+                'url' => $request->url()->relative(),
                 'interval' => max(1000 * (int) $this->conf["interval_poll"], 1)
             );
             $bjs .= '<script type="text/javascript">var CHAT = '
@@ -162,12 +162,10 @@ class RoomController
 
     private function mainView(Request $request, Room $room): string
     {
-        global $sn, $su;
-
-        $url = "$sn?$su&chat_room=" . $room->getName();
+        $url = $request->url()->with("chat_room", $room->getName());
         $bag = array(
             'room' => $room->getName(),
-            'url' => $url,
+            'url' => $url->relative(),
             'messages' => $this->messagesView($request, $room)
         );
         return $this->view->render('chat', $bag);

@@ -49,7 +49,7 @@ class RoomControllerTest extends TestCase
         $request = new FakeRequest(["username" => "cmb"]);
         $response = $this->sut()->handle("chat", null, $request);
         $this->assertSame(
-            "<script type=\"text/javascript\">var CHAT = {\"url\":\"?\",\"interval\":12000};</script>"
+            "<script type=\"text/javascript\">var CHAT = {\"url\":\"\/\",\"interval\":12000};</script>"
             . "<script type=\"text/javascript\" src=\"../chat/chat.js\"></script>\n",
             $bjs
         );
