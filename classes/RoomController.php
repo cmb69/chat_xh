@@ -58,11 +58,11 @@ class RoomController
             $purgeInterval = (int) $this->conf["interval_purge"];
         }
         $room = new Room($roomname, $purgeInterval);
-        if ($request->header("X-CMSimple-XH-Request") === "chat-{$roomname}") {
-            return $this->handleAjaxRequest($request, $room);
-        }
         if ($room->isExpired()) {
             $room->purge();
+        }
+        if ($request->header("X-CMSimple-XH-Request") === "chat-{$roomname}") {
+            return $this->handleAjaxRequest($request, $room);
         }
         if ($request->get("chat_room") === $room->getName()) {
             if (!$this->appendMessage($request, $room)) {
@@ -77,9 +77,6 @@ class RoomController
 
     private function handleAjaxRequest(Request $request, Room $room): Response
     {
-        if ($room->isExpired()) {
-            $room->purge();
-        }
         if ($request->post("chat_message") !== null) {
             $this->appendMessage($request, $room);
             // TODO handle failure to append
