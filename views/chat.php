@@ -10,10 +10,13 @@ if (!defined("CMSIMPLE_XH_VERSION")) {http_response_code(403); exit;}
  * @var string $room
  * @var string $url
  * @var string $messages
+ * @var string $script
+ * @var array<string,mixed> $config
  */
 ?>
 
-<div class="chat_room" data-chat-room="<?=$this->esc($room)?>">
+<script type="module" src="<?=$this->esc($script)?>"></script>
+<div class="chat_room" data-chat-room="<?=$this->esc($room)?>" data-chat-config='<?=$this->json($config)?>'>
   <div id="chat_room_<?=$this->esc($room)?>_messages" class="chat_messages">
   <?=$this->raw($messages)?>
   </div>

@@ -69,7 +69,6 @@ class RoomController
                 return Response::create($this->view->message("fail", "error_save"));
             }
         }
-        $this->emitJS($request);
         return Response::create($this->mainView($request, $room));
     }
 
@@ -84,24 +83,6 @@ class RoomController
         }
         return Response::create($this->messagesView($request, $room))
             ->withContentType("Content-Type: text/html; charset=UTF-8");
-    }
-
-    private function emitJS(Request $request): void
-    {
-        global $bjs;
-        static $again = false;
-
-        if (!$again) {
-            $again = true;
-            $config = [
-                'url' => $request->url()->relative(),
-                'interval' => max(1000 * (int) $this->conf["interval_poll"], 1)
-            ];
-            $bjs .= '<script type="text/javascript">var CHAT = '
-                . json_encode($config) . ';</script>'
-                . '<script type="text/javascript" src="'
-                . $this->pluginFolder . 'chat.js"></script>' . "\n";
-        }
     }
 
     /** @todo Handle Ajax submission errors. */
@@ -155,6 +136,11 @@ class RoomController
             "room" => $room->getName(),
             "url" => $request->url()->with("chat_room", $room->getName())->relative(),
             "messages" => $this->messagesView($request, $room),
+            "script" => $this->pluginFolder . "chat.js",
+            "config" => [
+                "url" => $request->url()->relative(),
+                "interval" => max(1, 1000 * (int) $this->conf["interval_poll"])
+            ],
         ]);
     }
 }

@@ -65,14 +65,8 @@ class RoomControllerTest extends TestCase
 
     public function testShowsRoom(): void
     {
-        global $bjs;
         $request = new FakeRequest(["username" => "cmb"]);
         $response = $this->sut()->handle("chat", null, $request);
-        $this->assertSame(
-            "<script type=\"text/javascript\">var CHAT = {\"url\":\"\/\",\"interval\":12000};</script>"
-            . "<script type=\"text/javascript\" src=\"./chat.js\"></script>\n",
-            $bjs
-        );
         Approvals::verifyHtml($response->output());
     }
 }
