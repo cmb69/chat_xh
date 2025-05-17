@@ -55,7 +55,8 @@ function initWidget(element) {
         }
 
         request = new XMLHttpRequest();
-        request.open("GET", url + "read");
+        request.open("GET", url);
+        request.setRequestHeader("X-CMSimple-XH-Request", "chat-" + room);
         request.onreadystatechange = onReadyStateChange;
         request.send(null);
     }
@@ -77,8 +78,9 @@ function initWidget(element) {
         }
 
         request = new XMLHttpRequest();
-        request.open("POST", url + "write");
+        request.open("POST", url);
         request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        request.setRequestHeader("X-CMSimple-XH-Request", "chat-" + room);
         request.onreadystatechange = onReadyStateChange;
         msg = form.elements.chat_message.value;
         request.send("chat_message=" + encodeURIComponent(msg));
@@ -87,7 +89,7 @@ function initWidget(element) {
 
     room = element.getAttribute("data-chat-room");
     config = JSON.parse(element.dataset.chatConfig);
-    url = config.url + "&chat_room=" + room + "&chat_ajax=";
+    url = config.url + "&chat_room=" + room;
     messages = document.querySelector("#chat_room_" + room + "_messages");
     form = document.querySelector("#chat_room_" + room + "_form");
     scrollDown();

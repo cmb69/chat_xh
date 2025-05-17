@@ -45,7 +45,8 @@ class RoomControllerTest extends TestCase
     public function testHandlesAjaxRequest(): void
     {
         $request = new FakeRequest([
-            "url" => "http://example.com/?&chat_room=chat&chat_ajax=read",
+            "url" => "http://example.com/?&chat_room=chat",
+            "header" => ["X-CMSimple-XH-Request" => "chat-chat"],
         ]);
         $response = $this->sut()->handle("chat", null, $request);
         $this->assertSame("Content-Type: text/html; charset=UTF-8", $response->contentType());
