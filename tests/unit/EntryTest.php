@@ -27,60 +27,31 @@ require_once './classes/required_classes.php';
  */
 class EntryTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * The test timestamp.
-     */
     const TIMESTAMP = 1234567;
 
-    /**
-     * The test username.
-     */
     const USERNAME = 'cmb';
 
-    /**
-     * The test message.
-     */
     const MESSAGE = 'blah blah';
 
-    /**
-     * Tests that ::makeFromLine() sets the timestamp.
-     *
-     * @return void
-     */
-    public function testMakeFromLineSetsTimestamp()
+    public function testMakeFromLineSetsTimestamp(): void
     {
         $entry = Entry::makeFromLine($this->getLine());
         $this->assertEquals(self::TIMESTAMP, $entry->getTimestamp());
     }
 
-    /**
-     * Tests that ::makeFromLine() sets the username.
-     *
-     * @return void
-     */
-    public function testMakeFromLineSetsUsername()
+    public function testMakeFromLineSetsUsername(): void
     {
         $entry = Entry::makeFromLine($this->getLine());
         $this->assertEquals(self::USERNAME, $entry->getUsername());
     }
 
-    /**
-     * Tests that ::makeFromLine() sets the message.
-     *
-     * @return void
-     */
-    public function testMakeFromLineSetsMessage()
+    public function testMakeFromLineSetsMessage(): void
     {
         $entry = Entry::makeFromLine($this->getLine());
         $this->assertEquals(self::MESSAGE, $entry->getMessage());
     }
 
-    /**
-     * Tests that the line is correct.
-     *
-     * @return void
-     */
-    public function testLineIsCorrect()
+    public function testLineIsCorrect(): void
     {
         $entry = new Entry();
         $entry->setTimestamp(self::TIMESTAMP);
@@ -89,15 +60,8 @@ class EntryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($this->getLine(), $entry->getLine());
     }
 
-    /**
-     * Returns the CSV line.
-     *
-     * @return string
-     */
-    protected function getLine()
+    protected function getLine(): string
     {
         return self::TIMESTAMP . "\t" . self::USERNAME . "\t" . self::MESSAGE;
     }
 }
-
-?>

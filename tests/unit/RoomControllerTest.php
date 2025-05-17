@@ -29,26 +29,13 @@ require_once './classes/required_classes.php';
  */
 class RoomControllerTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * The test subject.
-     *
-     * @var Chat_RoomController
-     */
+    /** @var Chat_RoomController */
     protected $subject;
 
-    /**
-     * The XH_message() mock.
-     *
-     * @var object
-     */
+    /** @var object */
     protected $messageMock;
 
-    /**
-     * Sets up the test fixture.
-     *
-     * @return void
-     */
-    public function setUp()
+    public function setUp(): void
     {
         $this->subject = new Chat_RoomController();
         $this->messageMock = new PHPUnit_Extensions_MockFunction(
@@ -56,17 +43,10 @@ class RoomControllerTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * Tests that an invalid room name returns a failure message.
-     *
-     * @return void
-     */
-    public function testInvalidRoomNameReturnsFailureMessage()
+    public function testInvalidRoomNameReturnsFailureMessage(): void
     {
         $this->messageMock->expects($this->once())->with($this->equalTo('fail'));
         $this->subject->handle('te$t');
 
     }
 }
-
-?>

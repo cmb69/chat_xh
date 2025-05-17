@@ -31,21 +31,10 @@ use org\bovigo\vfs\vfsStream;
  */
 class RoomTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * The test subject.
-     *
-     * @var Room
-     */
+    /** @var Room*/
     protected $subject;
 
-    /**
-     * Sets up the test fixture.
-     *
-     * @return void
-     *
-     * @global array The paths of system files and folders.
-     */
-    public function setUp()
+    public function setUp(): void
     {
         global $pth;
 
@@ -58,37 +47,18 @@ class RoomTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * Tests the data folder.
-     *
-     * @return void
-     */
-    public function testDataFolder()
+    public function testDataFolder(): void
     {
         $this->assertEquals(vfsStream::url('chat/'), Room::dataFolder());
     }
 
-    /**
-     * Tests valid names.
-     *
-     * @param string $name     A name.
-     * @param bool   $expected Whether the name is expected to be valid.
-     *
-     * @dataProvider validNamesData
-     *
-     * @return void
-     */
-    public function testValidNames($name, $expected)
+    /** @dataProvider validNamesData */
+    public function testValidNames(string $name, bool $expected): void
     {
         $this->assertSame($expected, Room::isValidName($name));
     }
 
-    /**
-     * Returns data for valid name testing.
-     *
-     * @return array
-     */
-    public function validNamesData()
+    public function validNamesData(): array
     {
         return [
             [
@@ -99,48 +69,28 @@ class RoomTest extends PHPUnit_Framework_TestCase
         ];
     }
 
-    /**
-     * Tests that a room is not expired.
-     *
-     * @return void
-     */
-    public function testIsNotExpired()
+    public function testIsNotExpired(): void
     {
         $entry = $this->getMock('Entry');
         $this->subject->appendEntry($entry);
         $this->assertFalse($this->subject->isExpired());
     }
 
-    /**
-     * Tests finding one entry.
-     *
-     * @return void
-     */
-    public function testFindOneEntry()
+    public function testFindOneEntry(): void
     {
         $entry = $this->getMock('Entry');
         $this->subject->appendEntry($entry);
         $this->assertCount(1, $this->subject->findEntries());
     }
 
-    /**
-     * Tests that the file exists after appending an entry.
-     *
-     * @return void
-     */
-    public function testFileExistsAfterAppendingEntry()
+    public function testFileExistsAfterAppendingEntry(): void
     {
         $entry = $this->getMock('Entry');
         $this->subject->appendEntry($entry);
         $this->assertFileExists(vfsStream::url('chat/foo.csv'));
     }
 
-    /**
-     * Tests that purging removes the file.
-     *
-     * @return void
-     */
-    public function testPurgingRemovesFile()
+    public function testPurgingRemovesFile(): void
     {
         $entry = $this->getMock('Entry');
         $this->subject->appendEntry($entry);
@@ -148,5 +98,3 @@ class RoomTest extends PHPUnit_Framework_TestCase
         $this->assertFileNotExists(vfsStream::url('chat/foo.csv'));
     }
 }
-
-?>

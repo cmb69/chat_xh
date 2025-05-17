@@ -26,12 +26,7 @@ namespace Chat;
  */
 class Controller extends AbstractController
 {
-    /**
-     * Dispatches on plugin related requests.
-     *
-     * @return void
-     */
-    public function dispatch()
+    public function dispatch(): void
     {
         if (defined('XH_ADM') && XH_ADM) {
             if (function_exists('XH_registerStandardPluginMenuItems')) {
@@ -43,14 +38,7 @@ class Controller extends AbstractController
         }
     }
 
-    /**
-     * Returns whether the plugin administration is requested.
-     *
-     * @return bool
-     *
-     * @global string Whether the chat administration is requested.
-     */
-    protected function wantsPluginAdministration()
+    protected function wantsPluginAdministration(): bool
     {
         global $chat;
 
@@ -59,16 +47,7 @@ class Controller extends AbstractController
             || isset($chat) && $chat == 'true';
     }
 
-    /**
-     * Handle the plugin administration.
-     *
-     * @return void
-     *
-     * @global string The (X)HTML of the contents area.
-     * @global string The value of the admin GP parameter.
-     * @global string The value of the action GP parameter.
-     */
-    protected function handleAdministration()
+    protected function handleAdministration(): void
     {
         global $o, $admin, $action;
 
@@ -82,15 +61,7 @@ class Controller extends AbstractController
         }
     }
 
-    /**
-     * Returns the plugin's about view.
-     *
-     * @return string (X)HTML.
-     *
-     * @global array The paths of system files and folders.
-     * @global array The localization of the plugins.     *
-     */
-    protected function aboutView()
+    protected function aboutView(): string
     {
         global $pth, $plugin_tx;
 
@@ -106,12 +77,7 @@ class Controller extends AbstractController
         return $this->view('about', $bag);
     }
 
-    /**
-     * Returns the requirements information view.
-     *
-     * @return string (X)HTML.
-     */
-    protected function systemCheck()
+    protected function systemCheck(): string
     {
         $check = new SystemCheck();
         return $check->render();

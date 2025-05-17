@@ -26,35 +26,16 @@ namespace Chat;
  */
 class Entry
 {
-    /**
-     * The timestamp.
-     *
-     * @var int
-     */
+    /** @var int */
     protected $timestamp;
 
-    /**
-     * The username.
-     *
-     * @var string
-     */
+    /** @var string */
     protected $username;
 
-    /**
-     * The message.
-     *
-     * @var string
-     */
+    /** @var string */
     protected $message;
 
-    /**
-     * Makes a new entry from a CSV line.
-     *
-     * @param string $line A CSV line.
-     *
-     * @return Entry
-     */
-    public static function makeFromLine($line)
+    public static function makeFromLine(string $line): self
     {
         $entry = new self();
         list($timestamp, $entry->username, $entry->message)
@@ -63,78 +44,37 @@ class Entry
         return $entry;
     }
 
-    /**
-     * Returns the timestamp.
-     *
-     * @return int
-     */
-    public function getTimestamp()
+    public function getTimestamp(): int
     {
         return $this->timestamp;
     }
 
-    /**
-     * Sets the timestamp.
-     *
-     * @param int $timestamp A timestamp.
-     *
-     * @return void
-     */
-    public function setTimestamp($timestamp)
+    public function setTimestamp(int $timestamp): void
     {
         $this->timestamp = $timestamp;
     }
 
-    /**
-     * Returns the username.
-     *
-     * @return string
-     */
-    public function getUsername()
+    public function getUsername(): string
     {
         return $this->username;
     }
 
-    /**
-     * Sets the username.
-     *
-     * @param string $username A username.
-     *
-     * @return void
-     */
-    public function setUsername($username)
+    public function setUsername(string $username): void
     {
         $this->username = $username;
     }
 
-    /**
-     * Returns the message.
-     *
-     * @return string
-     */
-    public function getMessage()
+    public function getMessage(): string
     {
         return $this->message;
     }
 
-    /**
-     * Sets the message.
-     *
-     * @param string $message A message.
-     *
-     * @return void
-     */
-    public function setMessage($message)
+    public function setMessage(string $message): void
     {
         $this->message = $message;
     }
 
-    /**
-     * Returns the CSV line.
-     *
-     * @return string
-     */
-    public function getLine()
+    public function getLine(): string
     {
         return $this->timestamp . "\t" . $this->username . "\t" . $this->message;
     }

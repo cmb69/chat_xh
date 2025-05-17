@@ -26,18 +26,7 @@ namespace Chat;
  */
 class RoomController extends AbstractController
 {
-    /**
-     * Handles the chat room and returns its view.
-     *
-     * @param string $roomname      A chat room name.
-     * @param int    $purgeInterval A purge interval in seconds.
-     *
-     * @return string (X)HTML.
-     *
-     * @global array The configuration of the plugins.
-     * @global array The localization of the plugins.
-     */
-    public function handle($roomname, $purgeInterval = null)
+    public function handle(string $roomname, int $purgeInterval = null): string
     {
         global $plugin_cf, $plugin_tx;
 
@@ -64,16 +53,7 @@ class RoomController extends AbstractController
         return $this->mainView($room);
     }
 
-    /**
-     * Returns an error message that a room is not writable.
-     *
-     * @param Room $room A chat room.
-     *
-     * @return string (X)HTML.
-     *
-     * @global array The localization of the plugins.
-     */
-    protected function reportUnwritability(Room $room)
+    protected function reportUnwritability(Room $room): string
     {
         global $plugin_tx;
 
@@ -86,14 +66,7 @@ class RoomController extends AbstractController
         );
     }
 
-    /**
-     * Handles Ajax requests.
-     *
-     * @param Room $room A chat room.
-     *
-     * @return void
-     */
-    protected function handleAjaxRequest(Room $room)
+    protected function handleAjaxRequest(Room $room): void
     {
         if ($room->isExpired()) {
             $room->purge();
@@ -109,14 +82,7 @@ class RoomController extends AbstractController
         }
     }
 
-    /**
-     * Returns the name of the currently logged in user, if any, false otherwise.
-     *
-     * This is meant to work with the Register and the Memberpages plugin.
-     *
-     * @return string
-     */
-    protected function currentUser()
+    protected function currentUser(): string
     {
         if (session_id() == '') {
             session_start();
@@ -128,22 +94,7 @@ class RoomController extends AbstractController
                 : false);
     }
 
-    /**
-     * Returns the necessary scripts to handle a chat room.
-     * If $bjs is available, the scripts are appended to it,
-     * and an empty string is returned.
-     *
-     * @return void
-     *
-     * @global array  The paths of system files and folders.
-     * @global string The name of the site.
-     * @global string The page URL.
-     * @global string The scripts that should be written before the closing body tag.
-     * @global array  The configuration of the plugins.
-     *
-     * @staticvar bool $again Whether the scripts have already been written.
-     */
-    protected function emitJS()
+    protected function emitJS(): void
     {
         global $pth, $sn, $su, $bjs, $plugin_cf;
         static $again = false;
@@ -161,16 +112,8 @@ class RoomController extends AbstractController
         }
     }
 
-    /**
-     * Appends the posted message to the data file.
-     *
-     * @param Room $room A chat room.
-     *
-     * @return void
-     *
-     * @todo Handle Ajax submission errors.
-     */
-    protected function appendMessage(Room $room)
+    /** @todo Handle Ajax submission errors. */
+    protected function appendMessage(Room $room): void
     {
         if (empty($_POST['chat_message'])) {
             return;
@@ -182,16 +125,7 @@ class RoomController extends AbstractController
         $room->appendEntry($entry);
     }
 
-    /**
-     * Returns a message prepared as bag for the view.
-     *
-     * @param Entry $entry A chat entry.
-     *
-     * @return array
-     *
-     * @global array The localization of the plugins.
-     */
-    protected function message(Entry $entry)
+    protected function message(Entry $entry): array
     {
         global $plugin_tx;
 
@@ -219,31 +153,13 @@ class RoomController extends AbstractController
         );
     }
 
-    /**
-     * Returns the view of the history of a chat room.
-     *
-     * @param Room $room A chat room.
-     *
-     * @return string (X)HTML.
-     */
-    protected function messagesView(Room $room)
+    protected function messagesView(Room $room): string
     {
         $messages = array_map(array($this, 'message'), $room->findEntries());
         return $this->view('messages', compact('messages'));
     }
 
-    /**
-     * Returns the complete view of the chat room.
-     *
-     * @param Room $room A chat room.
-     *
-     * @return string (X)HTML.
-     *
-     * @global string The script name.
-     * @global string The URL of the requested page.
-     * @global array  The localization of the plugins.
-     */
-    protected function mainView(Room $room)
+    protected function mainView(Room $room): string
     {
         global $sn, $su, $plugin_tx;
 

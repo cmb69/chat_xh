@@ -26,14 +26,7 @@ namespace Chat;
  */
 class SystemCheck
 {
-    /**
-     * Returns the requirements information view.
-     *
-     * @return string (X)HTML
-     *
-     * @global array The localization of the plugins.
-     */
-    public function render()
+    public function render(): string
     {
         global $plugin_tx;
 
@@ -49,16 +42,7 @@ class SystemCheck
         return $o;
     }
 
-    /**
-     * Renders the PHP version check.
-     *
-     * @param string $version Required PHP version.
-     *
-     * @return string (X)HTML
-     *
-     * @global array The localization of the plugins.
-     */
-    protected function checkPHPVersion($version)
+    protected function checkPHPVersion(string $version): string
     {
         global $plugin_tx;
 
@@ -67,16 +51,7 @@ class SystemCheck
             . sprintf($plugin_tx['chat']['syscheck_phpversion'], $version);
     }
 
-    /**
-     * Renders the extension availability check.
-     *
-     * @param string $name An extension name.
-     *
-     * @return string (X)HTML
-     *
-     * @global array The localization of the plugins.
-     */
-    protected function checkExtension($name)
+    protected function checkExtension(string $name): string
     {
         global $plugin_tx;
 
@@ -85,16 +60,7 @@ class SystemCheck
             . sprintf($plugin_tx['chat']['syscheck_extension'], $name);
     }
 
-    /**
-     * Renders the CMSimple_XH version check.
-     *
-     * @param string $version Required CMSimple_XH version.
-     *
-     * @return string (X)HTML
-     *
-     * @global array The localization of the plugins.
-     */
-    protected function checkXHVersion($version)
+    protected function checkXHVersion(string $version): string
     {
         global $plugin_tx;
 
@@ -103,30 +69,14 @@ class SystemCheck
             . sprintf($plugin_tx['chat']['syscheck_xhversion'], $version);
     }
 
-    /**
-     * Returns whether at least a certain CMSimple_XH version is installed.
-     *
-     * @param string $version A CMSimple_XH version number.
-     *
-     * @return bool
-     */
-    protected function hasXHVersion($version)
+    protected function hasXHVersion(string $version): bool
     {
         return defined('CMSIMPLE_XH_VERSION')
             && strpos(CMSIMPLE_XH_VERSION, 'CMSimple_XH') === 0
             && version_compare(CMSIMPLE_XH_VERSION, "CMSimple_XH {$version}", 'gt');
     }
 
-    /**
-     * Renders a writability check.
-     *
-     * @param string $filename A filename.
-     *
-     * @return string (X)HTML
-     *
-     * @global array The localization of the plugins.
-     */
-    protected function checkWritability($filename)
+    protected function checkWritability(string $filename): string
     {
         global $plugin_tx;
 
@@ -135,17 +85,7 @@ class SystemCheck
             . sprintf($plugin_tx['chat']['syscheck_writable'], $filename);
     }
 
-    /**
-     * Renders a check icon.
-     *
-     * @param string $kind A kind.
-     *
-     * @return string (X)HTML
-     *
-     * @global array The paths of system files and folders.
-     * @global array The localization of the plugins.
-     */
-    protected function renderCheckIcon($kind)
+    protected function renderCheckIcon(string $kind): string
     {
         global $pth, $plugin_tx;
 
@@ -155,14 +95,7 @@ class SystemCheck
         return tag('img src="' . $path  . '" alt="' . $alt . '"');
     }
 
-    /**
-     * Returns the folders that should be writable.
-     *
-     * @return array
-     *
-     * @global array The paths of system files and folders.
-     */
-    protected function getWritableFolders()
+    protected function getWritableFolders(): array
     {
         global $pth;
 

@@ -26,17 +26,7 @@ namespace Chat;
  */
 class AbstractController
 {
-    /**
-     * Returns the view of an instantiated template.
-     *
-     * @param string $template The name of the template.
-     * @param array  $bag      The data for the view.
-     *
-     * @return string (X)HTML.
-     *
-     * @global array The paths of system files and folders.
-     */
-    protected function view($template, $bag)
+    protected function view(string $template, array $bag): string
     {
         global $pth;
 

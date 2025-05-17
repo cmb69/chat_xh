@@ -29,26 +29,13 @@ require_once './classes/required_classes.php';
  */
 class ControllerTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * The test subject.
-     *
-     * @var Controller
-     */
+    /** @var Controller */
     protected $subject;
 
-    /**
-     * The XH_registerStandardPluginMenuItems mock.
-     *
-     * @var object
-     */
+    /** @var object */
     protected $rspmiMock;
 
-    /**
-     * Sets up the test fixture.
-     *
-     * @return void
-     */
-    public function setUp()
+    public function setUp(): void
     {
         $this->defineConstant('XH_ADM', true);
         $this->subject = new Controller();
@@ -57,26 +44,13 @@ class ControllerTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * Tests that dispatch() registers the plugin menu items.
-     *
-     * @return void
-     */
-    public function testDispatchRegistersPluginMenuItems()
+    public function testDispatchRegistersPluginMenuItems(): void
     {
         $this->rspmiMock->expects($this->once())->with(false);
         $this->subject->dispatch();
     }
 
-    /**
-     * Defines or redefines a constant.
-     *
-     * @param string $name  A name.
-     * @param string $value A value.
-     *
-     * @return void
-     */
-    protected function defineConstant($name, $value)
+    protected function defineConstant(string $name, string $value): void
     {
         if (!defined($name)) {
             define($name, $value);
@@ -85,5 +59,3 @@ class ControllerTest extends PHPUnit_Framework_TestCase
         }
     }
 }
-
-?>

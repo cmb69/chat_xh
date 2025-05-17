@@ -26,28 +26,13 @@ namespace Chat;
  */
 class Room
 {
-    /**
-     * The room name.
-     *
-     * @var string
-     */
+    /** @var string */
     protected $name;
 
-    /**
-     * The purge interval in seconds.
-     *
-     * @var int
-     */
+    /** @var int */
     protected $purgeInterval;
 
-    /**
-     * Returns the path of the data folder.
-     *
-     * @return string
-     *
-     * @global array The paths of system files and folders.
-     */
-    public static function dataFolder()
+    public static function dataFolder(): string
     {
         global $pth;
 
@@ -60,68 +45,35 @@ class Room
         return $filename;
     }
 
-    /**
-     * Returns whether a name is a valid room name.
-     *
-     * @param string $name A name.
-     *
-     * @return bool
-     */
-    public static function isValidName($name)
+    public static function isValidName(string $name): bool
     {
         return (bool) preg_match('/^[a-z0-9-]*$/u', $name);
     }
 
-    /**
-     * Initializes a new instance.
-     *
-     * @param string $name          A name.
-     * @param int    $purgeInterval A purge interval in seconds.
-     */
-    public function __construct($name, $purgeInterval)
+    public function __construct(string $name, int $purgeInterval)
     {
         $this->name = $name;
         $this->purgeInterval = $purgeInterval;
     }
 
-    /**
-     * Returns the name.
-     *
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * Returns the path of the chat room data file.
-     *
-     * @return string
-     */
-    public function getFilename()
+    public function getFilename(): string
     {
         return self::dataFolder() . $this->name . '.csv';
     }
 
-    /**
-     * Returns whether the chat room data file is writable.
-     *
-     * @return bool
-     */
-    public function isWritable()
+    public function isWritable(): bool
     {
         $filename = $this->getFilename();
         return is_writable($filename) ||
             !file_exists($filename) && is_writable(dirname($filename));
     }
 
-    /**
-     * Returns whether the room is expired.
-     *
-     * @return bool
-     */
-    public function isExpired()
+    public function isExpired(): bool
     {
         $filename = $this->getFilename();
         return file_exists($filename)
@@ -129,22 +81,13 @@ class Room
             && time() > filemtime($filename) + $this->purgeInterval;
     }
 
-    /**
-     * Purges a chat room.
-     *
-     * @return void
-     */
-    public function purge()
+    public function purge(): void
     {
         unlink($this->getFilename());
     }
 
-    /**
-     * Finds and returns all entries.
-     *
-     * @return array<Entry>
-     */
-    public function findEntries()
+    /** @return array<Entry> */
+    public function findEntries(): array
     {
         $filename = $this->getFilename();
         $entries = array();
@@ -160,14 +103,7 @@ class Room
         return $entries;
     }
 
-    /**
-     * Appends an entry.
-     *
-     * @param Entry $entry A chat entry.
-     *
-     * @return bool
-     */
-    public function appendEntry(Entry $entry)
+    public function appendEntry(Entry $entry): bool
     {
         $filename = $this->getFilename();
         return (bool) file_put_contents($filename, $entry->getLine() . PHP_EOL, FILE_APPEND);
