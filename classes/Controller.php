@@ -20,22 +20,11 @@ class Controller extends AbstractController
     public function dispatch(): void
     {
         if (defined('XH_ADM') && XH_ADM) {
-            if (function_exists('XH_registerStandardPluginMenuItems')) {
-                XH_registerStandardPluginMenuItems(false);
-            }
-            if ($this->wantsPluginAdministration()) {
+            XH_registerStandardPluginMenuItems(false);
+            if (XH_wantsPluginAdministration('chat')) {
                 $this->handleAdministration();
             }
         }
-    }
-
-    protected function wantsPluginAdministration(): bool
-    {
-        global $chat;
-
-        return function_exists('XH_wantsPluginAdministration')
-            && XH_wantsPluginAdministration('chat')
-            || isset($chat) && $chat == 'true';
     }
 
     protected function handleAdministration(): void
