@@ -1,6 +1,6 @@
 <?php
 
-namespace Chat;
+namespace Chat\Model;
 
 use org\bovigo\vfs\vfsStreamWrapper;
 use org\bovigo\vfs\vfsStreamDirectory;

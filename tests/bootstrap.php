@@ -13,8 +13,8 @@ require_once "../plib/classes/View.php";
 require_once "../plib/classes/FakeRequest.php";
 require_once "../plib/classes/FakeSystemChecker.php";
 
-require_once "./classes/Entry.php";
-require_once "./classes/Room.php";
+require_once "./classes/model/Entry.php";
+require_once "./classes/model/Room.php";
 require_once "./classes/Dic.php";
 require_once "./classes/RoomController.php";
 require_once "./classes/InfoCommand.php";

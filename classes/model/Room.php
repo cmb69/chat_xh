@@ -19,7 +19,7 @@
  * along with Chat_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Chat;
+namespace Chat\Model;
 
 class Room
 {

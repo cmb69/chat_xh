@@ -21,6 +21,7 @@
 
 namespace Chat;
 
+use Chat\Model\Room;
 use Plib\SystemChecker;
 use Plib\View;
 

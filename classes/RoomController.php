@@ -21,6 +21,8 @@
 
 namespace Chat;
 
+use Chat\Model\Entry;
+use Chat\Model\Room;
 use Plib\Request;
 use Plib\Response;
 use Plib\View;

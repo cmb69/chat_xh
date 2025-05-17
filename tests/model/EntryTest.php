@@ -1,6 +1,6 @@
 <?php
 
-namespace Chat;
+namespace Chat\Model;
 
 use PHPUnit\Framework\TestCase;
 
