@@ -1,8 +1,4 @@
-*.komodoproject
-.komodotools
-doc
-tests/coverage
-vendor
+/vendor
 /tools
 /composer.lock
 /coverage
