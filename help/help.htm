@@ -1,150 +1,99 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<meta http-equiv="content-type" content="text/html;charset=utf-8">
-<title>Chat_XH &ndash; Manual</title>
-<link rel="stylesheet" type="text/css" href="./stylesheet.css">
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Chat_XH – User Manual</title>
+  <style type="text/css">
+    body {
+        font-family: Georgia, serif;
+        line-height: 1.5;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 0.5em;
+        padding-right: 0.5em;
+        background: #ffffe1;
+        max-width: 32em;
+    }
+    p {
+        text-align: justify;
+    }
+    pre {
+        color: black;
+        background: #ffe;
+        overflow: auto;
+        padding: 0.2em 0.5em;
+        border: 1px solid silver;
+    }
+  </style>
 </head>
-
 <body>
-
-<h1>Chat_XH &ndash; a CMSimple_XH Plugin</h1>
-<img src="../chat.png" style="display:block; float:left; margin-right: 16px;
-width: 128px; height: 128px" alt="Speech bubbles">
-<p style="text-align:justify">Chat_XH facilitates to have an arbitrary amount of
-simple chat rooms or shoutboxes on your website. Users that are logged in via
-<a
-href="http://frankziesing.de/cmsimple/en/?Welcome:Memberpages">Memberpages_XH</a>
-or <a href="http://3-magi.net/?CMSimple_XH/Register_XH">Register_XH</a> are
-recognized as such; other visitors can send messages anonymously.</p>
-
-<ul id="nav">
+<h1 id="chat_xh">Chat_XH</h1>
+<p>Chat_XH facilitates to have an arbitrary amount of simple chat rooms or shoutboxes on your website. Users that are logged in via <a href="https://github.com/cmsimple-xh/memberpages">Memberpages_XH</a> or <a href="https://github.com/cmb69/register_xh">Register_XH</a> are recognized as such; other visitors can send messages anonymously.</p>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
 <li><a href="#requirements">Requirements</a></li>
+<li><a href="#download">Download</a></li>
 <li><a href="#installation">Installation</a></li>
 <li><a href="#settings">Settings</a></li>
 <li><a href="#usage">Usage</a></li>
 <li><a href="#limitations">Limitations</a></li>
+<li><a href="#troubleshooting">Troubleshooting</a></li>
 <li><a href="#license">License</a></li>
 <li><a href="#credits">Credits</a></li>
 </ul>
-
-<div id="body">
-
-<p><strong>Please do read this documentation, <em>before</em> you encounter any
-problems!</strong></p>
-
-<section id="requirements">
-<h2>Requirements</h2>
-<p>Chat_XH is a plugin for CMSimple_XH. It requires CMSimple_XH &ge; 1.7.0 and PHP
-&ge; 7.1.0.</p>
-<div class="toplink"><a href="#">back to top</a></div>
-</section>
-
-<section id="installation">
-<h2>Installation</h2>
-<p>The installation is done as with many other CMSimple_XH plugins. See the <a
-href="http://www.cmsimple-xh.org/wiki/doku.php/installation">CMSimple_XH
-wiki</a> for further details.</p>
-<ol>
+<h2 id="requirements">Requirements</h2>
+<p>Chat_XH is a plugin for <a href="https://cmsimple-xh.org/">CMSimple_XH</a>. It requires CMSimple_XH ≥ 1.7.0 and PHP ≥ 7.1.0.</p>
+<h2 id="download">Download</h2>
+<p>The <a href="https://github.com/cmb69/chat_xh/releases/latest">lastest release</a> is available for download on Github.</p>
+<h2 id="installation">Installation</h2>
+<p>The installation is done as with many other CMSimple_XH plugins.</p>
+<ol type="1">
 <li>Backup the data on your server.</li>
 <li>Unzip the distribution on your computer.</li>
-<li>Upload the whole directory chat/ to your server into CMSimple_XH's plugins
-directory.</li>
-<li>Set write permissions to the subdirectories config/, css/ and
-languages/.</li>
-<li>Switch to "Chat" in the back-end to check if all requirements are
-fulfilled.</li>
+<li>Upload the whole folder <code>chat/</code> to your server into the <code>plugins/</code> folder of CMSimple_XH.</li>
+<li>Set write permissions for the subfolders <code>config/</code>, <code>css/</code> and <code>languages/</code>.</li>
+<li>Check under <code>Plugins</code> → <code>Chat</code> if all requirements are fulfilled.</li>
 </ol>
-<div class="toplink"><a href="#">back to top</a></div>
-</section>
-
-<section id="settings">
-<h2>Settings</h2>
-<p>The plugin's configuration is done as with many other CMSimple_XH plugins in
-the website's back-end. Select Plugins &rarr; Chat.</p>
-<p>You can change the default settings of Chat_XH under "Config". Hints for the
-options will be displayed when hovering over the help icon with your mouse.</p>
-<p>Localization is done under "Language". You can translate the character
-strings to your own language, if there is no appropriate language file
-available, or customize them according to your needs.</p>
-<p>The look of Chat_XH can be customized under "Stylesheet".</p>
-<div class="toplink"><a href="#">back to top</a></div>
-</section>
-
-<section id="usage">
-<h2>Usage</h2>
-<p>Embedding of a chat room on a page is done with the following plugin
-call:</p>
-<pre>{{{chat('%CHAT_ROOM%', %PURGE_TIME%);}}}</pre>
+<h2 id="settings">Settings</h2>
+<p>The configuration of the plugin is done as with many other CMSimple_XH plugins in the back-end of the website. Go to <code>Plugins</code> → <code>Chat</code>.</p>
+<p>You can change the default settings of Chat_XH under <code>Config</code>. Hints for the options will be displayed when hovering over the help icon with your mouse.</p>
+<p>Localization is done under <code>Language</code>. You can translate the character strings to your own language, if there is no appropriate language file available, or customize them according to your needs.</p>
+<p>The look of Chat_XH can be customized under <code>Stylesheet</code>.</p>
+<h2 id="usage">Usage</h2>
+<p>Embedding of a chat room on a page is done with the following plugin call:</p>
+<pre><code>{{{chat(&#39;%CHAT_ROOM%&#39;, %PURGE_TIME%)}}}</code></pre>
 <p>To embed a chat room in the template, insert:</p>
-<pre>&lt;?php echo chat('%CHAT_ROOM%', %PURGE_TIME%);?&gt;</pre>
-<dl>
-<dt>%CHAT_ROOM%</dt>
-<dd>The name of the chat. It can be choosen arbitrarily, but may
-contain only lowercase alphanumeric characters (a-z and 0-9) and hyphens.</dd>
-<dt>%PURGE_TIME%</dt>
-<dd>The time in seconds after which an inactive chat will be purged. "0" means:
-keep entries forever. This argument is optional; if it is omitted (including the
-leading comma), the default is taken from the configuration.</dd>
-</dl>
+<pre><code>&lt;?=chat(&#39;%CHAT_ROOM%&#39;, %PURGE_TIME%)?&gt;</code></pre>
+<ul>
+<li><code>%CHAT_ROOM%</code>: The name of the chat. It can be choosen arbitrarily, but may contain only lowercase alphanumeric characters (a-z and 0-9) and hyphens.</li>
+<li><code>%PURGE_TIME%</code>: The time in seconds after which an inactive chat will be purged. <code>0</code> means that entries are kept forever. This argument is optional; if it is omitted (including the leading comma), the default is taken from the configuration.</li>
+</ul>
 <p>Examples:</p>
-<pre>{{{chat('chat');}}}
-{{{chat('chat17');}}}
-{{{chat('quick-chat', 120);}}}
-{{{chat('shoutbox', 0);}}}</pre>
-<p>You can embed as many chat rooms on any single page as you like&mdash;they're
-working independent of each other as long as they have different names.</p>
-<p>After a configurable time of inactivity (i.e. no new messages are posted),
-the chat history will be purged automatically.</p>
+<pre><code>{{{chat(&#39;chat&#39;)}}}
+{{{chat(&#39;chat17&#39;)}}}
+{{{chat(&#39;quick-chat&#39;, 120)}}}
+{{{chat(&#39;shoutbox&#39;, 0)}}}</code></pre>
+<p>You can embed as many chat rooms on any single page as you like – they are working independent of each other as long as they have different names.</p>
+<p>After a configurable time of inactivity (i.e. no new messages are posted), the chat history will be purged automatically.</p>
 <p>If you want to edit the chat data files, you have to do this via FTP.</p>
-<div class="toplink"><a href="#">back to top</a></div>
-</section>
-
-<section id="limitations">
-<h2>Limitations</h2>
-<p>If JavaScript or Cookies are disabled in the visitor's browsers, or in case
-the browser doesn't support the required JavaScript (e.g. IE 7 and older), the
-automatic retrieval of new messages doesn't work. Instead the visitor has to
-refresh his browser to see them.</p>
-<p>Displaying the currently logged in users is not yet implemented. For a
-workaround regarding Memberpages_XH see the <a
-href="http://cmsimpleforum.com/viewtopic.php?f=12&amp;t=5358#p33148">CMSimple_XH
-Forum</a>.</p> <div class="toplink"><a href="#">back to top</a></div>
-</section>
-
-<section id="license">
-<h2>License</h2>
-<p>Chat_XH is licensed under <a
-href="http://www.gnu.org/licenses/gpl.html">GPLv3</a>.</p>
-<p>&copy; 2012-2015 Christoph M. Becker</p>
-<p>Czech translation &copy; 2012 Josef Němec<br>
-Slovak translation &copy; 2012 Dr. Martin Sereday</p>
-<div class="toplink"><a href="#">back to top</a></div>
-</section>
-
-<section id="credits">
-<h2>Credits</h2>
-<p>Chat_XH was inspired by scriptshow's <a
-href="http://www.cmsimpleforum.com/viewtopic.php?f=2&amp;t=4208">MiniChat</a>.</p>
-<p>The plugin icon is designed by <a href="http://www.mentalrey.it/">Alessandro
-Rei</a>. Many thanks for publishing this icon under GPL.</p>
-<p>This plugin uses free applications icons from <a
-href="http://www.aha-soft.com/">Aha-Soft</a>. Many thanks for making these icons
-freely available.</p>
-<p>Many thanks to the community at the <a
-href="http://www.cmsimpleforum.com/">CMSimple_XH forum</a> for tips, suggestions
-and testing. Particularly I want to thank snafu for giving the first
-feedback.</p>
-<p>And last but not least many thanks to <a href="http://www.harteg.dk/">Peter
-Harteg</a>, the "father" of CMSimple, and to all developers of <a
-href="http://www.cmsimple-xh.org/">CMSimple_XH</a> without whom this amazing CMS
-wouldn't exist.</p>
-<div class="toplink"><a href="#">back to top</a></div>
-</section>
-
-</div>
-
+<h2 id="limitations">Limitations</h2>
+<p>If JavaScript or Cookies are disabled in the browser of the visitor, or in case the browser does not support the required JavaScript (e.g. IE 7 and older), the automatic retrieval of new messages does not work. Instead visitors have to refresh their browsers to see them.</p>
+<p>Displaying the currently logged in users is not yet implemented. For a workaround regarding Memberpages_XH see the <a href="https://cmsimpleforum.com/viewtopic.php?f=12&amp;t=5358#p33148">CMSimple_XH Forum</a>.</p>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<p>Report bugs and ask for support either on <a href="https://github.com/cmb69/chat_xh/issues">Github</a> or in the <a href="https://cmsimpleforum.com/">CMSimple_XH Forum</a>.</p>
+<h2 id="license">License</h2>
+<p>Chat_XH is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
+<p>Chat_XH is distributed in the hope that it will be useful, but <em>without any warranty</em>; without even the implied warranty of <em>merchantibility</em> or <em>fitness for a particular purpose</em>. See the GNU General Public License for more details.</p>
+<p>You should have received a copy of the GNU General Public License along with Chat_XH. If not, see <a href="https://www.gnu.org/licenses/" class="uri">https://www.gnu.org/licenses/</a>.</p>
+<p>Copyright © Christoph M. Becker</p>
+<p>Czech translation © 2012 Josef Němec<br> Slovak translation © 2012 Dr. Martin Sereday</p>
+<h2 id="credits">Credits</h2>
+<p>Chat_XH was inspired by <a href="https://www.cmsimpleforum.com/viewtopic.php?f=2&amp;t=4208">MiniChat by <em>scriptshow</em></a>.</p>
+<p>The plugin icon is designed by <a href="http://www.mentalrey.it/">Alessandro Rei</a>. Many thanks for publishing this icon under GPL.</p>
+<p>This plugin uses free applications icons from <a href="http://www.aha-soft.com/">Aha-Soft</a>. Many thanks for making these icons freely available.</p>
+<p>Many thanks to the community at the <a href="https://www.cmsimpleforum.com/">CMSimple_XH Forum</a> for tips, suggestions and testing. Particularly I want to thank <em>snafu</em> for giving early feedback.</p>
+<p>And last but not least many thanks to <a href="https://www.harteg.dk/">Peter Harteg</a>, the “father” of CMSimple, and all developers of <a href="https://www.cmsimple-xh.org/">CMSimple_XH</a> without whom this amazing CMS would not exist.</p>
 </body>
-
 </html>
