@@ -19,7 +19,6 @@
  * along with Chat_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-use Chat\Controller;
 use Chat\Dic;
 
 /**
@@ -39,6 +38,3 @@ function chat($room, $purgeInterval = null)
 {
     return Dic::roomController()->handle($room, $purgeInterval);
 }
-
-$temp = new Controller();
-$temp->dispatch();
