@@ -24,13 +24,13 @@ namespace Chat;
 class Entry
 {
     /** @var int */
-    protected $timestamp;
+    private $timestamp;
 
     /** @var string */
-    protected $username;
+    private $username;
 
     /** @var string */
-    protected $message;
+    private $message;
 
     public static function makeFromLine(string $line): self
     {

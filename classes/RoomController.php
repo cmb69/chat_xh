@@ -21,14 +21,24 @@
 
 namespace Chat;
 
+use Plib\View;
+
 class RoomController extends AbstractController
 {
+    /** @var View */
+    private $view;
+
+    public function __construct(View $view)
+    {
+        $this->view = $view;
+    }
+
     public function handle(string $roomname, int $purgeInterval = null): string
     {
-        global $plugin_cf, $plugin_tx;
+        global $plugin_cf;
 
         if (!Room::isValidName($roomname)) {
-            return XH_message('fail', $plugin_tx['chat']['error_room_name']);
+            return $this->view->message("fail", "error_room_name");
         }
         if (!isset($purgeInterval)) {
             $purgeInterval = $plugin_cf['chat']['interval_purge'];
@@ -54,7 +64,7 @@ class RoomController extends AbstractController
     {
         global $plugin_tx;
 
-        return XH_message(
+        return $this->view->message(
             'fail',
             sprintf(
                 $plugin_tx['chat']['error_not_writable'],

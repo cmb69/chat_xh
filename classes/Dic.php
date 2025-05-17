@@ -28,7 +28,7 @@ class Dic
 {
     public static function roomController(): RoomController
     {
-        return new RoomController();
+        return new RoomController(self::view());
     }
 
     public static function infoCommand(): InfoCommand
