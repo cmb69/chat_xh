@@ -121,12 +121,11 @@ class RoomController
             $user = $entry->getUsername();
             $class = '';
         }
-        $trans = [
-            '{USER}' => $user,
-            '{DATE}' => date($this->view->plain("format_date"), $entry->getTimestamp()),
-            '{TIME}' => date($this->view->plain("format_time"), $entry->getTimestamp())
-        ];
-        $user = strtr($this->view->plain("format_user"), $trans);
+        $user = strtr($this->view->plain("format_user"), [
+            "{USER}" => $user,
+            "{DATE}" => date($this->view->plain("format_date"), $entry->getTimestamp()),
+            "{TIME}" => date($this->view->plain("format_time"), $entry->getTimestamp()),
+        ]);
         return [
             'class' => $class,
             'user' => $user,
@@ -143,12 +142,10 @@ class RoomController
 
     private function mainView(Request $request, Room $room): string
     {
-        $url = $request->url()->with("chat_room", $room->getName());
-        $bag = [
-            'room' => $room->getName(),
-            'url' => $url->relative(),
-            'messages' => $this->messagesView($request, $room)
-        ];
-        return $this->view->render('chat', $bag);
+        return $this->view->render("chat", [
+            "room" => $room->getName(),
+            "url" => $request->url()->with("chat_room", $room->getName())->relative(),
+            "messages" => $this->messagesView($request, $room),
+        ]);
     }
 }
