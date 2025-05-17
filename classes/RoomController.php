@@ -68,6 +68,9 @@ class RoomController
             if (!$this->appendMessage($request, $room)) {
                 return Response::create($this->view->message("fail", "error_save"));
             }
+            if ($request->post("chat_message") !== null) {
+                return Response::redirect($request->url()->absolute());
+            }
         }
         return Response::create($this->mainView($request, $room));
     }

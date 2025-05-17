@@ -69,4 +69,14 @@ class RoomControllerTest extends TestCase
         $response = $this->sut()->handle("chat", null, $request);
         Approvals::verifyHtml($response->output());
     }
+
+    public function testRedirectsAfterSuccessfulSave(): void
+    {
+        $request = new FakeRequest([
+            "url" => "http://example.com/?&chat_room=chat",
+            "post" => ["chat_message" => "test"],
+        ]);
+        $response = $this->sut()->handle("chat", null, $request);
+        $this->assertSame("http://example.com/?&chat_room=chat", $response->location());
+    }
 }
