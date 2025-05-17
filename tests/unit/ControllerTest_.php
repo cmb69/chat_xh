@@ -15,7 +15,9 @@
 
 namespace Chat;
 
-class ControllerTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ControllerTest extends TestCase
 {
     /** @var Controller */
     protected $subject;

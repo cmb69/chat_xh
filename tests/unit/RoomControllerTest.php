@@ -15,9 +15,11 @@
 
 namespace Chat;
 
-class RoomControllerTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class RoomControllerTest extends TestCase
 {
-    /** @var Chat_RoomController */
+    /** @var RoomController */
     protected $subject;
 
     /** @var object */
@@ -25,13 +27,14 @@ class RoomControllerTest extends PHPUnit_Framework_TestCase
 
     public function setUp(): void
     {
-        $this->subject = new Chat_RoomController();
-        $this->messageMock = new PHPUnit_Extensions_MockFunction('XH_message', $this->subject);
+        global $plugin_tx;
+        $plugin_tx = XH_includeVar("./languages/en.php", "plugin_tx");
+        $this->subject = new RoomController();
     }
 
     public function testInvalidRoomNameReturnsFailureMessage(): void
     {
-        $this->messageMock->expects($this->once())->with($this->equalTo('fail'));
-        $this->subject->handle('te$t');
+        $response = $this->subject->handle('te$t');
+        $this->assertStringContainsString("Invalid chat room name:", $response);
     }
 }
