@@ -21,14 +21,14 @@ class SystemCheck
     {
         global $plugin_tx;
 
-        $o = '<h4>' . $plugin_tx['chat']['syscheck_title'] . '</h4>'
-            . $this->checkPHPVersion('7.1.0') . tag('br');
+        $o = '<h4>' . $plugin_tx['chat']['syscheck_title'] . '</h4>' . "\n"
+            . $this->checkPHPVersion('7.1.0') . tag('br') . "\n";
         foreach (array('pcre', 'session') as $ext) {
-            $o .= $this->checkExtension($ext) . tag('br');
+            $o .= $this->checkExtension($ext) . tag('br') . "\n";
         }
-        $o .= $this->checkXHVersion('1.7.0') . tag('br') . tag('br');
+        $o .= $this->checkXHVersion('1.7.0') . tag('br') . tag('br') . "\n";
         foreach ($this->getWritableFolders() as $folder) {
-            $o .= $this->checkWritability($folder) . tag('br');
+            $o .= $this->checkWritability($folder) . tag('br') . "\n";
         }
         return $o;
     }
