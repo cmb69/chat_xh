@@ -13,16 +13,7 @@
  * @returns {undefined}
  */
 function initWidget(element) {
-    var room, config, url, messages, form;
-
-    /**
-     * Clears the text input field.
-     *
-     * @returns {undefined}
-     */
-    function clearInput() {
-        form.elements.chat_message.value = "";
-    }
+    var room, config, messages, form;
 
     /**
      * Scrolls down to the bottom of the chat.
@@ -33,6 +24,21 @@ function initWidget(element) {
         messages.scrollTop = messages.scrollHeight;
     }
 
+    function onReadyStateChange(request) {
+        if (request.readyState === 4) {
+            if (request.status === 200) {
+                const matches = request.responseText.match(/<!--START-->(.*?)<!--END-->/s);
+                if (matches !== null && matches.length === 2) {
+                    element.innerHTML = matches[1];
+                    doInit();
+                    return;
+                }
+            }
+            form.onsubmit = "";
+            return;
+        }
+    }
+
     /**
      * Polls the chat.
      *
@@ -41,24 +47,13 @@ function initWidget(element) {
     function poll() {
         var request;
 
-        function mustScroll() {
-            return messages.scrollTop >= messages.scrollHeight - messages.clientHeight;
-        }
-
-        function onReadyStateChange() {
-            if (request.readyState === 4 && request.status === 200) {
-                messages.innerHTML = request.responseText;
-                if (mustScroll()) {
-                    scrollDown();
-                }
-            }
-        }
-
         request = new XMLHttpRequest();
-        request.open("GET", url);
+        request.open("GET", config.url);
         request.setRequestHeader("X-CMSimple-XH-Request", "chat-" + room);
-        request.onreadystatechange = onReadyStateChange;
-        request.send(null);
+        request.onreadystatechange = () => {
+            onReadyStateChange(request);
+        }
+        request.send();
     }
 
     /**
@@ -67,34 +62,30 @@ function initWidget(element) {
      * @returns {undefined}
      */
     function submit() {
-        var request, msg;
-
-        function onReadyStateChange() {
-            if (request.readyState === 4 && request.status === 200) {
-                messages.innerHTML = request.responseText;
-                scrollDown();
-                clearInput();
-            }
-        }
+        var request;
 
         request = new XMLHttpRequest();
-        request.open("POST", url);
+        request.open("POST", config.url);
         request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         request.setRequestHeader("X-CMSimple-XH-Request", "chat-" + room);
-        request.onreadystatechange = onReadyStateChange;
-        msg = form.elements.chat_message.value;
-        request.send("chat_message=" + encodeURIComponent(msg));
+        request.onreadystatechange = () => {
+            onReadyStateChange(request);
+        }
+        request.send("chat_message=" + encodeURIComponent(form.elements.chat_message.value));
         return false;
     }
 
-    room = element.getAttribute("data-chat-room");
+    function doInit() {
+        messages = element.querySelector("ol");
+        form = element.querySelector("form");
+        form.onsubmit = submit;
+        scrollDown();
+        setTimeout(poll, config.interval);
+    }
+
+    room = element.dataset.chatRoom;
     config = JSON.parse(element.dataset.chatConfig);
-    url = config.url;
-    messages = document.querySelector("#chat_room_" + room + "_messages");
-    form = document.querySelector("#chat_room_" + room + "_form");
-    scrollDown();
-    form.onsubmit = submit;
-    setInterval(poll, config.interval);
+    doInit();
 }
 
 document.querySelectorAll(".chat_room").forEach(function (element) {

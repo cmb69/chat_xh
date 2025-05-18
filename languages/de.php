@@ -7,9 +7,11 @@ $plugin_tx['chat']['format_message']="{USER}: {TEXT}";
 $plugin_tx['chat']['format_date']="j.n.Y";
 $plugin_tx['chat']['format_time']="H:i:s";
 
-$plugin_tx['chat']['caption_room']="Chat-Rroom %s";
+$plugin_tx['chat']['caption_room']="Chat-Room %s";
 $plugin_tx['chat']['label_message']="Nachricht";
 $plugin_tx['chat']['label_send']="Senden";
+
+$plugin_tx['chat']['help_message']="(höchstens 160 Zeichen)";
 
 $plugin_tx['chat']['error_room_name']="Ungültiger Chatraum-Name: darf nur Kleinbuchstaben (a-z), Ziffern (0-9) und Bindestriche enthalten.";
 $plugin_tx['chat']['error_save']="Chat-Nachricht konnte nicht gespeichert werden!";

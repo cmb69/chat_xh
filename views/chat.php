@@ -9,7 +9,8 @@ if (!defined("CMSIMPLE_XH_VERSION")) {http_response_code(403); exit;}
  * @var View $this
  * @var string $room
  * @var string $url
- * @var string $messages
+ * @var list<string> $errors
+ * @var list<object{class:string,message:string}> $messages
  * @var string $script
  * @var array<string,mixed> $config
  */
@@ -17,11 +18,17 @@ if (!defined("CMSIMPLE_XH_VERSION")) {http_response_code(403); exit;}
 
 <script type="module" src="<?=$this->esc($script)?>"></script>
 <figure class="chat_room" data-chat-room="<?=$this->esc($room)?>" data-chat-config='<?=$this->json($config)?>'>
+<!--START-->
   <figcaption><?=$this->text("caption_room", $room)?></figcaption>
-  <ol id="chat_room_<?=$this->esc($room)?>_messages" class="chat_messages">
-<?=$this->raw($messages)?>
+<?foreach ($errors as $error):?>
+<?=$this->raw($error)?>
+<?endforeach?>
+  <ol class="chat_messages">
+<?foreach ($messages as $message):?>
+    <li class="chat_message <?=$this->esc($message->class)?>"><?=$this->raw($message->message)?></li>
+<?endforeach?>
   </ol>
-  <form id="chat_room_<?=$this->esc($room)?>_form" action="<?=$this->esc($url)?>" method="post">
+  <form action="<?=$this->esc($url)?>" method="post">
     <p class="chat_message">
       <label>
         <span><?=$this->text("label_message")?></span>
@@ -33,4 +40,5 @@ if (!defined("CMSIMPLE_XH_VERSION")) {http_response_code(403); exit;}
       <button name="chat_room" value="<?=$this->esc($room)?>"><?=$this->text("label_send")?></button>
     </p>
   </form>
+<!--END-->
 </figure>

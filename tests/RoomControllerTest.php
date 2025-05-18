@@ -70,6 +70,16 @@ class RoomControllerTest extends TestCase
         Approvals::verifyHtml($response->output());
     }
 
+    public function testReportsInvalidPost(): void
+    {
+        $request = new FakeRequest([
+            "url" => "http://example.com/",
+            "post" => ["chat_room" => "chat", "chat_message" => str_repeat("*", 161)],
+        ]);
+        $response = $this->sut()->handle("chat", null, $request);
+        $this->assertStringContainsString("Invalid post!", $response->output());
+    } 
+
     public function testReportsFailureToSave(): void
     {
         vfsStream::setQuota(0);
