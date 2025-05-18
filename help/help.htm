@@ -37,7 +37,10 @@
 <li><a href="#download">Download</a></li>
 <li><a href="#installation">Installation</a></li>
 <li><a href="#settings">Settings</a></li>
-<li><a href="#usage">Usage</a></li>
+<li><a href="#usage">Usage</a>
+<ul>
+<li><a href="#formatting-of-chat-messages">Formatting of Chat Messages</a></li>
+</ul></li>
 <li><a href="#limitations">Limitations</a></li>
 <li><a href="#troubleshooting">Troubleshooting</a></li>
 <li><a href="#license">License</a></li>
@@ -78,6 +81,10 @@
 <p>You can embed as many chat rooms on any single page as you like – they are working independent of each other as long as they have different names.</p>
 <p>After a configurable time of inactivity (i.e. no new messages are posted), the chat history will be purged automatically.</p>
 <p>If you want to edit the chat data files, you have to do this via FTP.</p>
+<h3 id="formatting-of-chat-messages">Formatting of Chat Messages</h3>
+<p>The format of the messages in the chat history can be configured in the language settings (<code>Pugins</code> → <code>Chat</code> → <code>Language</code> → <code>Format</code> → <code>Message</code>). The following placeholders are supported: <code>{USER}</code> (the name of the user), <code>{DATE}</code> (the date of posting), <code>{TIME}</code> (the time of posting), and <code>{TEXT}</code> (the posted message). Additional text is taken as is. A more fancy example than the default:</p>
+<pre><code>{USER} wrote on {DATE} at {TIME}: {TEXT}</code></pre>
+<p>Note that the components are marked up with suitable CSS classes (<code>chat_user</code>, <code>chat_date</code>, etc.) so further styling can be applied.</p>
 <h2 id="limitations">Limitations</h2>
 <p>If JavaScript is disabled in the browser of the visitor, or in case the browser does not support the required JavaScript (e.g. IE 7 and older), the automatic retrieval of new messages does not work. Instead visitors have to refresh their browsers to see them.</p>
 <p>Displaying the currently logged in users is not yet implemented. For a workaround regarding Memberpages_XH see the <a href="https://cmsimpleforum.com/viewtopic.php?f=12&amp;t=5358#p33148">CMSimple_XH Forum</a>.</p>

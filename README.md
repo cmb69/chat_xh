@@ -13,6 +13,7 @@ recognized as such; other visitors can send messages anonymously.
   - [Installation](#installation)
   - [Settings](#settings)
   - [Usage](#usage)
+    - [Formatting of Chat Messages](#formatting-of-chat-messages)
   - [Limitations](#limitations)
   - [Troubleshooting](#troubleshooting)
   - [License](#license)
@@ -91,6 +92,20 @@ After a configurable time of inactivity (i.e. no new messages are posted),
 the chat history will be purged automatically.
 
 If you want to edit the chat data files, you have to do this via FTP.
+
+### Formatting of Chat Messages
+
+The format of the messages in the chat history can be configured in the
+language settings (`Pugins` → `Chat` → `Language` → `Format` → `Message`).
+The following placeholders are supported: `{USER}` (the name of the user),
+`{DATE}` (the date of posting), `{TIME}` (the time of posting), and
+`{TEXT}` (the posted message).  Additional text is taken as is.  A more fancy
+example than the default:
+
+    {USER} wrote on {DATE} at {TIME}: {TEXT}
+
+Note that the components are marked up with suitable CSS classes
+(`chat_user`, `chat_date`, etc.) so further styling can be applied.
 
 ## Limitations
 

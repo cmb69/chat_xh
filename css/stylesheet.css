@@ -12,12 +12,14 @@ figure.chat_room ol {
     overflow-y: scroll;
     list-style: none;
 }
-figure.chat_room ol .chat_message {}
-figure.chat_room ol .chat_self {
+figure.chat_room ol li {}
+figure.chat_room ol li.chat_self {
     font-style: italic;
 }
-figure.chat_room ol .chat_user {}
-figure.chat_room ol .chat_message {}
+figure.chat_room ol li .chat_user {}
+figure.chat_room ol li .chat_date {}
+figure.chat_room ol li .chat_time {}
+figure.chat_room ol li .chat_text {}
 
 figure.chat_room form {
     display: flex;

@@ -111,28 +111,30 @@ class RoomController
         $room->postMessage($request->time(), $request->username() ?? "", $request->post("chat_message"));
     }
 
-    /** @return object{class:string,user:string,text:string} */
+    /** @return object{class:string,message:string} */
     private function message(Request $request, Message $message)
     {
         if (!$message->username()) {
-            $user = $this->view->plain("user_unknown");
-            $class = '';
+            $user = $this->view->text("user_unknown");
+            $class = "";
         } elseif ($message->username() == $request->username()) {
-            $user = $this->view->plain("user_self");
-            $class = 'chat_self';
+            $user = $this->view->text("user_self");
+            $class = "chat_self";
         } else {
             $user = $message->username();
-            $class = '';
+            $class = "";
         }
-        $user = strtr($this->view->plain("format_user"), [
-            "{USER}" => $user,
-            "{DATE}" => date($this->view->plain("format_date"), $message->timestamp()),
-            "{TIME}" => date($this->view->plain("format_time"), $message->timestamp()),
-        ]);
+        $date = $this->view->esc(date($this->view->plain("format_date"), $message->timestamp()));
+        $time = $this->view->esc(date($this->view->plain("format_time"), $message->timestamp()));
+        $text = $this->view->esc($message->text());
         return (object) [
-            'class' => $class,
-            'user' => $user,
-            'text' => $message->text(),
+            "class" => $class,
+            "message" => strtr($this->view->plain("format_message"), [
+                "{USER}" => "<span class=\"chat_user\">$user</span>",
+                "{DATE}" => "<span class=\"chat_date\">$date</span>",
+                "{TIME}" => "<span class=\"chat_time\">$time</span>",
+                "{TEXT}" => "<span class=\"chat_text\">$text</span>",
+            ]),
         ];
     }
 

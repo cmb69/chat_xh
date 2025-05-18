@@ -12,6 +12,7 @@ Nachrichten schicken.
 - [Installation](#installation)
 - [Einstellungen](#einstellungen)
 - [Verwendung](#verwendung)
+  - [Formatierung der Chat-Nachrichten](#formatierung-der-chat-nachrichten)
 - [Einschränkungen](#einschränkungen)
 - [Problembehebung](#problembehebung)
 - [Lizenz](#lizenz)
@@ -92,6 +93,20 @@ Nach einer einstellbaren Zeit der Inaktivität (d.h. es wurden keine neuen
 Nachrichten geschickt) wird der Chatverlauf automatisch gelöscht.
 
 Wenn Sie die Chat-Dateien bearbeiten wollen, müssen Sie dies per FTP tun.
+
+### Formatierung der Chat-Nachrichten
+
+Die Formatierung der Nachrichten im Chatverlauf kann in den Spracheinstellungen
+(`Pugins` → `Chat` → `Language` → `Format` → `Message`) konfiguriert werden.
+Folgende Platzhalter werden unterstützt: `{USER}` (der Benutzername),
+`{DATE}` (das Datum der Nachricht), `{TIME}` (die Uhrzeit der Nachricht)
+und `{TEXT}` (die eigentliche Nachricht). Weiterer Text wird wie eingegeben
+angezeigt. Ein schickeres Beispiel als die Voreinstellung.
+
+    {USER} schrieb am {DATE} um {TIME}: {TEXT}
+
+Es ist zu beachten, dass die Komponenten mit passenden CSS-Klassen (`chat_user`,
+`chat_date` usw.) versehen werden, so dass diese individuell gestaltet werden können.
 
 ## Einschränkungen
 

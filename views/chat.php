@@ -19,7 +19,7 @@ if (!defined("CMSIMPLE_XH_VERSION")) {http_response_code(403); exit;}
 <figure class="chat_room" data-chat-room="<?=$this->esc($room)?>" data-chat-config='<?=$this->json($config)?>'>
   <figcaption><?=$this->text("caption_room", $room)?></figcaption>
   <ol id="chat_room_<?=$this->esc($room)?>_messages" class="chat_messages">
-  <?=$this->raw($messages)?>
+<?=$this->raw($messages)?>
   </ol>
   <form id="chat_room_<?=$this->esc($room)?>_form" action="<?=$this->esc($url)?>" method="post">
     <p class="chat_message">

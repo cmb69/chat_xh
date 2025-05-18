@@ -36,7 +36,10 @@
 <li><a href="#download">Download</a></li>
 <li><a href="#installation">Installation</a></li>
 <li><a href="#einstellungen">Einstellungen</a></li>
-<li><a href="#verwendung">Verwendung</a></li>
+<li><a href="#verwendung">Verwendung</a>
+<ul>
+<li><a href="#formatierung-der-chat-nachrichten">Formatierung der Chat-Nachrichten</a></li>
+</ul></li>
 <li><a href="#einschränkungen">Einschränkungen</a></li>
 <li><a href="#problembehebung">Problembehebung</a></li>
 <li><a href="#lizenz">Lizenz</a></li>
@@ -77,6 +80,10 @@
 <p>Sie können auf jeder einzelnen Seite so viele Chats einbinden wie sie wollen – diese sind unabhängig voneinander solange sie unterschiedliche Namen haben.</p>
 <p>Nach einer einstellbaren Zeit der Inaktivität (d.h. es wurden keine neuen Nachrichten geschickt) wird der Chatverlauf automatisch gelöscht.</p>
 <p>Wenn Sie die Chat-Dateien bearbeiten wollen, müssen Sie dies per FTP tun.</p>
+<h3 id="formatierung-der-chat-nachrichten">Formatierung der Chat-Nachrichten</h3>
+<p>Die Formatierung der Nachrichten im Chatverlauf kann in den Spracheinstellungen (<code>Pugins</code> → <code>Chat</code> → <code>Language</code> → <code>Format</code> → <code>Message</code>) konfiguriert werden. Folgende Platzhalter werden unterstützt: <code>{USER}</code> (der Benutzername), <code>{DATE}</code> (das Datum der Nachricht), <code>{TIME}</code> (die Uhrzeit der Nachricht) und <code>{TEXT}</code> (die eigentliche Nachricht). Weiterer Text wird wie eingegeben angezeigt. Ein schickeres Beispiel als die Voreinstellung.</p>
+<pre><code>{USER} schrieb am {DATE} um {TIME}: {TEXT}</code></pre>
+<p>Es ist zu beachten, dass die Komponenten mit passenden CSS-Klassen (<code>chat_user</code>, <code>chat_date</code> usw.) versehen werden, so dass diese individuell gestaltet werden können.</p>
 <h2 id="einschränkungen">Einschränkungen</h2>
 <p>Wenn JavaScript im Browser des Besuchers deaktiviert ist, oder falls der Browser das nötige JavaScript nicht unterstützt (z.B. IE 7 und älter), funktioniert der automatische Abruf von neuen Nachrichten nicht. Statt dessen müssen Besucher den Browser aktualisieren, um diese zu sehen.</p>
 <p>Die Anzeige der aktuell angemeldeten Benutzer ist noch nicht implementiert. Ein Workaround für Memberpages_XH ist im <a href="http://cmsimpleforum.com/viewtopic.php?f=12&amp;t=5358#p33148">CMSimple_XH Forum</a> zu finden.</p>
