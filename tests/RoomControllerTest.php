@@ -78,7 +78,7 @@ class RoomControllerTest extends TestCase
         ]);
         $response = $this->sut()->handle("chat", null, $request);
         $this->assertStringContainsString("Invalid post!", $response->output());
-    } 
+    }
 
     public function testReportsFailureToSave(): void
     {
