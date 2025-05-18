@@ -21,7 +21,7 @@
 
 namespace Chat\Model;
 
-final class Entry
+final class Message
 {
     /** @var int */
     private $timestamp;
@@ -30,38 +30,38 @@ final class Entry
     private $username;
 
     /** @var string */
-    private $message;
+    private $text;
 
-    public static function makeFromLine(string $line): self
+    public static function fromString(string $line): self
     {
         [$timestamp, $username, $message] = explode("\t", $line, 3);
         return new self((int) $timestamp, $username, $message);
     }
 
-    public function __construct(int $timestamp, string $username, string $message)
+    public function __construct(int $timestamp, string $username, string $text)
     {
         $this->timestamp = $timestamp;
         $this->username = $username;
-        $this->message = $message;
+        $this->text = $text;
     }
 
-    public function getTimestamp(): int
+    public function timestamp(): int
     {
         return $this->timestamp;
     }
 
-    public function getUsername(): string
+    public function username(): string
     {
         return $this->username;
     }
 
-    public function getMessage(): string
+    public function text(): string
     {
-        return $this->message;
+        return $this->text;
     }
 
-    public function getLine(): string
+    public function toString(): string
     {
-        return $this->timestamp . "\t" . $this->username . "\t" . $this->message;
+        return $this->timestamp . "\t" . $this->username . "\t" . $this->text;
     }
 }

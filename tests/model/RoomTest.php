@@ -29,6 +29,6 @@ class RoomTest extends TestCase
         $room = new Room("expired");
         $room->postMessage(strtotime("2025-05-18T09:09:28+00:00"), "cmb", "yada yada");
         $room->purgeIfExpired(strtotime("2025-05-18T09:09:29+00:00"));
-        $this->assertEmpty($room->entries());
+        $this->assertEmpty($room->messages());
     }
 }

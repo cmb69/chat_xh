@@ -29,8 +29,8 @@ final class Room implements Document
     /** @var string */
     private $name;
 
-    /** @var list<Entry> */
-    private $entries = [];
+    /** @var list<Message> */
+    private $messages = [];
 
     public static function fromString(string $contents, string $key): self
     {
@@ -41,7 +41,7 @@ final class Room implements Document
         }
         foreach ($lines as $line) {
             if (!empty($line)) {
-                $that->entries[] = Entry::makeFromLine($line);
+                $that->messages[] = Message::fromString($line);
             }
         }
         return $that;
@@ -76,38 +76,38 @@ final class Room implements Document
         return $this->name;
     }
 
-    /** @return list<Entry> */
-    public function entries(): array
+    /** @return list<Message> */
+    public function messages(): array
     {
-        return $this->entries;
+        return $this->messages;
     }
 
     public function purgeIfExpired(int $expiration): void
     {
         $expired = true;
-        foreach ($this->entries as $entry) {
-            if ($entry->getTimestamp() >= $expiration) {
+        foreach ($this->messages as $message) {
+            if ($message->timestamp() >= $expiration) {
                 $expired = false;
                 break;
             }
         }
         if ($expired) {
-            $this->entries = [];
+            $this->messages = [];
         }
     }
 
-    public function postMessage(int $timestamp, string $username, string $text): Entry
+    public function postMessage(int $timestamp, string $username, string $text): Message
     {
-        $entry = new Entry($timestamp, $username, $text);
-        $this->entries[] = $entry;
-        return $entry;
+        $message = new Message($timestamp, $username, $text);
+        $this->messages[] = $message;
+        return $message;
     }
 
     public function toString(): string
     {
         $lines = [];
-        foreach ($this->entries as $entry) {
-            $lines[] = $entry->getLine();
+        foreach ($this->messages as $message) {
+            $lines[] = $message->toString();
         }
         return implode("\n", $lines);
     }

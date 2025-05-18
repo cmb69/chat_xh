@@ -15,7 +15,7 @@ require_once "../plib/classes/View.php";
 require_once "../plib/classes/FakeRequest.php";
 require_once "../plib/classes/FakeSystemChecker.php";
 
-require_once "./classes/model/Entry.php";
+require_once "./classes/model/Message.php";
 require_once "./classes/model/Room.php";
 require_once "./classes/Dic.php";
 require_once "./classes/RoomController.php";

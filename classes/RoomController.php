@@ -21,7 +21,7 @@
 
 namespace Chat;
 
-use Chat\Model\Entry;
+use Chat\Model\Message;
 use Chat\Model\Room;
 use Plib\DocumentStore;
 use Plib\Request;
@@ -112,34 +112,34 @@ class RoomController
     }
 
     /** @return object{class:string,user:string,text:string} */
-    private function message(Request $request, Entry $entry)
+    private function message(Request $request, Message $message)
     {
-        if (!$entry->getUsername()) {
+        if (!$message->username()) {
             $user = $this->view->plain("user_unknown");
             $class = '';
-        } elseif ($entry->getUsername() == $request->username()) {
+        } elseif ($message->username() == $request->username()) {
             $user = $this->view->plain("user_self");
             $class = 'chat_self';
         } else {
-            $user = $entry->getUsername();
+            $user = $message->username();
             $class = '';
         }
         $user = strtr($this->view->plain("format_user"), [
             "{USER}" => $user,
-            "{DATE}" => date($this->view->plain("format_date"), $entry->getTimestamp()),
-            "{TIME}" => date($this->view->plain("format_time"), $entry->getTimestamp()),
+            "{DATE}" => date($this->view->plain("format_date"), $message->timestamp()),
+            "{TIME}" => date($this->view->plain("format_time"), $message->timestamp()),
         ]);
         return (object) [
             'class' => $class,
             'user' => $user,
-            'text' => $entry->getMessage(),
+            'text' => $message->text(),
         ];
     }
 
     private function messagesView(Request $request, Room $room): string
     {
-        $entries = $room->entries();
-        $messages = array_map([$this, 'message'], array_fill(0, count($entries), $request), $entries);
+        $messages = $room->messages();
+        $messages = array_map([$this, 'message'], array_fill(0, count($messages), $request), $messages);
         return $this->view->render('messages', compact('messages'));
     }
 
