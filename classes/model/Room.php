@@ -41,7 +41,10 @@ final class Room implements Document
         }
         foreach ($lines as $line) {
             if (!empty($line)) {
-                $that->messages[] = Message::fromString($line);
+                $message = Message::fromString($line);
+                if ($message !== null) {
+                    $that->messages[] = $message;
+                }
             }
         }
         return $that;

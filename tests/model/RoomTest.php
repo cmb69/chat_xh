@@ -24,6 +24,17 @@ class RoomTest extends TestCase
         ];
     }
 
+    public function testIgnoresCorruptMessages(): void
+    {
+        $contents = <<<EOS
+            12345\tcmb\thello
+            23456
+            34567\tlck\tworld
+            EOS;
+        $room = Room::fromString($contents, "corrupt.csv");
+        $this->assertSame("12345\tcmb\thello\n34567\tlck\tworld", $room->toString());
+    }
+
     public function testPurgesIfExpired(): void
     {
         $room = new Room("expired");

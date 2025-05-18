@@ -32,10 +32,13 @@ final class Message
     /** @var string */
     private $text;
 
-    public static function fromString(string $line): self
+    public static function fromString(string $line): ?self
     {
-        [$timestamp, $username, $message] = explode("\t", $line, 3);
-        return new self((int) $timestamp, $username, $message);
+        $fields = explode("\t", $line, 3);
+        if (count($fields) < 3) {
+            return null;
+        }
+        return new self((int) $fields[0], $fields[1], $fields[2]);
     }
 
     public function __construct(int $timestamp, string $username, string $text)
