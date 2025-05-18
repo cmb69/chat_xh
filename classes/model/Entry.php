@@ -21,7 +21,7 @@
 
 namespace Chat\Model;
 
-class Entry
+final class Entry
 {
     /** @var int */
     private $timestamp;

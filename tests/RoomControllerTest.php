@@ -5,6 +5,7 @@ namespace Chat;
 use ApprovalTests\Approvals;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
+use Plib\DocumentStore;
 use Plib\FakeRequest;
 use Plib\View;
 
@@ -12,6 +13,9 @@ class RoomControllerTest extends TestCase
 {
     /** @var array<string,string> */
     private $conf;
+
+    /** @var DocumentStore */
+    private $store;
 
     /** @var View */
     private $view;
@@ -27,12 +31,13 @@ class RoomControllerTest extends TestCase
         );
         $pth = ["folder" => ["content" => vfsStream::url("root/")]];
         $this->conf = XH_includeVar("./config/config.php", "plugin_cf")["chat"];
+        $this->store = new DocumentStore(vfsStream::url("root/chat/"));
         $this->view = new View("./views/", XH_includeVar("./languages/en.php", "plugin_tx")["chat"]);
     }
 
     private function sut(): RoomController
     {
-        return new RoomController("./", $this->conf, $this->view);
+        return new RoomController("./", $this->conf, $this->store, $this->view);
     }
 
     public function testInvalidRoomNameReturnsFailureMessage(): void

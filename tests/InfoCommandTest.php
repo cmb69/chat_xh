@@ -4,11 +4,15 @@ namespace Chat;
 
 use ApprovalTests\Approvals;
 use PHPUnit\Framework\TestCase;
+use Plib\DocumentStore;
 use Plib\FakeSystemChecker;
 use Plib\View;
 
 class InfoCommandTest extends TestCase
 {
+    /** @var DocumentStore */
+    private $store;
+
     /** @var View */
     private $view;
 
@@ -16,13 +20,14 @@ class InfoCommandTest extends TestCase
     {
         global $pth, $plugin_tx;
         $pth = ["folder" => ["content" => "../../content/"]];
+        $this->store = new DocumentStore("../../content/chat/");
         $plugin_tx = XH_includeVar("./languages/en.php", "plugin_tx");
         $this->view = new View("./views/", $plugin_tx["chat"]);
     }
 
     private function sut(): InfoCommand
     {
-        return new InfoCommand("./", new FakeSystemChecker(), $this->view);
+        return new InfoCommand("./", new FakeSystemChecker(), $this->store, $this->view);
     }
 
     public function testRendersSystemCheck(): void

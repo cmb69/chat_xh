@@ -22,6 +22,7 @@
 namespace Chat;
 
 use Chat\Model\Room;
+use Plib\DocumentStore;
 use Plib\SystemChecker;
 use Plib\View;
 
@@ -33,16 +34,21 @@ class InfoCommand
     /** @var SystemChecker */
     private $systemChecker;
 
+    /** @var DocumentStore */
+    private $store;
+
     /** @var View */
     private $view;
 
     public function __construct(
         string $pluginFolder,
         SystemChecker $systemChecker,
+        DocumentStore $store,
         View $view
     ) {
         $this->pluginFolder = $pluginFolder;
         $this->systemChecker = $systemChecker;
+        $this->store = $store;
         $this->view = $view;
     }
 
@@ -86,7 +92,7 @@ class InfoCommand
         foreach (["config/", "css/", "languages/"] as $folder) {
             $folders[] = $this->pluginFolder . $folder;
         }
-        $folders[] = Room::dataFolder();
+        $folders[] = $this->store->folder();
         return $folders;
     }
 }

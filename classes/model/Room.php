@@ -21,25 +21,44 @@
 
 namespace Chat\Model;
 
-class Room
+use Plib\Document;
+use Plib\DocumentStore;
+
+final class Room implements Document
 {
     /** @var string */
     private $name;
 
-    /** @var int */
-    private $purgeInterval;
+    /** @var list<Entry> */
+    private $entries = [];
 
-    public static function dataFolder(): string
+    public static function fromString(string $contents, string $key): self
     {
-        global $pth;
-
-        $filename = $pth['folder']['content'] . 'chat/';
-        if (!file_exists($filename)) {
-            if (mkdir($filename, 0777, true)) {
-                chmod($filename, 0777);
+        $that = new self(basename($key, ".csv"));
+        $lines = preg_split('/\r?\n/', $contents);
+        if (!is_array($lines)) {
+            return $that;
+        }
+        foreach ($lines as $line) {
+            if (!empty($line)) {
+                $that->entries[] = Entry::makeFromLine($line);
             }
         }
-        return $filename;
+        return $that;
+    }
+
+    public static function retrieve(string $name, DocumentStore $store): self
+    {
+        $that = $store->retrieve("$name.csv", self::class);
+        assert($that instanceof self);
+        return $that;
+    }
+
+    public static function update(string $name, DocumentStore $store): self
+    {
+        $that = $store->update("$name.csv", self::class);
+        assert($that instanceof self);
+        return $that;
     }
 
     public static function isValidName(string $name): bool
@@ -47,56 +66,49 @@ class Room
         return (bool) preg_match('/^[a-z0-9-]*$/u', $name);
     }
 
-    public function __construct(string $name, int $purgeInterval)
+    public function __construct(string $name)
     {
         $this->name = $name;
-        $this->purgeInterval = $purgeInterval;
     }
 
-    public function getName(): string
+    public function name(): string
     {
         return $this->name;
     }
 
-    public function getFilename(): string
+    /** @return list<Entry> */
+    public function entries(): array
     {
-        return self::dataFolder() . $this->name . '.csv';
+        return $this->entries;
     }
 
-    public function isExpired(): bool
+    public function purgeIfExpired(int $expiration): void
     {
-        $filename = $this->getFilename();
-        return file_exists($filename)
-            && $this->purgeInterval
-            && time() > filemtime($filename) + $this->purgeInterval;
-    }
-
-    public function purge(): void
-    {
-        unlink($this->getFilename());
-    }
-
-    /** @return array<Entry> */
-    public function findEntries(): array
-    {
-        $filename = $this->getFilename();
-        $entries = [];
-        if (is_readable($filename)
-            && ($lines = file($filename)) !== false
-        ) {
-            foreach ($lines as $line) {
-                if (!empty($line)) {
-                    $entries[] = Entry::makeFromLine(rtrim($line));
-                }
+        $expired = true;
+        foreach ($this->entries as $entry) {
+            if ($entry->getTimestamp() >= $expiration) {
+                $expired = false;
+                break;
             }
         }
-        return $entries;
+        if ($expired) {
+            $this->entries = [];
+        }
     }
 
-    public function appendEntry(Entry $entry): bool
+    public function postMessage(int $timestamp, string $username, string $text): Entry
     {
-        $filename = $this->getFilename();
-        $line = $entry->getLine() . "\n";
-        return @file_put_contents($filename, $line, FILE_APPEND) === strlen($line);
+        $entry = new Entry($timestamp, $username, $text);
+        $this->entries[] = $entry;
+        return $entry;
+    }
+
+    public function toString(): string
+    {
+        $lines = [];
+        foreach ($this->entries as $entry) {
+            $lines[] = $entry->getLine();
+        }
+        return implode("\n", $lines);
     }
 }

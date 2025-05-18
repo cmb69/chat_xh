@@ -21,6 +21,7 @@
 
 namespace Chat;
 
+use Plib\DocumentStore;
 use Plib\SystemChecker;
 use Plib\View;
 
@@ -32,6 +33,7 @@ class Dic
         return new RoomController(
             $pth["folder"]["plugins"] . "chat/",
             $plugin_cf["chat"],
+            new DocumentStore(self::contentFolder()),
             self::view()
         );
     }
@@ -42,8 +44,15 @@ class Dic
         return new InfoCommand(
             $pth["folder"]["plugins"] . "chat/",
             new SystemChecker(),
+            new DocumentStore(self::contentFolder()),
             self::view()
         );
+    }
+
+    private static function contentFolder(): string
+    {
+        global $pth;
+        return $pth["folder"]["content"] . "chat/";
     }
 
     private static function view(): View
