@@ -1,11 +1,34 @@
-div.chat_room {}
+figure.chat_room {}
 
-div.chat_messages {width: 100%; height: 20em; padding: 0.3em; border: 1px solid #aaa; border-bottom:none; overflow-y: scroll}
-div.chat_message {}
-div.chat_self {font-style: italic;}
-span.chat_user {}
-span.chat_message {}
+figure.chat_room figcaption {
+    font-size: 1.2em;
+}
 
-div.chat_room form {text-align: center}
-div.chat_room input {width: 100%; padding: 0.3em; border: 1px solid #aaa}
-div.chat_room .submit {display:none}
+figure.chat_room ol {
+    width: 100%;
+    height: 20em;
+    padding: 0.3em;
+    border: 1px solid #aaa;
+    overflow-y: scroll;
+    list-style: none;
+}
+figure.chat_room ol .chat_message {}
+figure.chat_room ol .chat_self {
+    font-style: italic;
+}
+figure.chat_room ol .chat_user {}
+figure.chat_room ol .chat_message {}
+
+figure.chat_room form {
+    display: flex;
+    align-items: flex-end;
+}
+figure.chat_room form .chat_message {
+    flex: 100;
+}
+figure.chat_room form .chat_button {
+    flex: 1;
+}
+figure.chat_room form input {
+    width: 100%;
+}

@@ -1,24 +1,32 @@
 
 
 <script type="module" src="./chat.js"></script>
-<div class="chat_room" data-chat-room="chat" data-chat-config='{"url":"/","interval":12000}'>
-  <div id="chat_room_chat_messages" class="chat_messages">
+<figure class="chat_room" data-chat-room="chat" data-chat-config='{"url":"/","interval":12000}'>
+  <figcaption>Chat room chat</figcaption>
+  <ol id="chat_room_chat_messages" class="chat_messages">
   
-<div class="chat_message ">
+<li class="chat_message ">
   <span class="chat_user">Somebody: </span>
   <span class="chat_message">hello</span>
-</div>
-<div class="chat_message ">
+</li>
+<li class="chat_message ">
   <span class="chat_user">olape: </span>
   <span class="chat_message">world</span>
-</div>
-<div class="chat_message chat_self">
+</li>
+<li class="chat_message chat_self">
   <span class="chat_user">I: </span>
   <span class="chat_message">'sup</span>
-</div>
-  </div>
+</li>
+  </ol>
   <form id="chat_room_chat_form" action="/" method="post">
-    <input type="text" name="chat_message">
-    <button name="chat_room" value="chat">Send</button>
+    <p class="chat_message">
+      <label>
+        <span>Message</span>
+        <input type="text" name="chat_message">
+      </label>
+    </p>
+    <p class="chat_button">
+      <button name="chat_room" value="chat">Send</button>
+    </p>
   </form>
-</div>
+</figure>

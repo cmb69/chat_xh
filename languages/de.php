@@ -7,6 +7,8 @@ $plugin_tx['chat']['format_user']="{USER}: ";
 $plugin_tx['chat']['format_date']="j.n.Y";
 $plugin_tx['chat']['format_time']="H:i:s";
 
+$plugin_tx['chat']['caption_room']="Chat-Rroom %s";
+$plugin_tx['chat']['label_message']="Nachricht";
 $plugin_tx['chat']['label_send']="Senden";
 
 $plugin_tx['chat']['error_room_name']="Ungültiger Chatraum-Name: darf nur Kleinbuchstaben (a-z), Ziffern (0-9) und Bindestriche enthalten.";

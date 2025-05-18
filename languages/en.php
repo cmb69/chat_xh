@@ -7,6 +7,8 @@ $plugin_tx['chat']['format_user']="{USER}: ";
 $plugin_tx['chat']['format_date']="F dS, Y";
 $plugin_tx['chat']['format_time']="h:i:s a";
 
+$plugin_tx['chat']['caption_room']="Chat room %s";
+$plugin_tx['chat']['label_message']="Message";
 $plugin_tx['chat']['label_send']="Send";
 
 $plugin_tx['chat']['error_room_name']="Invalid chat room name: may contain only lowercase alphanumeric letters (a-z and 0-9) and hyphens.";

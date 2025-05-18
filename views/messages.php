@@ -11,8 +11,8 @@ if (!defined("CMSIMPLE_XH_VERSION")) {http_response_code(403); exit;}
 ?>
 
 <?foreach ($messages as $message):?>
-<div class="chat_message <?=$this->esc($message->class)?>">
+<li class="chat_message <?=$this->esc($message->class)?>">
   <span class="chat_user"><?=$this->esc($message->user)?></span>
   <span class="chat_message"><?=$this->esc($message->text)?></span>
-</div>
+</li>
 <?endforeach?>
