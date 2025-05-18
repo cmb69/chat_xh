@@ -144,8 +144,11 @@ class RoomController
     private function messagesView(Request $request, Room $room): string
     {
         $messages = $room->messages();
-        $messages = array_map([$this, 'message'], array_fill(0, count($messages), $request), $messages);
-        return $this->view->render('messages', compact('messages'));
+        $messages = [];
+        foreach ($room->messages() as $message) {
+            $messages[] = $this->message($request, $message);
+        }
+        return $this->view->render("messages", ["messages" => $messages]);
     }
 
     private function mainView(Request $request, Room $room): string
