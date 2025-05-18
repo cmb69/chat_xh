@@ -61,24 +61,38 @@ class RoomController
         if ($room->isExpired()) {
             $room->purge();
         }
-        if ($request->header("X-CMSimple-XH-Request") === "chat-{$roomname}") {
-            return $this->handleAjaxRequest($request, $room);
+        if ($this->posting($request, $roomname)) {
+            return $this->create($request, $room);
         }
-        if ($request->post("chat_room") === $roomname && $request->post("chat_message") !== null) {
+        return $this->read($request, $room);
+    }
+
+    private function posting(Request $request, string $roomname): bool
+    {
+        return $request->post("chat_message") !== null
+            && ($request->header("X-CMSimple-XH-Request") === "chat-{$roomname}"
+            || $request->post("chat_room") === $roomname);
+    }
+
+    private function read(Request $request, Room $room): Response
+    {
+        if ($request->header("X-CMSimple-XH-Request") === "chat-{$room->getName()}") {
+            return Response::create($this->messagesView($request, $room))
+                ->withContentType("Content-Type: text/html; charset=UTF-8");
+        }
+        return Response::create($this->mainView($request, $room));
+    }
+
+    private function create(Request $request, Room $room): Response
+    {
+        if ($request->header("X-CMSimple-XH-Request") === null) {
             if (!$this->appendMessage($request, $room)) {
                 return Response::create($this->view->message("fail", "error_save"));
             }
             return Response::redirect($request->url()->absolute());
         }
-        return Response::create($this->mainView($request, $room));
-    }
-
-    private function handleAjaxRequest(Request $request, Room $room): Response
-    {
-        if ($request->post("chat_message") !== null) {
-            $this->appendMessage($request, $room);
-            // TODO handle failure to append
-        }
+        $this->appendMessage($request, $room);
+        // TODO handle failure to append
         return Response::create($this->messagesView($request, $room))
             ->withContentType("Content-Type: text/html; charset=UTF-8");
     }

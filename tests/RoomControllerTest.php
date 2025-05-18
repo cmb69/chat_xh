@@ -23,7 +23,7 @@ class RoomControllerTest extends TestCase
         mkdir(vfsStream::url("root/chat"));
         file_put_contents(
             vfsStream::url("root/chat/chat.csv"),
-            "1747486215\t\thello\n1747486220\tolape\tworld\n1747486225\tcmb\t'sup"
+            "1747486215\t\thello\n1747486220\tolape\tworld\n1747486225\tcmb\t'sup\n"
         );
         $pth = ["folder" => ["content" => vfsStream::url("root/")]];
         $this->conf = XH_includeVar("./config/config.php", "plugin_cf")["chat"];
@@ -47,6 +47,18 @@ class RoomControllerTest extends TestCase
         $request = new FakeRequest([
             "url" => "http://example.com/",
             "header" => ["X-CMSimple-XH-Request" => "chat-chat"],
+        ]);
+        $response = $this->sut()->handle("chat", null, $request);
+        $this->assertSame("Content-Type: text/html; charset=UTF-8", $response->contentType());
+        Approvals::verifyHtml($response->output());
+    }
+
+    public function testSuccessfulAjaxPostShowsMessages(): void
+    {
+        $request = new FakeRequest([
+            "url" => "http://example.com/",
+            "header" => ["X-CMSimple-XH-Request" => "chat-chat"],
+            "post" => ["chat_message" => "test"],
         ]);
         $response = $this->sut()->handle("chat", null, $request);
         $this->assertSame("Content-Type: text/html; charset=UTF-8", $response->contentType());
