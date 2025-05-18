@@ -92,7 +92,9 @@ class RoomController
     {
         $room = Room::update($roomname, $this->store);
         $room->purgeIfExpired($expiration);
-        $this->appendMessage($request, $room);
+        if (!$this->appendMessage($request, $room)) {
+            // TODO handle this
+        }
         if ($request->header("X-CMSimple-XH-Request") === null) {
             if (!$this->store->commit()) {
                 return Response::create($this->view->message("fail", "error_save"));
@@ -105,10 +107,11 @@ class RoomController
     }
 
     /** @todo Handle Ajax submission errors. */
-    private function appendMessage(Request $request, Room $room): void
+    private function appendMessage(Request $request, Room $room): bool
     {
         assert($request->post("chat_message") !== null);
-        $room->postMessage($request->time(), $request->username() ?? "", $request->post("chat_message"));
+        $message = $room->postMessage($request->time(), $request->username() ?? "", $request->post("chat_message"));
+        return $message !== null;
     }
 
     /** @return object{class:string,message:string} */

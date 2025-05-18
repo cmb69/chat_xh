@@ -28,6 +28,9 @@ figure.chat_room form {
 figure.chat_room form .chat_message {
     flex: 100;
 }
+figure.chat_room form .chat_help {
+    font-size: small;
+}
 figure.chat_room form .chat_button {
     flex: 1;
 }

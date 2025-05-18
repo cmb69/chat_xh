@@ -1,9 +1,9 @@
 <?php
 
-require_once './vendor/autoload.php';
+require_once "./vendor/autoload.php";
 
-require_once '../../cmsimple/functions.php';
-require_once '../../cmsimple/adminfuncs.php';
+require_once "../../cmsimple/functions.php";
+require_once "../../cmsimple/utf8.php";
 
 require_once "../plib/classes/Document.php";
 require_once "../plib/classes/DocumentStore.php";

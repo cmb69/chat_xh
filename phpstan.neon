@@ -10,5 +10,6 @@ parameters:
   scanFiles:
     - ../../cmsimple/adminfuncs.php
     - ../../cmsimple/functions.php
+    - ../../cmsimple/utf8.php
   scanDirectories:
     - ../plib/classes

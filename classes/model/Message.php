@@ -41,6 +41,14 @@ final class Message
         return new self((int) $fields[0], $fields[1], $fields[2]);
     }
 
+    public static function fromPost(int $timestamp, string $username, string $text): ?self
+    {
+        if (utf8_strlen($text) > 160) {
+            return null;
+        }
+        return new self($timestamp, $username, $text);
+    }
+
     public function __construct(int $timestamp, string $username, string $text)
     {
         $this->timestamp = $timestamp;

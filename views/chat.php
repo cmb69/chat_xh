@@ -25,7 +25,8 @@ if (!defined("CMSIMPLE_XH_VERSION")) {http_response_code(403); exit;}
     <p class="chat_message">
       <label>
         <span><?=$this->text("label_message")?></span>
-        <input type="text" name="chat_message">
+        <span class="chat_help"><?=$this->text("help_message")?></span>
+        <input type="text" name="chat_message" required maxlength="160">
       </label>
     </p>
     <p class="chat_button">

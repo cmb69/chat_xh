@@ -99,9 +99,12 @@ final class Room implements Document
         }
     }
 
-    public function postMessage(int $timestamp, string $username, string $text): Message
+    public function postMessage(int $timestamp, string $username, string $text): ?Message
     {
-        $message = new Message($timestamp, $username, $text);
+        $message = Message::fromPost($timestamp, $username, $text);
+        if ($message === null) {
+            return null;
+        }
         $this->messages[] = $message;
         return $message;
     }
