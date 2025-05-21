@@ -37,3 +37,8 @@ figure.chat_room form .chat_button {
 figure.chat_room form input {
     width: 100%;
 }
+
+/* plugin info */
+
+article.chat_info {}
+article.chat_info .chat_syscheck {}
