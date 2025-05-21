@@ -1,9 +1,9 @@
-figure.chat_room {}
+/* chat rooms */
 
+figure.chat_room {}
 figure.chat_room figcaption {
     font-size: 1.2em;
 }
-
 figure.chat_room ol {
     height: 20em;
     padding: 0.3em;
@@ -11,30 +11,28 @@ figure.chat_room ol {
     overflow-y: scroll;
     list-style: none;
 }
-figure.chat_room ol li {}
-figure.chat_room ol li.chat_self {
+figure.chat_room .chat_self {
     font-style: italic;
 }
-figure.chat_room ol li .chat_user {}
-figure.chat_room ol li .chat_date {}
-figure.chat_room ol li .chat_time {}
-figure.chat_room ol li .chat_text {}
-
+figure.chat_room .chat_user {}
+figure.chat_room .chat_date {}
+figure.chat_room .chat_time {}
+figure.chat_room .chat_text {}
 figure.chat_room form {
     display: flex;
     align-items: flex-end;
 }
-figure.chat_room form .chat_message {
+figure.chat_room .chat_message {
     flex: 100;
 }
-figure.chat_room form .chat_help {
+figure.chat_room .chat_help {
     font-size: small;
 }
-figure.chat_room form .chat_button {
+figure.chat_room .chat_button {
     flex: 1 5em;
     text-align: right;
 }
-figure.chat_room form input {
+figure.chat_room input {
     width: 100%;
 }
 
