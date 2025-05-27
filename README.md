@@ -109,10 +109,9 @@ Note that the components are marked up with suitable CSS classes
 
 ## Limitations
 
-If JavaScript is disabled in the browser of the visitor, or in case
-the browser does not support the required JavaScript (e.g. IE 7 and older), the
-automatic retrieval of new messages does not work. Instead visitors have to
-refresh their browsers to see them.
+If JavaScript is disabled in the browser of the visitor, or in case of an
+ancient browser, the automatic retrieval of new messages does not work.
+Instead visitors have to refresh the page to see them.
 
 ## Troubleshooting
 

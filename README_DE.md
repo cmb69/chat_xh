@@ -110,10 +110,9 @@ Es ist zu beachten, dass die Komponenten mit passenden CSS-Klassen (`chat_user`,
 
 ## Einschränkungen
 
-Wenn JavaScript im Browser des Besuchers deaktiviert ist, oder
-falls der Browser das nötige JavaScript nicht unterstützt (z.B. IE 7 und älter),
-funktioniert der automatische Abruf von neuen Nachrichten nicht. Statt dessen
-müssen Besucher den Browser aktualisieren, um diese zu sehen.
+Wenn JavaScript im Browser des Besuchers deaktiviert ist, oder ein uralter
+Browser verwendet wird, funktioniert der automatische Abruf von neuen Nachrichten
+nicht. Statt dessen müssen Besucher die Seite aktualisieren, um sie zu sehen.
 
 ## Problembehebung
 
