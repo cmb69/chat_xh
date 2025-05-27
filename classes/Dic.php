@@ -21,6 +21,7 @@
 
 namespace Chat;
 
+use Plib\CsrfProtector;
 use Plib\DocumentStore;
 use Plib\SystemChecker;
 use Plib\View;
@@ -34,6 +35,7 @@ class Dic
             $pth["folder"]["plugins"] . "chat/",
             $plugin_cf["chat"],
             new DocumentStore(self::contentFolder()),
+            new CsrfProtector(),
             self::view()
         );
     }

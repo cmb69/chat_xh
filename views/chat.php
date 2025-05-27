@@ -13,6 +13,7 @@ if (!defined("CMSIMPLE_XH_VERSION")) {http_response_code(403); exit;}
  * @var list<object{class:string,message:string}> $messages
  * @var string $script
  * @var array<string,mixed> $config
+ * @var string $token
  */
 ?>
 
@@ -29,6 +30,7 @@ if (!defined("CMSIMPLE_XH_VERSION")) {http_response_code(403); exit;}
 <?endforeach?>
   </ol>
   <form action="<?=$this->esc($url)?>" method="post">
+    <input type="hidden" name="chat_token" value="<?=$this->esc($token)?>">
     <p class="chat_message">
       <label>
         <span><?=$this->text("label_message")?></span>

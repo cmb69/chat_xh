@@ -23,6 +23,7 @@ namespace Chat;
 
 use Chat\Model\Message;
 use Chat\Model\Room;
+use Plib\CsrfProtector;
 use Plib\DocumentStore;
 use Plib\Request;
 use Plib\Response;
@@ -39,6 +40,9 @@ class RoomController
     /** @var DocumentStore */
     private $store;
 
+    /** @var CsrfProtector */
+    private $csrfProtector;
+
     /** @var View */
     private $view;
 
@@ -47,11 +51,13 @@ class RoomController
         string $pluginFolder,
         array $conf,
         DocumentStore $store,
+        CsrfProtector $csrfProtector,
         View $view
     ) {
         $this->pluginFolder = $pluginFolder;
         $this->conf = $conf;
         $this->store = $store;
+        $this->csrfProtector = $csrfProtector;
         $this->view = $view;
     }
 
@@ -90,6 +96,9 @@ class RoomController
 
     private function create(Request $request, string $roomname, int $expiration): Response
     {
+        if ($request->username() !== null && !$this->csrfProtector->check($request->post("chat_token"))) {
+            return Response::error(403);
+        }
         assert($request->post("chat_message") !== null);
         $room = Room::update($roomname, $this->store);
         $room->purgeIfExpired($expiration);
@@ -125,6 +134,7 @@ class RoomController
                 "url" => $request->url()->relative(),
                 "interval" => max(1, 1000 * (int) $this->conf["interval_poll"])
             ],
+            "token" => $this->csrfProtector->token(),
         ]);
     }
 

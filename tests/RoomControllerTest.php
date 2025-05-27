@@ -4,7 +4,9 @@ namespace Chat;
 
 use ApprovalTests\Approvals;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
+use Plib\CsrfProtector;
 use Plib\DocumentStore;
 use Plib\FakeRequest;
 use Plib\View;
@@ -16,6 +18,9 @@ class RoomControllerTest extends TestCase
 
     /** @var DocumentStore */
     private $store;
+
+    /** @var CsrfProtector&Stub */
+    private $csrfProtector;
 
     /** @var View */
     private $view;
@@ -32,12 +37,14 @@ class RoomControllerTest extends TestCase
         $pth = ["folder" => ["content" => vfsStream::url("root/")]];
         $this->conf = XH_includeVar("./config/config.php", "plugin_cf")["chat"];
         $this->store = new DocumentStore(vfsStream::url("root/chat/"));
+        $this->csrfProtector = $this->createStub(CsrfProtector::class);
+        $this->csrfProtector->method("token")->willReturn("0123456789ABCDEF");
         $this->view = new View("./views/", XH_includeVar("./languages/en.php", "plugin_tx")["chat"]);
     }
 
     private function sut(): RoomController
     {
-        return new RoomController("./", $this->conf, $this->store, $this->view);
+        return new RoomController("./", $this->conf, $this->store, $this->csrfProtector, $this->view);
     }
 
     public function testInvalidRoomNameReturnsFailureMessage(): void
@@ -60,6 +67,7 @@ class RoomControllerTest extends TestCase
 
     public function testSuccessfulAjaxPostShowsMessages(): void
     {
+        $this->csrfProtector->method("check")->willReturn(true);
         $request = new FakeRequest([
             "url" => "http://example.com/",
             "header" => ["X-CMSimple-XH-Request" => "chat-chat"],
@@ -72,6 +80,7 @@ class RoomControllerTest extends TestCase
 
     public function testReportsInvalidPost(): void
     {
+        $this->csrfProtector->method("check")->willReturn(true);
         $request = new FakeRequest([
             "url" => "http://example.com/",
             "post" => ["chat_room" => "chat", "chat_message" => str_repeat("*", 161)],
@@ -82,6 +91,7 @@ class RoomControllerTest extends TestCase
 
     public function testReportsFailureToSave(): void
     {
+        $this->csrfProtector->method("check")->willReturn(true);
         vfsStream::setQuota(0);
         $request = new FakeRequest([
             "url" => "http://example.com/",
@@ -100,6 +110,7 @@ class RoomControllerTest extends TestCase
 
     public function testRedirectsAfterSuccessfulSave(): void
     {
+        $this->csrfProtector->method("check")->willReturn(true);
         $request = new FakeRequest([
             "url" => "http://example.com/",
             "post" => ["chat_room" => "chat", "chat_message" => "test"],
