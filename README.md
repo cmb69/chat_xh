@@ -114,10 +114,6 @@ the browser does not support the required JavaScript (e.g. IE 7 and older), the
 automatic retrieval of new messages does not work. Instead visitors have to
 refresh their browsers to see them.
 
-Displaying the currently logged in users is not yet implemented. For a
-workaround regarding Memberpages_XH see the
-[CMSimple_XH Forum](https://cmsimpleforum.com/viewtopic.php?f=12&t=5358#p33148).
-
 ## Troubleshooting
 
 Report bugs and ask for support either on [Github](https://github.com/cmb69/chat_xh/issues)

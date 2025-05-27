@@ -115,11 +115,6 @@ falls der Browser das nötige JavaScript nicht unterstützt (z.B. IE 7 und älte
 funktioniert der automatische Abruf von neuen Nachrichten nicht. Statt dessen
 müssen Besucher den Browser aktualisieren, um diese zu sehen.
 
-Die Anzeige der aktuell angemeldeten Benutzer ist noch nicht implementiert.
-Ein Workaround für Memberpages_XH ist im
-[CMSimple_XH Forum](http://cmsimpleforum.com/viewtopic.php?f=12&t=5358#p33148)
-zu finden.
-
 ## Problembehebung
 
 Melden Sie Programmfehler und stellen Sie Supportanfragen entweder auf
