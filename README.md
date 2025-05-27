@@ -113,6 +113,16 @@ If JavaScript is disabled in the browser of the visitor, or in case of an
 ancient browser, the automatic retrieval of new messages does not work.
 Instead visitors have to refresh the page to see them.
 
+The plugin uses polling (i.e. periodically sending requests to the server) to
+check for new messages.  While the poll interval is configurable
+(`Plugins` → `Chat` → `Config` → `Interval` → `Poll`), there is no one size fits
+all setting; there has to be a trade off between a fluid chat experience (i.e.
+a small poll interval), and the amount of traffic the server can handle.  If
+there are only a couple of chatters, you can decrease the default poll interval,
+and everything should be okay.  However, if there are possibly many chatters,
+consider to use an alternative chat widget which is implemented via server push
+notifications, but not polling.
+
 ## Troubleshooting
 
 Report bugs and ask for support either on [Github](https://github.com/cmb69/chat_xh/issues)

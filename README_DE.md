@@ -114,6 +114,17 @@ Wenn JavaScript im Browser des Besuchers deaktiviert ist, oder ein uralter
 Browser verwendet wird, funktioniert der automatische Abruf von neuen Nachrichten
 nicht. Statt dessen müssen Besucher die Seite aktualisieren, um sie zu sehen.
 
+Das Plugin verwendet Polling (d.h. periodisches Abfrage des Servers) um auf
+neue Nachrichten zu prüfen.  Das Poll-Intervall ist zwar konfigurierbar
+(`Plugins` → `Chat` → `Konfiguration` → `Interval` → `Poll`), aber es gibt keine
+Pauschaleinstellung; es ist immer ein Kompromiss zwischen einem flüssigen Chat-
+Erlebnis (d.h. einem kurzen Poll-Intervall), und der Menge an Verkehr, die der
+Server abwickeln kann. Gibt es nur ein paar Chatter, dann kann das voreingestellte
+Poll-Intervall kleiner gewählt werden, und alles sollte in Ordnung sein. Gibt es
+allerdings potentiell viele Chatter, dann ist zu erwägen ein anderes Chat-Widget
+zu verwenden, das durch Server-Push-Benachrichtigungen implementiert ist, aber
+eben nicht durch Polling.
+
 ## Problembehebung
 
 Melden Sie Programmfehler und stellen Sie Supportanfragen entweder auf

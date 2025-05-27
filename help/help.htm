@@ -87,6 +87,7 @@
 <p>Note that the components are marked up with suitable CSS classes (<code>chat_user</code>, <code>chat_date</code>, etc.) so further styling can be applied.</p>
 <h2 id="limitations">Limitations</h2>
 <p>If JavaScript is disabled in the browser of the visitor, or in case of an ancient browser, the automatic retrieval of new messages does not work. Instead visitors have to refresh the page to see them.</p>
+<p>The plugin uses polling (i.e. periodically sending requests to the server) to check for new messages. While the poll interval is configurable (<code>Plugins</code> → <code>Chat</code> → <code>Config</code> → <code>Interval</code> → <code>Poll</code>), there is no one size fits all setting; there has to be a trade off between a fluid chat experience (i.e. a small poll interval), and the amount of traffic the server can handle. If there are only a couple of chatters, you can decrease the default poll interval, and everything should be okay. However, if there are possibly many chatters, consider to use an alternative chat widget which is implemented via server push notifications, but not polling.</p>
 <h2 id="troubleshooting">Troubleshooting</h2>
 <p>Report bugs and ask for support either on <a href="https://github.com/cmb69/chat_xh/issues">Github</a> or in the <a href="https://cmsimpleforum.com/">CMSimple_XH Forum</a>.</p>
 <h2 id="license">License</h2>
