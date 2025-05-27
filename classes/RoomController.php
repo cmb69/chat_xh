@@ -151,8 +151,8 @@ class RoomController
             $user = $message->username();
             $class = "";
         }
-        $date = $this->view->esc(date($this->view->plain("format_date"), $message->timestamp()));
-        $time = $this->view->esc(date($this->view->plain("format_time"), $message->timestamp()));
+        $date = $this->view->date("format_date", $message->timestamp());
+        $time = $this->view->date("format_time", $message->timestamp());
         $text = $this->view->esc($message->text());
         return (object) [
             "class" => $class,
