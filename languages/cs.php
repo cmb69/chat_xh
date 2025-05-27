@@ -10,5 +10,3 @@ $plugin_tx['chat']['syscheck_magic_quotes']="Magic quotes runtime off";
 $plugin_tx['chat']['syscheck_writable']="Do adresáře '%s' lze zapisovat.";
 $plugin_tx['chat']['cf_interval_poll']="Čas v sekundách pro novou zprávu.";
 $plugin_tx['chat']['cf_interval_purge']="Čas v sekundách, po kterém bude chat vyčištěn.";
-
-?>

@@ -27,5 +27,3 @@ $plugin_tx['chat']['syscheck_xhversion']="CMSimple_XH Version ≥ %s";
 
 $plugin_tx['chat']['cf_interval_poll']="Das Intervall in Sekunden zwischen dem Abrufen neuer Nachrichten.";
 $plugin_tx['chat']['cf_interval_purge']="Die Zeitdauer in Sekunden nachdem ein inaktiver Chat gelöscht wird. \"0\" bedeutet: nie löschen.";
-
-?>

@@ -29,5 +29,3 @@ $plugin_tx['chat']['syscheck_xhversion']="CMSimple_XH version ≥ %s";
 
 $plugin_tx['chat']['cf_interval_poll']="The interval in seconds between the polls for new messages.";
 $plugin_tx['chat']['cf_interval_purge']="The time in seconds after which an inactive chat will be purged. \"0\" means: keep entries forever.";
-
-?>
