@@ -129,7 +129,7 @@ class RoomController
             "url" => $request->url()->relative(),
             "errors" => $errors,
             "messages" => $this->messages($request, $room),
-            "script" => $this->pluginFolder . "chat.js",
+            "script" => $this->script(),
             "config" => [
                 "url" => $request->url()->relative(),
                 "interval" => max(1, 1000 * (int) $this->conf["interval_poll"])
@@ -173,5 +173,13 @@ class RoomController
                 "{TEXT}" => "<span class=\"chat_text\">$text</span>",
             ]),
         ];
+    }
+
+    private function script(): string
+    {
+        if (is_file($this->pluginFolder . "chat.min.js")) {
+            return $this->pluginFolder . "chat.min.js";
+        }
+        return $this->pluginFolder . "chat.js";
     }
 }

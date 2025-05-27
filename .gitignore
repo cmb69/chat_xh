@@ -3,3 +3,4 @@
 /composer.lock
 /coverage
 /.phpunit.result.cache
+/chat.min.js
