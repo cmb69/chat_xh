@@ -23,4 +23,4 @@ require_once "./classes/RoomController.php";
 require_once "./classes/InfoCommand.php";
 
 const CMSIMPLE_XH_VERSION = "CMSimple_XH 1.7.5";
-const CHAT_VERSION = "1.0";
+const CHAT_VERSION = "2.0-dev";
