@@ -22,15 +22,7 @@
 use Chat\Dic;
 use Plib\Request;
 
-/**
- * Handles the chat room and returns its view.
- *
- * @param string $room          A chat room name.
- * @param int    $purgeInterval A purge interval in seconds.
- *
- * @return string (X)HTML.
- */
-function chat($room, $purgeInterval = null)
+function chat(string $room, ?int $purgeInterval = null): string
 {
     return Dic::roomController()->handle($room, $purgeInterval, Request::current())();
 }
