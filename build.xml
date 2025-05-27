@@ -92,4 +92,31 @@
     <delete dir="dist"/>
   </target>
 
+  <target name="build-patch" description="builds a distributable update package">
+    <fail unless="patchee" message="patchee is not defined!"/>
+    <unzip file="Chart_XH-2.0-dev.zip" todir="current"/>
+    <unzip file="${patchee}" todir="patchee"/>
+    <copy todir="dist">
+      <fileset dir="current">
+        <different targetdir="patchee" ignoreFileTimes="true"/>
+      </fileset>
+    </copy>
+    <delete>
+      <fileset dir="dist/chart">
+        <include name="config/config.php"/>
+        <include name="languages/??.php"/>
+      </fileset>
+    </delete>
+    <if>
+      <available file="dist/chart/css/stylesheet.css"/>
+      <then>
+        <move file="dist/chart/css/stylesheet.css" tofile="dist/chart/css/stylesheet-2.0-dev.css"/>
+      </then>
+    </if>
+    <zip destfile="Chart_XH-2.0-dev-update-from-1.x.zip" basedir="dist" includeemptydirs="false"/>
+    <delete dir="patchee" quiet="true"/>
+    <delete dir="current" quiet="true"/>
+    <delete dir="dist" quiet="true"/>
+  </target>
+
 </project>
