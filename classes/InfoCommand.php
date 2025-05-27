@@ -62,7 +62,7 @@ class InfoCommand
             $checks[]  = $this->checkWritability($folder);
         }
         return $this->view->render("about", [
-            "version" => CHAT_VERSION,
+            "version" => Dic::VERSION,
             "checks" => $checks,
         ]);
     }

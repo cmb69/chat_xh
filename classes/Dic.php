@@ -28,7 +28,7 @@ use Plib\View;
 
 class Dic
 {
-    const VERSION = "2.0";
+    public const VERSION = "2.0";
 
     public static function roomController(): RoomController
     {
