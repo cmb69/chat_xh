@@ -28,6 +28,8 @@ use Plib\View;
 
 class Dic
 {
+    const VERSION = "1.0";
+
     public static function roomController(): RoomController
     {
         global $pth, $plugin_cf;

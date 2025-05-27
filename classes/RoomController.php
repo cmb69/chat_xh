@@ -129,7 +129,7 @@ class RoomController
             "url" => $request->url()->relative(),
             "errors" => $errors,
             "messages" => $this->messages($request, $room),
-            "script" => $this->script(),
+            "script" => $request->url()->path($this->script())->with("v", Dic::VERSION)->relative(),
             "config" => [
                 "url" => $request->url()->relative(),
                 "interval" => max(1, 1000 * (int) $this->conf["interval_poll"])

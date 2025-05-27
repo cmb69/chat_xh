@@ -23,11 +23,6 @@ use Chat\Dic;
 use Plib\Request;
 
 /**
- * The version of the plugin.
- */
-define('CHAT_VERSION', '1.0');
-
-/**
  * Handles the chat room and returns its view.
  *
  * @param string $room          A chat room name.
