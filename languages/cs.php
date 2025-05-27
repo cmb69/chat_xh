@@ -1,12 +1,12 @@
 <?php
 
-$plugin_tx['chat']['user_self']="Já";
-$plugin_tx['chat']['user_unknown']="Anonym";
-$plugin_tx['chat']['label_send']="Odeslat";
-$plugin_tx['chat']['error_room_name']="Nesprávný název místnosti pro chat()!";
-$plugin_tx['chat']['syscheck_title']="Kontrola systému";
-$plugin_tx['chat']['syscheck_phpversion']="PHP verze ≥ %s";
-$plugin_tx['chat']['syscheck_magic_quotes']="Magic quotes runtime off";
-$plugin_tx['chat']['syscheck_writable']="Do adresáře '%s' lze zapisovat.";
-$plugin_tx['chat']['cf_interval_poll']="Čas v sekundách pro novou zprávu.";
-$plugin_tx['chat']['cf_interval_purge']="Čas v sekundách, po kterém bude chat vyčištěn.";
+$plugin_tx['chat']['user_self'] = "Já";
+$plugin_tx['chat']['user_unknown'] = "Anonym";
+$plugin_tx['chat']['label_send'] = "Odeslat";
+$plugin_tx['chat']['error_room_name'] = "Nesprávný název místnosti pro chat()!";
+$plugin_tx['chat']['syscheck_title'] = "Kontrola systému";
+$plugin_tx['chat']['syscheck_phpversion'] = "PHP verze ≥ %s";
+$plugin_tx['chat']['syscheck_magic_quotes'] = "Magic quotes runtime off";
+$plugin_tx['chat']['syscheck_writable'] = "Do adresáře '%s' lze zapisovat.";
+$plugin_tx['chat']['cf_interval_poll'] = "Čas v sekundách pro novou zprávu.";
+$plugin_tx['chat']['cf_interval_purge'] = "Čas v sekundách, po kterém bude chat vyčištěn.";
