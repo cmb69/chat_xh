@@ -24,6 +24,11 @@
  */
 
 class Widget {
+    constructor(/** @type {HTMLElement} */ element) {
+        this.element = element;
+        this.init();
+    }
+
     /** @type {Config} */
     get config() {
         return JSON.parse(this.element.dataset.chatConfig);
@@ -44,27 +49,16 @@ class Widget {
         return this.element.querySelector("form");
     }
 
-    constructor(/** @type {HTMLElement} */ element) {
-        this.element = element;
-        this.init();
+    /** @type {() => void} */
+    init() {
+        this.form.onsubmit = this.submit.bind(this);
+        this.scrollDown();
+        setTimeout(this.poll.bind(this), this.config.interval);
     }
 
     /** @type {() => void} */
     scrollDown() {
         this.messages.scrollTop = this.messages.scrollHeight;
-    }
-
-    /** @type {(request: XMLHttpRequest) => void} */
-    onReadyStateChange(request) {
-        if (request.readyState !== 4) return;
-        if (request.status !== 200) {
-            this.form.onsubmit = null;
-            return;
-        }
-        let [_, content] = request.responseText.match(/<!--START-->([\s\S]*?)<!--END-->/) || [];
-        if (content === undefined) return;
-        this.element.innerHTML = content;
-        this.init();
     }
 
     /** @type {() => void} */
@@ -91,11 +85,17 @@ class Widget {
         ev.preventDefault();
     }
 
-    /** @type {() => void} */
-    init() {
-        this.form.onsubmit = this.submit.bind(this);
-        this.scrollDown();
-        setTimeout(this.poll.bind(this), this.config.interval);
+    /** @type {(request: XMLHttpRequest) => void} */
+    onReadyStateChange(request) {
+        if (request.readyState !== 4) return;
+        if (request.status !== 200) {
+            this.form.onsubmit = null;
+            return;
+        }
+        let [_, content] = request.responseText.match(/<!--START-->([\s\S]*?)<!--END-->/) || [];
+        if (content === undefined) return;
+        this.element.innerHTML = content;
+        this.init();
     }
 }
 
