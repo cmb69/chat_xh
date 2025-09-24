@@ -18,89 +18,86 @@
  */
 
 /**
- * Initializes a chat room widget.
- *
- * @param {string} room The name of the chat room.
- *
- * @returns {undefined}
+ * @typedef {object} Config
+ * @property {string} url
+ * @property {number} interval
  */
-function initWidget(element) {
-    var room, config, messages, form;
 
-    /**
-     * Scrolls down to the bottom of the chat.
-     *
-     * @returns {undefined}
-     */
-    function scrollDown() {
-        messages.scrollTop = messages.scrollHeight;
+class Widget {
+    constructor(/** @type {HTMLElement} */ element) {
+        this.element = element;
+        this.init();
     }
 
-    function onReadyStateChange(request) {
-        if (request.readyState === 4) {
-            if (request.status === 200) {
-                const matches = request.responseText.match(/<!--START-->(.*?)<!--END-->/s);
-                if (matches !== null && matches.length === 2) {
-                    element.innerHTML = matches[1];
-                    doInit();
-                    return;
-                }
-            }
-            form.onsubmit = "";
-            return;
-        }
+    /** @type {Config} */
+    get config() {
+        return JSON.parse(this.element.dataset.chatConfig);
     }
 
-    /**
-     * Polls the chat.
-     *
-     * @returns {undefined}
-     */
-    function poll() {
-        var request;
+    /** @type {string} */
+    get room() {
+        return this.element.dataset.chatRoom;
+    }
 
-        request = new XMLHttpRequest();
-        request.open("GET", config.url);
-        request.setRequestHeader("X-CMSimple-XH-Request", "chat-" + room);
-        request.onreadystatechange = () => {
-            onReadyStateChange(request);
-        }
+    /** @type {HTMLOListElement} */
+    get messages() {
+        return this.element.querySelector("ol");
+    }
+
+    /** @type {HTMLFormElement} */
+    get form() {
+        return this.element.querySelector("form");
+    }
+
+    /** @type {() => void} */
+    init() {
+        this.form.onsubmit = this.submit.bind(this);
+        this.scrollDown();
+        setTimeout(this.poll.bind(this), this.config.interval);
+    }
+
+    /** @type {() => void} */
+    scrollDown() {
+        this.messages.scrollTop = this.messages.scrollHeight;
+    }
+
+    /** @type {() => void} */
+    poll() {
+        let request = new XMLHttpRequest();
+        request.open("GET", this.config.url);
+        request.setRequestHeader("X-CMSimple-XH-Request", `chat-${this.room}`);
+        request.onreadystatechange = this.onReadyStateChange.bind(this, request);
         request.send();
     }
 
-    /**
-     * Submits a chat line.
-     *
-     * @returns {undefined}
-     */
-    function submit() {
-        var request;
-
-        request = new XMLHttpRequest();
-        request.open("POST", config.url);
+    /** @type {(ev: Event) => void} */
+    submit(ev) {
+        let request = new XMLHttpRequest();
+        request.open("POST", this.config.url);
         request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        request.setRequestHeader("X-CMSimple-XH-Request", "chat-" + room);
-        request.onreadystatechange = () => {
-            onReadyStateChange(request);
+        request.setRequestHeader("X-CMSimple-XH-Request", `chat-${this.room}`);
+        request.onreadystatechange = this.onReadyStateChange.bind(this, request);
+        let params = new URLSearchParams();
+        let form = this.form;
+        params.append("chat_message", form.querySelector["name=chat_message"].value);
+        params.append("chat_token", form.querySelector["name=chat_token"].value);
+        request.send(params.toString());
+        ev.preventDefault();
+    }
+
+    /** @type {(request: XMLHttpRequest) => void} */
+    onReadyStateChange(request) {
+        if (request.readyState !== 4) return;
+        if (request.status !== 200) {
+            this.form.onsubmit = null;
+            return;
         }
-        request.send("chat_message=" + encodeURIComponent(form.elements.chat_message.value) +
-            "&chat_token=" + encodeURIComponent(form.elements.chat_token.value));
-        return false;
+        let [_, content] = request.responseText.match(/<!--START-->([\s\S]*?)<!--END-->/) || [];
+        if (content === undefined) return;
+        this.element.innerHTML = content;
+        this.init();
     }
-
-    function doInit() {
-        messages = element.querySelector("ol");
-        form = element.querySelector("form");
-        form.onsubmit = submit;
-        scrollDown();
-        setTimeout(poll, config.interval);
-    }
-
-    room = element.dataset.chatRoom;
-    config = JSON.parse(element.dataset.chatConfig);
-    doInit();
 }
 
-document.querySelectorAll(".chat_room").forEach(function (element) {
-    initWidget(element);
-});
+let rooms = /** @type {NodeListOf<HTMLElement>} */ (document.querySelectorAll(".chat_room"));
+rooms.forEach((element) => new Widget(element));
