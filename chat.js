@@ -46,7 +46,7 @@ class Widget {
 
     constructor(/** @type {HTMLElement} */ element) {
         this.element = element;
-        this.doInit();
+        this.init();
     }
 
     /** @type {() => void} */
@@ -64,7 +64,7 @@ class Widget {
         let [_, content] = request.responseText.match(/<!--START-->([\s\S]*?)<!--END-->/) || [];
         if (content !== undefined) {
             this.element.innerHTML = content;
-            this.doInit();
+            this.init();
             return;
         }
     }
@@ -95,7 +95,7 @@ class Widget {
     }
 
     /** @type {() => void} */
-    doInit() {
+    init() {
         this.form.onsubmit = this.submit.bind(this);
         this.scrollDown();
         setTimeout(this.poll.bind(this), this.config.interval);
