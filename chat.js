@@ -62,11 +62,9 @@ class Widget {
             return;
         }
         let [_, content] = request.responseText.match(/<!--START-->([\s\S]*?)<!--END-->/) || [];
-        if (content !== undefined) {
-            this.element.innerHTML = content;
-            this.init();
-            return;
-        }
+        if (content === undefined) return;
+        this.element.innerHTML = content;
+        this.init();
     }
 
     /** @type {() => void} */
