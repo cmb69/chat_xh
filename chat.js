@@ -58,7 +58,7 @@ class Widget {
     onReadyStateChange(request) {
         if (request.readyState === 4) {
             if (request.status === 200) {
-                const matches = request.responseText.match(/<!--START-->(.*?)<!--END-->/s);
+                let matches = request.responseText.match(/<!--START-->(.*?)<!--END-->/s);
                 if (matches !== null && matches.length === 2) {
                     this.element.innerHTML = matches[1];
                     this.doInit();
@@ -72,9 +72,7 @@ class Widget {
 
     /** @type {() => void} */
     poll() {
-        var request;
-
-        request = new XMLHttpRequest();
+        let request = new XMLHttpRequest();
         request.open("GET", this.config.url);
         request.setRequestHeader("X-CMSimple-XH-Request", "chat-" + this.room);
         request.onreadystatechange = () => {
@@ -85,9 +83,7 @@ class Widget {
 
     /** @type {() => false} */
     submit() {
-        var request;
-
-        request = new XMLHttpRequest();
+        let request = new XMLHttpRequest();
         request.open("POST", this.config.url);
         request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         request.setRequestHeader("X-CMSimple-XH-Request", "chat-" + this.room);
