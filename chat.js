@@ -84,8 +84,9 @@ class Widget {
         request.setRequestHeader("X-CMSimple-XH-Request", "chat-" + this.room);
         request.onreadystatechange = this.onReadyStateChange.bind(this, request);
         let params = new URLSearchParams();
-        params.append("chat_message", this.form.querySelector["name=chat_message"].value);
-        params.append("chat_token", this.form.querySelector["name=chat_token"].value);
+        let form = this.form;
+        params.append("chat_message", form.querySelector["name=chat_message"].value);
+        params.append("chat_token", form.querySelector["name=chat_token"].value);
         request.send(params.toString());
         ev.preventDefault();
     }
