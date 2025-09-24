@@ -27,6 +27,10 @@
 class Widget {
     constructor(/** @type {HTMLElement} */ element) {
         this.element = element;
+        this.form.onsubmit = this.submit.bind(this);
+        /** @type {NodeListOf<HTMLScriptElement>} */ (
+            this.element.querySelectorAll("script[type='text/x-template']")
+        ).forEach((el) => (el.outerHTML = el.text));
         this.init();
     }
 
@@ -55,14 +59,9 @@ class Widget {
         return this.element.querySelector("input[type=range]");
     }
 
-    /** @type {(volume: number) => void} */
-    init(volume = 0.5) {
-        this.form.onsubmit = this.submit.bind(this);
+    /** @type {() => void} */
+    init() {
         this.scrollDown();
-        /** @type {NodeListOf<HTMLScriptElement>} */ (
-            this.element.querySelectorAll("script[type='text/x-template']")
-        ).forEach((el) => (el.outerHTML = el.text));
-        this.volume.value = (100 * volume).toString();
         setTimeout(this.poll.bind(this), this.config.interval);
     }
 
@@ -105,15 +104,14 @@ class Widget {
         let [_, content] = request.responseText.match(/<!--START-->([\s\S]*?)<!--END-->/) || [];
         if (content === undefined) return;
         let oldMessages = this.element.querySelectorAll("li.chat_message:not(.chat_self)").length;
-        let volume = parseInt(this.volume.value) / 100;
-        this.element.innerHTML = content;
+        this.element.querySelector("ol").innerHTML = content;
         let newMessages = this.element.querySelectorAll("li.chat_message:not(.chat_self)").length;
         if (newMessages > oldMessages) {
             let audio = new Audio(this.config.audio);
-            audio.volume = volume;
+            audio.volume = parseInt(this.volume.value) / 100;
             audio.play();
         }
-        this.init(volume);
+        this.init();
     }
 }
 

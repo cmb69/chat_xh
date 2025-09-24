@@ -2,12 +2,13 @@
 
 <script type="module" src="/chat.js?&amp;v=2.1-dev"></script>
 <figure class="chat_room" data-chat-room="chat" data-chat-config='{"url":"/","interval":60000,"audio":"/notification.mp3"}'>
-<!--START-->
   <figcaption>Chat room chat</figcaption>
   <ol class="chat_messages">
+<!--START-->
     <li class="chat_message "><span class="chat_user">Somebody</span>: <span class="chat_text">hello</span></li>
     <li class="chat_message "><span class="chat_user">olape</span>: <span class="chat_text">world</span></li>
     <li class="chat_message chat_self"><span class="chat_user">I</span>: <span class="chat_text">'sup</span></li>
+<!--END-->
   </ol>
   <form action="/" method="post">
     <input type="hidden" name="chat_token" value="0123456789ABCDEF">
@@ -30,5 +31,4 @@
       <button name="chat_room" value="chat">Send</button>
     </p>
   </form>
-<!--END-->
 </figure>

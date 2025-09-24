@@ -19,15 +19,16 @@ if (!defined("CMSIMPLE_XH_VERSION")) {http_response_code(403); exit;}
 
 <script type="module" src="<?=$this->esc($script)?>"></script>
 <figure class="chat_room" data-chat-room="<?=$this->esc($room)?>" data-chat-config='<?=$this->json($config)?>'>
-<!--START-->
   <figcaption><?=$this->text("caption_room", $room)?></figcaption>
 <?foreach ($errors as $error):?>
 <?=$this->raw($error)?>
 <?endforeach?>
   <ol class="chat_messages">
+<!--START-->
 <?foreach ($messages as $message):?>
     <li class="chat_message <?=$this->esc($message->class)?>"><?=$this->raw($message->message)?></li>
 <?endforeach?>
+<!--END-->
   </ol>
   <form action="<?=$this->esc($url)?>" method="post">
     <input type="hidden" name="chat_token" value="<?=$this->esc($token)?>">
@@ -41,7 +42,7 @@ if (!defined("CMSIMPLE_XH_VERSION")) {http_response_code(403); exit;}
     <script type="text/x-template">
       <p class="chat_volume">
         <label>
-          <span>Volume</span>
+          <span><?=$this->text("label_volume")?></span>
           <input type="range" value="50" min="0" max="100">
         </label>
       </p>
@@ -50,5 +51,4 @@ if (!defined("CMSIMPLE_XH_VERSION")) {http_response_code(403); exit;}
       <button name="chat_room" value="<?=$this->esc($room)?>"><?=$this->text("label_send")?></button>
     </p>
   </form>
-<!--END-->
 </figure>
