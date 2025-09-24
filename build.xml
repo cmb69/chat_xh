@@ -35,6 +35,7 @@
     <exec executable="jshint" passthru="true" checkreturn="true">
       <arg line="chat.js"/>
     </exec>
+    <exec executable="tsc" passthru="true" checkreturn="true"/>
   </target>
 
   <target name="check" description="runs all checks" depends="sniff,stan,test"/>

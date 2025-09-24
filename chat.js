@@ -20,7 +20,7 @@
 /**
  * Initializes a chat room widget.
  *
- * @param {string} room The name of the chat room.
+ * @param {HTMLElement} element The name of the chat room.
  *
  * @returns {undefined}
  */
@@ -71,7 +71,7 @@ function initWidget(element) {
     /**
      * Submits a chat line.
      *
-     * @returns {undefined}
+     * @returns {false}
      */
     function submit() {
         var request;
@@ -105,6 +105,8 @@ function initWidget(element) {
     doInit();
 }
 
-document.querySelectorAll(".chat_room").forEach(function (element) {
-    initWidget(element);
-});
+/** @type {NodeListOf<HTMLElement>} */ (document.querySelectorAll(".chat_room")).forEach(
+    function (element) {
+        initWidget(element);
+    }
+);
