@@ -56,17 +56,15 @@ class Widget {
 
     /** @type {(request: XMLHttpRequest) => void} */
     onReadyStateChange(request) {
-        if (request.readyState === 4) {
-            if (request.status === 200) {
-                let [_, content] =
-                    request.responseText.match(/<!--START-->([\s\S]*?)<!--END-->/) || [];
-                if (content !== undefined) {
-                    this.element.innerHTML = content;
-                    this.doInit();
-                    return;
-                }
-            }
+        if (request.readyState !== 4) return;
+        if (request.status !== 200) {
             this.form.onsubmit = null;
+            return;
+        }
+        let [_, content] = request.responseText.match(/<!--START-->([\s\S]*?)<!--END-->/) || [];
+        if (content !== undefined) {
+            this.element.innerHTML = content;
+            this.doInit();
             return;
         }
     }
