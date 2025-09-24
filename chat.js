@@ -18,95 +18,101 @@
  */
 
 /**
- * Initializes a chat room widget.
- *
- * @param {HTMLElement} element The name of the chat room.
- *
- * @returns {undefined}
+ * @typedef {object} Config
+ * @property {string} url
+ * @property {number} interval
  */
-function initWidget(element) {
-    var room, config, messages, form;
 
-    /**
-     * Scrolls down to the bottom of the chat.
-     *
-     * @returns {undefined}
-     */
-    function scrollDown() {
-        messages.scrollTop = messages.scrollHeight;
+class Widget {
+    /** @type {Config} */
+    get config() {
+        return JSON.parse(this.element.dataset.chatConfig);
     }
 
-    function onReadyStateChange(request) {
+    /** @type {string} */
+    get room() {
+        return this.element.dataset.chatRoom;
+    }
+
+    /** @type {HTMLOListElement} */
+    get messages() {
+        return this.element.querySelector("ol");
+    }
+
+    /** @type {HTMLFormElement} */
+    get form() {
+        return this.element.querySelector("form");
+    }
+
+    constructor(/** @type {HTMLElement} */ element) {
+        this.element = element;
+        this.doInit();
+    }
+
+    /** @type {() => void} */
+    scrollDown() {
+        this.messages.scrollTop = this.messages.scrollHeight;
+    }
+
+    /** @type {(request: XMLHttpRequest) => void} */
+    onReadyStateChange(request) {
         if (request.readyState === 4) {
             if (request.status === 200) {
                 const matches = request.responseText.match(/<!--START-->(.*?)<!--END-->/s);
                 if (matches !== null && matches.length === 2) {
-                    element.innerHTML = matches[1];
-                    doInit();
+                    this.element.innerHTML = matches[1];
+                    this.doInit();
                     return;
                 }
             }
-            form.onsubmit = "";
+            this.form.onsubmit = null;
             return;
         }
     }
 
-    /**
-     * Polls the chat.
-     *
-     * @returns {undefined}
-     */
-    function poll() {
+    /** @type {() => void} */
+    poll() {
         var request;
 
         request = new XMLHttpRequest();
-        request.open("GET", config.url);
-        request.setRequestHeader("X-CMSimple-XH-Request", "chat-" + room);
+        request.open("GET", this.config.url);
+        request.setRequestHeader("X-CMSimple-XH-Request", "chat-" + this.room);
         request.onreadystatechange = () => {
-            onReadyStateChange(request);
+            this.onReadyStateChange(request);
         };
         request.send();
     }
 
-    /**
-     * Submits a chat line.
-     *
-     * @returns {false}
-     */
-    function submit() {
+    /** @type {() => false} */
+    submit() {
         var request;
 
         request = new XMLHttpRequest();
-        request.open("POST", config.url);
+        request.open("POST", this.config.url);
         request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        request.setRequestHeader("X-CMSimple-XH-Request", "chat-" + room);
+        request.setRequestHeader("X-CMSimple-XH-Request", "chat-" + this.room);
         request.onreadystatechange = () => {
-            onReadyStateChange(request);
+            this.onReadyStateChange(request);
         };
         request.send(
             "chat_message=" +
-                encodeURIComponent(form.elements.chat_message.value) +
+                encodeURIComponent(this.form.querySelector["name=chat_message"].value) +
                 "&chat_token=" +
-                encodeURIComponent(form.elements.chat_token.value)
+                encodeURIComponent(this.form.querySelector["name=chat_token"].value)
         );
         return false;
     }
 
-    function doInit() {
-        messages = element.querySelector("ol");
-        form = element.querySelector("form");
-        form.onsubmit = submit;
-        scrollDown();
-        setTimeout(poll, config.interval);
+    /** @type {() => void} */
+    doInit() {
+        this.form.onsubmit = this.submit.bind(this);
+        this.scrollDown();
+        setTimeout(this.poll.bind(this), this.config.interval);
     }
-
-    room = element.dataset.chatRoom;
-    config = JSON.parse(element.dataset.chatConfig);
-    doInit();
 }
 
 /** @type {NodeListOf<HTMLElement>} */ (document.querySelectorAll(".chat_room")).forEach(
     function (element) {
-        initWidget(element);
+        new Widget(element);
     }
 );
