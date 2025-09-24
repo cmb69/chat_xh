@@ -99,8 +99,5 @@ class Widget {
     }
 }
 
-/** @type {NodeListOf<HTMLElement>} */ (document.querySelectorAll(".chat_room")).forEach(
-    function (element) {
-        new Widget(element);
-    }
-);
+let rooms = /** @type {NodeListOf<HTMLElement>} */ (document.querySelectorAll(".chat_room"));
+rooms.forEach((element) => new Widget(element));
