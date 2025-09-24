@@ -28,6 +28,12 @@
     <exec executable="phpunit" passthru="true" checkreturn="true"/>
   </target>
 
+  <target name="js" description="formats and checks JavaScript">
+    <exec executable="jshint" passthru="true" checkreturn="true">
+      <arg line="chat.js"/>
+    </exec>
+  </target>
+
   <target name="check" description="runs all checks" depends="sniff,stan,test"/>
 
   <target name="coverage" description="generates coverage report">
