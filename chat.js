@@ -58,9 +58,10 @@ class Widget {
     onReadyStateChange(request) {
         if (request.readyState === 4) {
             if (request.status === 200) {
-                let matches = request.responseText.match(/<!--START-->([\s\S]*?)<!--END-->/);
-                if (matches !== null && matches.length === 2) {
-                    this.element.innerHTML = matches[1];
+                let [_, content] =
+                    request.responseText.match(/<!--START-->([\s\S]*?)<!--END-->/) || [];
+                if (content !== undefined) {
+                    this.element.innerHTML = content;
                     this.doInit();
                     return;
                 }
