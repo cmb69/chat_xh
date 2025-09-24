@@ -1,6 +1,6 @@
 {
     "browser": true,
-    "esversion": 9,
+    "esversion": 6,
     "latedef": false,
     "module": true
 }
