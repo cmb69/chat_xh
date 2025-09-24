@@ -85,6 +85,7 @@
       <fileset dir="export">
         <exclude name=".github/**"/>
         <exclude name=".phive/**"/>
+        <exclude name=".jshintrc"/>
         <exclude name="help/template.htm"/>
         <exclude name="tests/**"/>
         <exclude name="README*.md"/>
@@ -93,6 +94,7 @@
         <exclude name="phpstan.*"/>
         <exclude name="phpunit.xml"/>
         <exclude name="teplad.xml"/>
+        <exclude name="tsconfig.json"/>
       </fileset>
     </move>
     <delete dir="export"/>
