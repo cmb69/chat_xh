@@ -83,8 +83,12 @@ function initWidget(element) {
         request.onreadystatechange = () => {
             onReadyStateChange(request);
         };
-        request.send("chat_message=" + encodeURIComponent(form.elements.chat_message.value) +
-            "&chat_token=" + encodeURIComponent(form.elements.chat_token.value));
+        request.send(
+            "chat_message=" +
+                encodeURIComponent(form.elements.chat_message.value) +
+                "&chat_token=" +
+                encodeURIComponent(form.elements.chat_token.value)
+        );
         return false;
     }
 
