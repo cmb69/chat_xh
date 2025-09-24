@@ -156,6 +156,11 @@ Chat_XH was inspired by
 The plugin icon is designed by [Alessandro Rei](http://www.mentalrey.it/).
 Many thanks for publishing this icon under GPL.
 
+The notification sound effect is by
+[ALEXIS_GAMING_CAM](https://pixabay.com/de/users/alexis_gaming_cam-50011695/)
+from [Pixabay](https://pixabay.com/sound-effects/).
+Many thanks for making it freely available.
+
 Many thanks to the community at the
 [CMSimple_XH Forum](https://www.cmsimpleforum.com/) for tips, suggestions and testing.
 Particularly I want to thank *snafu* for giving early feedback.

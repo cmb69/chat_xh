@@ -28,6 +28,9 @@ figure.chat_room .chat_message {
 figure.chat_room .chat_help {
     font-size: small;
 }
+figure.chat_room .chat_volume {
+    flex: 1 5em;
+}
 figure.chat_room .chat_button {
     flex: 1 5em;
     text-align: right;

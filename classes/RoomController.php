@@ -132,7 +132,8 @@ class RoomController
             "script" => $request->url()->path($this->script())->with("v", Dic::VERSION)->relative(),
             "config" => [
                 "url" => $request->url()->relative(),
-                "interval" => max(1, 1000 * (int) $this->conf["interval_poll"])
+                "interval" => max(1, 1000 * (int) $this->conf["interval_poll"]),
+                "audio" => $request->url()->path($this->pluginFolder . "notification.mp3")->relative(),
             ],
             "token" => $this->csrfProtector->token(),
         ]);

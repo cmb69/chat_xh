@@ -21,6 +21,7 @@
  * @typedef {object} Config
  * @property {string} url
  * @property {number} interval
+ * @property {string} audio
  */
 
 class Widget {
@@ -49,10 +50,19 @@ class Widget {
         return this.element.querySelector("form");
     }
 
-    /** @type {() => void} */
-    init() {
+    /** @type {HTMLInputElement} */
+    get volume() {
+        return this.element.querySelector("input[type=range]");
+    }
+
+    /** @type {(volume: number) => void} */
+    init(volume = 0.5) {
         this.form.onsubmit = this.submit.bind(this);
         this.scrollDown();
+        /** @type {NodeListOf<HTMLScriptElement>} */ (
+            this.element.querySelectorAll("script[type='text/x-template']")
+        ).forEach((el) => (el.outerHTML = el.text));
+        this.volume.value = (100 * volume).toString();
         setTimeout(this.poll.bind(this), this.config.interval);
     }
 
@@ -94,8 +104,16 @@ class Widget {
         }
         let [_, content] = request.responseText.match(/<!--START-->([\s\S]*?)<!--END-->/) || [];
         if (content === undefined) return;
+        let oldMessages = this.element.querySelectorAll("li.chat_message:not(.chat_self)").length;
+        let volume = parseInt(this.volume.value) / 100;
         this.element.innerHTML = content;
-        this.init();
+        let newMessages = this.element.querySelectorAll("li.chat_message:not(.chat_self)").length;
+        if (newMessages > oldMessages) {
+            let audio = new Audio(this.config.audio);
+            audio.volume = volume;
+            audio.play();
+        }
+        this.init(volume);
     }
 }
 

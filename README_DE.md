@@ -160,6 +160,11 @@ angeregt.
 Das Plugin-Icon wurde von [Alessandro Rei](http://www.mentalrey.it/) entworfen.
 Vielen Dank für die Veröffentlichung dieses Icons unter GPL.
 
+Der Benachrichtigungs-Soundeffekt stammt von
+[ALEXIS_GAMING_CAM](https://pixabay.com/de/users/alexis_gaming_cam-50011695/)
+auf [Pixabay](https://pixabay.com/sound-effects/).
+Vielen Dank für die freie Verfügbarkeit.
+
 Vielen Dank an die Community im [CMSimple_XH Forum](http://www.cmsimpleforum.com/)
 für Hinweise, Anregungen und das Testen.
 Besonders möchte ich *snafu* für sein schnelles Feedback danken.

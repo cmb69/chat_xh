@@ -1,7 +1,7 @@
 
 
 <script type="module" src="/chat.js?&amp;v=2.1-dev"></script>
-<figure class="chat_room" data-chat-room="chat" data-chat-config='{"url":"/","interval":60000}'>
+<figure class="chat_room" data-chat-room="chat" data-chat-config='{"url":"/","interval":60000,"audio":"/notification.mp3"}'>
 <!--START-->
   <figcaption>Chat room chat</figcaption>
   <ol class="chat_messages">
@@ -19,6 +19,14 @@
         <input type="text" name="chat_message" required maxlength="160">
       </label>
     </p>
+    <script type="text/x-template">
+      <p class="chat_volume">
+        <label>
+          <span>Volume</span>
+          <input type="range" value="50" min="0" max="100">
+        </label>
+      </p>
+    </script>
     <p class="chat_button">
       <button name="chat_room" value="chat">Send</button>
     </p>

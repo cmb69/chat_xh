@@ -38,6 +38,14 @@ if (!defined("CMSIMPLE_XH_VERSION")) {http_response_code(403); exit;}
         <input type="text" name="chat_message" required maxlength="160">
       </label>
     </p>
+    <script type="text/x-template">
+      <p class="chat_volume">
+        <label>
+          <span>Volume</span>
+          <input type="range" value="50" min="0" max="100">
+        </label>
+      </p>
+    </script>
     <p class="chat_button">
       <button name="chat_room" value="<?=$this->esc($room)?>"><?=$this->text("label_send")?></button>
     </p>

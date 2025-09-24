@@ -30,7 +30,11 @@
 </head>
 <body>
 <h1 id="chat_xh">Chat_XH</h1>
-<p>Chat_XH facilitates to have an arbitrary amount of simple chat rooms or shoutboxes on your website. Users that are logged in via <a href="https://github.com/cmsimple-xh/memberpages">Memberpages_XH</a> or <a href="https://github.com/cmb69/register_xh">Register_XH</a> are recognized as such; other visitors can send messages anonymously.</p>
+<p>Chat_XH facilitates to have an arbitrary amount of simple chat rooms
+or shoutboxes on your website. Users that are logged in via <a
+href="https://github.com/cmsimple-xh/memberpages">Memberpages_XH</a> or
+<a href="https://github.com/cmb69/register_xh">Register_XH</a> are
+recognized as such; other visitors can send messages anonymously.</p>
 <h2 id="table-of-contents">Table of Contents</h2>
 <ul>
 <li><a href="#requirements">Requirements</a></li>
@@ -39,7 +43,8 @@
 <li><a href="#settings">Settings</a></li>
 <li><a href="#usage">Usage</a>
 <ul>
-<li><a href="#formatting-of-chat-messages">Formatting of Chat Messages</a></li>
+<li><a href="#formatting-of-chat-messages">Formatting of Chat
+Messages</a></li>
 </ul></li>
 <li><a href="#limitations">Limitations</a></li>
 <li><a href="#troubleshooting">Troubleshooting</a></li>
@@ -47,59 +52,135 @@
 <li><a href="#credits">Credits</a></li>
 </ul>
 <h2 id="requirements">Requirements</h2>
-<p>Chat_XH is a plugin for <a href="https://cmsimple-xh.org/">CMSimple_XH</a>. It requires CMSimple_XH ≥ 1.7.0 and PHP ≥ 7.1.0. Chat_XH also requires <a href="https://github.com/cmb69/plib_xh">Plib_XH</a> ≥ 1.10; if that is not already installed (see <code>Settings</code> → <code>Info</code>), get the <a href="https://github.com/cmb69/plib_xh/releases/latest">lastest release</a>, and install it.</p>
+<p>Chat_XH is a plugin for <a
+href="https://cmsimple-xh.org/">CMSimple_XH</a>. It requires CMSimple_XH
+≥ 1.7.0 and PHP ≥ 7.1.0. Chat_XH also requires <a
+href="https://github.com/cmb69/plib_xh">Plib_XH</a> ≥ 1.10; if that is
+not already installed (see <code>Settings</code> → <code>Info</code>),
+get the <a
+href="https://github.com/cmb69/plib_xh/releases/latest">lastest
+release</a>, and install it.</p>
 <h2 id="download">Download</h2>
-<p>The <a href="https://github.com/cmb69/chat_xh/releases/latest">lastest release</a> is available for download on Github.</p>
+<p>The <a
+href="https://github.com/cmb69/chat_xh/releases/latest">lastest
+release</a> is available for download on Github.</p>
 <h2 id="installation">Installation</h2>
 <p>The installation is done as with many other CMSimple_XH plugins.</p>
 <ol type="1">
 <li>Backup the data on your server.</li>
 <li>Unzip the distribution on your computer.</li>
-<li>Upload the whole folder <code>chat/</code> to your server into the <code>plugins/</code> folder of CMSimple_XH.</li>
-<li>Set write permissions for the subfolders <code>config/</code>, <code>css/</code> and <code>languages/</code>.</li>
-<li>Check under <code>Plugins</code> → <code>Chat</code> if all requirements are fulfilled.</li>
+<li>Upload the whole folder <code>chat/</code> to your server into the
+<code>plugins/</code> folder of CMSimple_XH.</li>
+<li>Set write permissions for the subfolders <code>config/</code>,
+<code>css/</code> and <code>languages/</code>.</li>
+<li>Check under <code>Plugins</code> → <code>Chat</code> if all
+requirements are fulfilled.</li>
 </ol>
 <h2 id="settings">Settings</h2>
-<p>The configuration of the plugin is done as with many other CMSimple_XH plugins in the back-end of the website. Go to <code>Plugins</code> → <code>Chat</code>.</p>
-<p>You can change the default settings of Chat_XH under <code>Config</code>. Hints for the options will be displayed when hovering over the help icon with your mouse.</p>
-<p>Localization is done under <code>Language</code>. You can translate the character strings to your own language, if there is no appropriate language file available, or customize them according to your needs.</p>
-<p>The look of Chat_XH can be customized under <code>Stylesheet</code>.</p>
+<p>The configuration of the plugin is done as with many other
+CMSimple_XH plugins in the back-end of the website. Go to
+<code>Plugins</code> → <code>Chat</code>.</p>
+<p>You can change the default settings of Chat_XH under
+<code>Config</code>. Hints for the options will be displayed when
+hovering over the help icon with your mouse.</p>
+<p>Localization is done under <code>Language</code>. You can translate
+the character strings to your own language, if there is no appropriate
+language file available, or customize them according to your needs.</p>
+<p>The look of Chat_XH can be customized under
+<code>Stylesheet</code>.</p>
 <h2 id="usage">Usage</h2>
-<p>Embedding of a chat room on a page is done with the following plugin call:</p>
+<p>Embedding of a chat room on a page is done with the following plugin
+call:</p>
 <pre><code>{{{chat(&#39;%CHAT_ROOM%&#39;, %PURGE_TIME%)}}}</code></pre>
 <p>To embed a chat room in the template, insert:</p>
 <pre><code>&lt;?=chat(&#39;%CHAT_ROOM%&#39;, %PURGE_TIME%)?&gt;</code></pre>
 <ul>
-<li><code>%CHAT_ROOM%</code>: The name of the chat. It can be choosen arbitrarily, but may contain only lowercase alphanumeric characters (a-z and 0-9) and hyphens.</li>
-<li><code>%PURGE_TIME%</code>: The time in seconds after which an inactive chat will be purged. <code>0</code> means that entries are kept forever. This argument is optional; if it is omitted (including the leading comma), the default is taken from the configuration.</li>
+<li><code>%CHAT_ROOM%</code>: The name of the chat. It can be choosen
+arbitrarily, but may contain only lowercase alphanumeric characters (a-z
+and 0-9) and hyphens.</li>
+<li><code>%PURGE_TIME%</code>: The time in seconds after which an
+inactive chat will be purged. <code>0</code> means that entries are kept
+forever. This argument is optional; if it is omitted (including the
+leading comma), the default is taken from the configuration.</li>
 </ul>
 <p>Examples:</p>
 <pre><code>{{{chat(&#39;chat&#39;)}}}
 {{{chat(&#39;chat17&#39;)}}}
 {{{chat(&#39;quick-chat&#39;, 120)}}}
 {{{chat(&#39;shoutbox&#39;, 0)}}}</code></pre>
-<p>You can embed as many chat rooms on any single page as you like – they are working independent of each other as long as they have different names.</p>
-<p>After a configurable time of inactivity (i.e. no new messages are posted), the chat history will be purged automatically.</p>
-<p>If you want to edit the chat data files, you have to do this via FTP.</p>
+<p>You can embed as many chat rooms on any single page as you like –
+they are working independent of each other as long as they have
+different names.</p>
+<p>After a configurable time of inactivity (i.e. no new messages are
+posted), the chat history will be purged automatically.</p>
+<p>If you want to edit the chat data files, you have to do this via
+FTP.</p>
 <h3 id="formatting-of-chat-messages">Formatting of Chat Messages</h3>
-<p>The format of the messages in the chat history can be configured in the language settings (<code>Pugins</code> → <code>Chat</code> → <code>Language</code> → <code>Format</code> → <code>Message</code>). The following placeholders are supported: <code>{USER}</code> (the name of the user), <code>{DATE}</code> (the date of posting), <code>{TIME}</code> (the time of posting), and <code>{TEXT}</code> (the posted message). Additional text is taken as is. A more fancy example than the default:</p>
+<p>The format of the messages in the chat history can be configured in
+the language settings (<code>Pugins</code> → <code>Chat</code> →
+<code>Language</code> → <code>Format</code> → <code>Message</code>). The
+following placeholders are supported: <code>{USER}</code> (the name of
+the user), <code>{DATE}</code> (the date of posting),
+<code>{TIME}</code> (the time of posting), and <code>{TEXT}</code> (the
+posted message). Additional text is taken as is. A more fancy example
+than the default:</p>
 <pre><code>{USER} wrote on {DATE} at {TIME}: {TEXT}</code></pre>
-<p>Note that the components are marked up with suitable CSS classes (<code>chat_user</code>, <code>chat_date</code>, etc.) so further styling can be applied.</p>
+<p>Note that the components are marked up with suitable CSS classes
+(<code>chat_user</code>, <code>chat_date</code>, etc.) so further
+styling can be applied.</p>
 <h2 id="limitations">Limitations</h2>
-<p>If JavaScript is disabled in the browser of the visitor, or in case of an ancient browser, the automatic retrieval of new messages does not work. Instead visitors have to refresh the page to see them.</p>
-<p>The plugin uses polling (i.e. periodically sending requests to the server) to check for new messages. While the poll interval is configurable (<code>Plugins</code> → <code>Chat</code> → <code>Config</code> → <code>Interval</code> → <code>Poll</code>), there is no one size fits all setting; there has to be a trade off between a fluid chat experience (i.e. a small poll interval), and the amount of traffic the server can handle. If there are only a couple of chatters, you can decrease the default poll interval, and everything should be okay. However, if there are possibly many chatters, consider to use an alternative chat widget which is implemented via server push notifications, but not polling.</p>
+<p>If JavaScript is disabled in the browser of the visitor, or in case
+of an ancient browser, the automatic retrieval of new messages does not
+work. Instead visitors have to refresh the page to see them.</p>
+<p>The plugin uses polling (i.e. periodically sending requests to the
+server) to check for new messages. While the poll interval is
+configurable (<code>Plugins</code> → <code>Chat</code> →
+<code>Config</code> → <code>Interval</code> → <code>Poll</code>), there
+is no one size fits all setting; there has to be a trade off between a
+fluid chat experience (i.e. a small poll interval), and the amount of
+traffic the server can handle. If there are only a couple of chatters,
+you can decrease the default poll interval, and everything should be
+okay. However, if there are possibly many chatters, consider to use an
+alternative chat widget which is implemented via server push
+notifications, but not polling.</p>
 <h2 id="troubleshooting">Troubleshooting</h2>
-<p>Report bugs and ask for support either on <a href="https://github.com/cmb69/chat_xh/issues">Github</a> or in the <a href="https://cmsimpleforum.com/">CMSimple_XH Forum</a>.</p>
+<p>Report bugs and ask for support either on <a
+href="https://github.com/cmb69/chat_xh/issues">Github</a> or in the <a
+href="https://cmsimpleforum.com/">CMSimple_XH Forum</a>.</p>
 <h2 id="license">License</h2>
-<p>Chat_XH is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
-<p>Chat_XH is distributed in the hope that it will be useful, but <em>without any warranty</em>; without even the implied warranty of <em>merchantibility</em> or <em>fitness for a particular purpose</em>. See the GNU General Public License for more details.</p>
-<p>You should have received a copy of the GNU General Public License along with Chat_XH. If not, see <a href="https://www.gnu.org/licenses/" class="uri">https://www.gnu.org/licenses/</a>.</p>
+<p>Chat_XH is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation, either version 3 of the License, or (at your
+option) any later version.</p>
+<p>Chat_XH is distributed in the hope that it will be useful, but
+<em>without any warranty</em>; without even the implied warranty of
+<em>merchantibility</em> or <em>fitness for a particular purpose</em>.
+See the GNU General Public License for more details.</p>
+<p>You should have received a copy of the GNU General Public License
+along with Chat_XH. If not, see <a href="https://www.gnu.org/licenses/"
+class="uri">https://www.gnu.org/licenses/</a>.</p>
 <p>Copyright © Christoph M. Becker</p>
-<p>Czech translation © 2012 Josef Němec<br> Slovak translation © 2012 Dr. Martin Sereday</p>
+<p>Czech translation © 2012 Josef Němec<br> Slovak translation © 2012
+Dr. Martin Sereday</p>
 <h2 id="credits">Credits</h2>
-<p>Chat_XH was inspired by <a href="https://www.cmsimpleforum.com/viewtopic.php?f=2&amp;t=4208">MiniChat by <em>scriptshow</em></a>.</p>
-<p>The plugin icon is designed by <a href="http://www.mentalrey.it/">Alessandro Rei</a>. Many thanks for publishing this icon under GPL.</p>
-<p>Many thanks to the community at the <a href="https://www.cmsimpleforum.com/">CMSimple_XH Forum</a> for tips, suggestions and testing. Particularly I want to thank <em>snafu</em> for giving early feedback.</p>
-<p>And last but not least many thanks to <a href="https://www.harteg.dk/">Peter Harteg</a>, the “father” of CMSimple, and all developers of <a href="https://www.cmsimple-xh.org/">CMSimple_XH</a> without whom this amazing CMS would not exist.</p>
+<p>Chat_XH was inspired by <a
+href="https://www.cmsimpleforum.com/viewtopic.php?f=2&amp;t=4208">MiniChat
+by <em>scriptshow</em></a>.</p>
+<p>The plugin icon is designed by <a
+href="http://www.mentalrey.it/">Alessandro Rei</a>. Many thanks for
+publishing this icon under GPL.</p>
+<p>The notification sound effect is by <a
+href="https://pixabay.com/de/users/alexis_gaming_cam-50011695/">ALEXIS_GAMING_CAM</a>
+from <a href="https://pixabay.com/sound-effects/">Pixabay</a>. Many
+thanks for making it freely available.</p>
+<p>Many thanks to the community at the <a
+href="https://www.cmsimpleforum.com/">CMSimple_XH Forum</a> for tips,
+suggestions and testing. Particularly I want to thank <em>snafu</em> for
+giving early feedback.</p>
+<p>And last but not least many thanks to <a
+href="https://www.harteg.dk/">Peter Harteg</a>, the “father” of
+CMSimple, and all developers of <a
+href="https://www.cmsimple-xh.org/">CMSimple_XH</a> without whom this
+amazing CMS would not exist.</p>
 </body>
 </html>
