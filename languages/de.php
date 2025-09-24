@@ -13,7 +13,7 @@ $plugin_tx['chat']['label_message'] = "Nachricht";
 $plugin_tx['chat']['label_send'] = "Senden";
 $plugin_tx['chat']['label_volume'] = "Lautstärke";
 
-$plugin_tx['chat']['help_message'] = "(höchstens 160 Zeichen)";
+$plugin_tx['chat']['help_message'] = "(höchstens 160 Zeichen; ENTER zum Absenden)";
 
 $plugin_tx['chat']['error_room_name'] = "Ungültiger Chatraum-Name: darf nur Kleinbuchstaben (a-z), Ziffern (0-9) und Bindestriche enthalten.";
 $plugin_tx['chat']['error_save'] = "Chat-Nachricht konnte nicht gespeichert werden!";
