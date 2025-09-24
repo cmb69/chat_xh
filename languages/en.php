@@ -11,6 +11,7 @@ $plugin_tx['chat']['caption_room'] = "Chat room %s";
 
 $plugin_tx['chat']['label_message'] = "Message";
 $plugin_tx['chat']['label_send'] = "Send";
+$plugin_tx['chat']['label_volume'] = "Volume";
 
 $plugin_tx['chat']['help_message'] = "(at most 160 characters)";
 

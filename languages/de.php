@@ -8,8 +8,10 @@ $plugin_tx['chat']['format_date'] = "j.n.Y";
 $plugin_tx['chat']['format_time'] = "H:i:s";
 
 $plugin_tx['chat']['caption_room'] = "Chat-Room %s";
+
 $plugin_tx['chat']['label_message'] = "Nachricht";
 $plugin_tx['chat']['label_send'] = "Senden";
+$plugin_tx['chat']['label_volume'] = "Lautstärke";
 
 $plugin_tx['chat']['help_message'] = "(höchstens 160 Zeichen)";
 
