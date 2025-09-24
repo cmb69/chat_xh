@@ -78,8 +78,8 @@ class Widget {
         request.send();
     }
 
-    /** @type {() => false} */
-    submit() {
+    /** @type {(ev: Event) => void} */
+    submit(ev) {
         let request = new XMLHttpRequest();
         request.open("POST", this.config.url);
         request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -89,7 +89,7 @@ class Widget {
         params.append("chat_message", this.form.querySelector["name=chat_message"].value);
         params.append("chat_token", this.form.querySelector["name=chat_token"].value);
         request.send(params.toString());
-        return false;
+        ev.preventDefault();
     }
 
     /** @type {() => void} */
