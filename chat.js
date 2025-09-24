@@ -65,7 +65,7 @@ class Widget {
     poll() {
         let request = new XMLHttpRequest();
         request.open("GET", this.config.url);
-        request.setRequestHeader("X-CMSimple-XH-Request", "chat-" + this.room);
+        request.setRequestHeader("X-CMSimple-XH-Request", `chat-${this.room}`);
         request.onreadystatechange = this.onReadyStateChange.bind(this, request);
         request.send();
     }
@@ -75,7 +75,7 @@ class Widget {
         let request = new XMLHttpRequest();
         request.open("POST", this.config.url);
         request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        request.setRequestHeader("X-CMSimple-XH-Request", "chat-" + this.room);
+        request.setRequestHeader("X-CMSimple-XH-Request", `chat-${this.room}`);
         request.onreadystatechange = this.onReadyStateChange.bind(this, request);
         let params = new URLSearchParams();
         let form = this.form;
