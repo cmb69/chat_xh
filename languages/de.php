@@ -11,7 +11,9 @@ $plugin_tx['chat']['caption_room'] = "Chat-Room %s";
 
 $plugin_tx['chat']['label_message'] = "Nachricht";
 $plugin_tx['chat']['label_send'] = "Senden";
-$plugin_tx['chat']['label_volume'] = "Lautstärke";
+$plugin_tx['chat']['label_muted'] = "Benachrichtigungen stummgeschaltet";
+$plugin_tx['chat']['label_low'] = "Benachrichtigungen leise";
+$plugin_tx['chat']['label_loud'] = "Benachrichtigungen laut";
 
 $plugin_tx['chat']['help_message'] = "(höchstens 160 Zeichen; ENTER zum Absenden)";
 

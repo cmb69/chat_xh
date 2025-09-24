@@ -161,6 +161,9 @@ The notification sound effect is by
 from [Pixabay](https://pixabay.com/sound-effects/).
 Many thanks for making it freely available.
 
+The plugin uses [Material Icons](https://fonts.google.com/icons).
+Many thanks for publishing these under the Apache 2.0 license.
+
 Many thanks to the community at the
 [CMSimple_XH Forum](https://www.cmsimpleforum.com/) for tips, suggestions and testing.
 Particularly I want to thank *snafu* for giving early feedback.

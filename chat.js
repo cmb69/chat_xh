@@ -31,6 +31,10 @@ class Widget {
         /** @type {NodeListOf<HTMLScriptElement>} */ (
             this.element.querySelectorAll("script[type='text/x-template']")
         ).forEach((el) => (el.outerHTML = el.text));
+        let audio = new Audio(this.config.audio);
+        audio.hidden = true;
+        this.element.append(audio);
+        this.volume.onclick = this.onVolumeClick.bind(this);
         this.init();
     }
 
@@ -54,9 +58,14 @@ class Widget {
         return this.element.querySelector("form");
     }
 
+    /** @type {HTMLAudioElement} */
+    get audio() {
+        return this.element.querySelector("audio");
+    }
+
     /** @type {HTMLInputElement} */
     get volume() {
-        return this.element.querySelector("input[type=range]");
+        return this.element.querySelector(".chat_volume");
     }
 
     /** @type {() => void} */
@@ -68,6 +77,21 @@ class Widget {
     /** @type {() => void} */
     scrollDown() {
         this.messages.scrollTop = this.messages.scrollHeight;
+    }
+
+    /** @type {(event: Event) => void} */
+    onVolumeClick(event) {
+        let button = /** @type {Element} */ (event.target).closest("button");
+        if (!button) return;
+        button.hidden = true;
+        let nextButton = /** @type {HTMLButtonElement} */ (button.nextElementSibling);
+        if (!nextButton) {
+            nextButton = /** @type {HTMLButtonElement} */ (button.parentElement.firstElementChild);
+        }
+        this.audio.volume = +nextButton.dataset.volume;
+        nextButton.hidden = false;
+        nextButton.focus();
+        this.playAudio();
     }
 
     /** @type {() => void} */
@@ -106,12 +130,16 @@ class Widget {
         let oldMessages = this.element.querySelectorAll("li.chat_message:not(.chat_self)").length;
         this.element.querySelector("ol").innerHTML = content;
         let newMessages = this.element.querySelectorAll("li.chat_message:not(.chat_self)").length;
-        if (newMessages > oldMessages) {
-            let audio = new Audio(this.config.audio);
-            audio.volume = parseInt(this.volume.value) / 100;
-            audio.play();
-        }
+        if (newMessages > oldMessages) this.playAudio();
         this.init();
+    }
+
+    /** @type {() => void} */
+    playAudio() {
+        let audio = this.audio;
+        audio.pause();
+        audio.currentTime = 0;
+        audio.play();
     }
 }
 

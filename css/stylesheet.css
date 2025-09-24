@@ -20,6 +20,7 @@ figure.chat_room .chat_time {}
 figure.chat_room .chat_text {}
 figure.chat_room form {
     display: flex;
+    gap: 0.5em;
     align-items: flex-end;
 }
 figure.chat_room .chat_message {
@@ -29,7 +30,7 @@ figure.chat_room .chat_help {
     font-size: small;
 }
 figure.chat_room .chat_volume {
-    flex: 1 5em;
+    flex: 1 2em;
 }
 figure.chat_room .chat_button {
     border: 0;

@@ -165,6 +165,9 @@ Der Benachrichtigungs-Soundeffekt stammt von
 auf [Pixabay](https://pixabay.com/sound-effects/).
 Vielen Dank für die freie Verfügbarkeit.
 
+Das Plugin verwendet [Material Icons](https://fonts.google.com/icons).
+Vielen Dank für die Veröffentlichung dieser unter der Apache 2.0 Lizenz.
+
 Vielen Dank an die Community im [CMSimple_XH Forum](http://www.cmsimpleforum.com/)
 für Hinweise, Anregungen und das Testen.
 Besonders möchte ich *snafu* für sein schnelles Feedback danken.

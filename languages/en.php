@@ -11,7 +11,9 @@ $plugin_tx['chat']['caption_room'] = "Chat room %s";
 
 $plugin_tx['chat']['label_message'] = "Message";
 $plugin_tx['chat']['label_send'] = "Send";
-$plugin_tx['chat']['label_volume'] = "Volume";
+$plugin_tx['chat']['label_muted'] = "Notifications muted";
+$plugin_tx['chat']['label_low'] = "Notifications low";
+$plugin_tx['chat']['label_loud'] = "Notifications loud";
 
 $plugin_tx['chat']['help_message'] = "(at most 160 characters; ENTER to submit)";
 
